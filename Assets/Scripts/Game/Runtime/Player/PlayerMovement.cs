@@ -22,7 +22,7 @@ namespace Remaz.Game.Player
             _playerInput.MousePosition.Subscribe(MouseMoved).AddTo(this);
             Observable.EveryLateUpdate().Subscribe(Move).AddTo(this);
             
-            MapGrid.Size.Subscribe(size =>
+            ScreenGrid.Size.Subscribe(size =>
             {
                 transform.position = new Vector3(-size.x * 0.5f + 2f, transform.position.y, transform.position.z);
             }).AddTo(this);
@@ -31,7 +31,7 @@ namespace Remaz.Game.Player
         private void MouseMoved(Vector3 position)
         {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
-            float height = MapGrid.Size.Value.y * 0.5f;
+            float height = ScreenGrid.Size.Value.y * 0.5f;
             _targetPosition = Mathf.Clamp(worldPosition.y, -height, height);
         }
 

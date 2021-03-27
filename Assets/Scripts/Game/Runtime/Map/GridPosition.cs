@@ -13,14 +13,19 @@ namespace Remaz.Game.Map
             this.y = y;
         }
 
-        public Vector3 ToVector3()
+        public Vector3 ToWorld()
         {
-            return new Vector3(x, y, 0f);
+            return new Vector3(x - ScreenGrid.Size.Value.x * 0.5f, y - ScreenGrid.Size.Value.y * 0.5f, 0f);
         }
-        
-        public Vector2 ToVector2()
+
+        public static GridPosition FromWorld(Vector3 worldPos)
         {
-            return new Vector2(x, y);
+            Vector2 halfSize = ScreenGrid.Size.Value * 0.5f;
+            
+            int x = Mathf.RoundToInt(Mathf.Max(0f, worldPos.x + halfSize.x));
+            int y = Mathf.RoundToInt(Mathf.Clamp(worldPos.y + halfSize.y, 0, ScreenGrid.Size.Value.y));
+            
+            return new GridPosition(x, y);
         }
 
         public bool Overlap(GridPosition gridPosition)
