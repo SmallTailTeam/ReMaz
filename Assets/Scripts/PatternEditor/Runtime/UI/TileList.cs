@@ -1,5 +1,5 @@
 ﻿using System;
-using Remaz.Game.Map;
+using Remaz.Game.Map.Tiles;
 using UniRx;
 using UnityEngine;
 

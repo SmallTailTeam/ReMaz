@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Remaz.Game.Map
+namespace Remaz.Game.Map.Tiles
 {
     [Serializable]
     public class TileDescription

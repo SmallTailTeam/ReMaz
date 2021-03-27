@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeZone: {fileID: 691469644}
-  _point: {fileID: 1758194242554701827, guid: e84e4b82cfbb6cc4db42a8e6a9d7c7a9, type: 3}
+  _tileList: {fileID: 714281621}
 --- !u!1 &1496601345
 GameObject:
   m_ObjectHideFlags: 0
