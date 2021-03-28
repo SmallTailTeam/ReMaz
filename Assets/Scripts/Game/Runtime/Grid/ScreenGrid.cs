@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Remaz.Game.Map
+namespace Remaz.Game.Grid
 {
     [Preloaded("[ScreenGrid]")]
     public class ScreenGrid : MonoBehaviour

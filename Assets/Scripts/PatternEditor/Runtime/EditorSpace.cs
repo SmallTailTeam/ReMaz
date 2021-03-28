@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Remaz.Game.Map;
-using Remaz.Game.Map.Tiles;
+using Remaz.Game.Grid;
+using Remaz.Game.Grid.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using ReMaz.PatternEditor.UI;
 using UniRx;
@@ -35,7 +35,7 @@ namespace ReMaz.PatternEditor
                     .Select(_ => cam.ScreenToWorldPoint(Input.mousePosition));
 
                 var placeStream = mouseWorldPosStream
-                    .Where(_ => _placeZone.CanPlace && _selectedTile != null);
+                    .Where(_ => _placeZone.CanPlace && _selectedTile.Value != null);
                 
                 placeStream
                     .Where(_ => Input.GetMouseButton(0))

@@ -1,5 +1,5 @@
 ﻿using System;
-using Remaz.Game.Map.Tiles;
+using Remaz.Game.Grid.Tiles;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
@@ -11,14 +11,13 @@ namespace ReMaz.PatternEditor.UI
     public class TileOption : MonoBehaviour
     {
         public IObservable<TileDescription> Selected => _selected;
-        public TileDescription DisplayedTile => _dispalyedTile;
-        
+        public TileDescription DisplayedTile { get; private set; }
+
         [SerializeField, AutoHook(AutoHookSearchArea.Children)] private Image _image;
         [SerializeField, AutoHook] private Button _button;
 
         private Subject<TileDescription> _selected;
-        private TileDescription _dispalyedTile;
-        
+
         private void Awake()
         {
             _selected = new Subject<TileDescription>();
@@ -27,13 +26,13 @@ namespace ReMaz.PatternEditor.UI
         private void Start()
         {
             _button.OnClickAsObservable()
-                .Subscribe(_ => _selected?.OnNext(_dispalyedTile))
+                .Subscribe(_ => _selected?.OnNext(DisplayedTile))
                 .AddTo(this);
         }
 
         public void DisplayTile(TileDescription tileDescription)
         {
-            _dispalyedTile = tileDescription;
+            DisplayedTile = tileDescription;
             
             _image.sprite = tileDescription.Icon;
         }

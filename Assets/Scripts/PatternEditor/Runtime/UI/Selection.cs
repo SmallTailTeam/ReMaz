@@ -1,4 +1,4 @@
-﻿using Remaz.Game.Map.Tiles;
+﻿using Remaz.Game.Grid.Tiles;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;

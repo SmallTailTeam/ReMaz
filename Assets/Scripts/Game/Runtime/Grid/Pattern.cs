@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Remaz.Game.Map.Tiles;
+using Remaz.Game.Grid.Tiles;
 
-namespace Remaz.Game.Map
+namespace Remaz.Game.Grid
 {
     public class Pattern
     {
