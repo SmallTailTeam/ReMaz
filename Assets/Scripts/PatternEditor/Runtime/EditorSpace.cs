@@ -13,29 +13,45 @@ namespace ReMaz.PatternEditor
     {
         [SerializeField] private PlaceZone _placeZone;
         [SerializeField] private TileList _tileList;
+        [SerializeField] private Color _restColor;
+        [SerializeField] private Color _overlapColor;
 
-        private ReactiveProperty<TileDescription> _selectedTile;
+        private TileDescription _tileToPaint;
         private List<TilePlaced> _instances;
+        private TilePlaced _selectedInstance;
         private GameObject _ghost;
+        private bool _replace;
         
         private void Start()
         {
-            _selectedTile = new ReactiveProperty<TileDescription>();
             _instances = new List<TilePlaced>();
             
             _tileList.Selected
-                .Subscribe(tile => _selectedTile.Value = tile)
+                .Subscribe(tile => _tileToPaint = tile)
                 .AddTo(this);
 
             Camera cam = Camera.main;
 
             if (cam != null)
             {
-                var mouseWorldPosStream = Observable.EveryUpdate()
-                    .Select(_ => cam.ScreenToWorldPoint(Input.mousePosition));
+                var mouseGridPositionStream = Observable.EveryUpdate()
+                    .Select(_ => GridPosition.FromWorld(cam.ScreenToWorldPoint(Input.mousePosition)));
 
-                var placeStream = mouseWorldPosStream
-                    .Where(_ => _placeZone.CanPlace && _selectedTile.Value != null);
+                mouseGridPositionStream
+                    .Subscribe(TryDrawGhost)
+                    .AddTo(this);
+
+                mouseGridPositionStream
+                    .Subscribe(UpdateSelectedInstance)
+                    .AddTo(this);
+
+                _tileList.Selected
+                    .Where(tile => tile != null)
+                    .Subscribe(UpdateGhost)
+                    .AddTo(this);
+                
+                var placeStream = mouseGridPositionStream
+                    .Where(_ => _placeZone.CanPlace && _tileToPaint != null);
                 
                 placeStream
                     .Where(_ => Input.GetMouseButton(0))
@@ -47,42 +63,69 @@ namespace ReMaz.PatternEditor
                     .Subscribe(TryRemove)
                     .AddTo(this);
 
-                mouseWorldPosStream
-                    .Subscribe(TryDrawGhost)
-                    .AddTo(this);
-
-                _selectedTile
-                    .Where(tile => tile != null)
-                    .Subscribe(SelectedTileChanged)
+                Observable.EveryUpdate()
+                    .Subscribe(_ => _replace = Input.GetKey(KeyCode.LeftShift))
                     .AddTo(this);
             }
         }
 
-        private void TryPlace(Vector3 position)
+        private void TryPlace(GridPosition gridPosition)
         {
-            GridPosition gridPosition = GridPosition.FromWorld(position);
+            TilePlaced existentTile = _instances.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
             
-            if (!_instances.Any(tile => tile.Position.Overlap(gridPosition)))
+            if (existentTile == null)
             {
-                GameObject instance = Instantiate(_selectedTile.Value.Prefab, transform);
+                GameObject instance = Instantiate(_tileToPaint.Prefab, transform);
                 instance.transform.position = gridPosition.ToWorld();
 
-                TilePlaced tilePlaced = new TilePlaced(instance, gridPosition);
+                TilePlaced tilePlaced = new TilePlaced(_tileToPaint.Id, instance, gridPosition);
                 _instances.Add(tilePlaced);
                 
-                TileSpatial tileSpatial = new TileSpatial(_selectedTile.Value.Id, gridPosition);
+                TileSpatial tileSpatial = new TileSpatial(_tileToPaint.Id, gridPosition);
                 EditorProject.CurrentProject.Tiles.Add(tileSpatial);
             }
+            else if(_tileToPaint.Id != existentTile.Id && _replace)
+            {
+                TryRemove(gridPosition);
+                TryPlace(gridPosition);
+            }
+        }
+
+        private void UpdateSelectedInstance(GridPosition gridPosition)
+        {
+            TilePlaced tilePlaced = _instances.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
+
+            if (tilePlaced == _selectedInstance && tilePlaced != null)
+            {
+                if (!_replace)
+                {
+                    SpriteRenderer spriteRenderer = _selectedInstance.Instance.GetComponentInChildren<SpriteRenderer>();
+                    spriteRenderer.color = _restColor;
+                }
+                
+                return;
+            }
+            
+            if (_selectedInstance != null)
+            {
+                SpriteRenderer spriteRenderer = _selectedInstance.Instance.GetComponentInChildren<SpriteRenderer>();
+                spriteRenderer.color = _restColor;
+            }
+
+            _selectedInstance = tilePlaced;
         }
         
-        private void TryRemove(Vector3 position)
+        private void TryRemove(GridPosition gridPosition)
         {
-            GridPosition gridPosition = GridPosition.FromWorld(position);
-
             TilePlaced tilePlaced = _instances.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
             
             if (tilePlaced != null)
             {
+                if (tilePlaced == _selectedInstance)
+                {
+                    _selectedInstance = null;
+                }
+                
                 Destroy(tilePlaced.Instance);
                 _instances.Remove(tilePlaced);
 
@@ -91,7 +134,7 @@ namespace ReMaz.PatternEditor
             }
         }
 
-        private void SelectedTileChanged(TileDescription tileDescription)
+        private void UpdateGhost(TileDescription tileDescription)
         {
             if (_ghost != null)
             {
@@ -107,19 +150,35 @@ namespace ReMaz.PatternEditor
             spriteRenderer.color = color;
         }
         
-        private void TryDrawGhost(Vector3 position)
+        private void TryDrawGhost(GridPosition gridPosition)
         {
-            GridPosition gridPosition = GridPosition.FromWorld(position);
-            
             if (_ghost != null)
             {
-                if (!_instances.Any(tile => tile.Position.Overlap(gridPosition)) && _placeZone.CanPlace)
+                if (_placeZone.CanPlace)
                 {
-                    _ghost.transform.position = gridPosition.ToWorld();
+                    if (_replace)
+                    {
+                        if (_selectedInstance != null && _selectedInstance.Id != _tileToPaint.Id)
+                        {
+                            SpriteRenderer spriteRenderer =
+                                _selectedInstance.Instance.GetComponentInChildren<SpriteRenderer>();
+                            spriteRenderer.color = _overlapColor;
+                        }
+
+                        _ghost.transform.position = gridPosition.ToWorld();
+                    }
+                    else if(!_instances.Any(tile => tile.Position.Overlap(gridPosition)))
+                    {
+                        _ghost.transform.position = gridPosition.ToWorld();
+                    }
+                    else
+                    {
+                        _ghost.transform.position = Vector3.one * 100000f;
+                    }
                 }
                 else
                 {
-                    _ghost.transform.position = Vector3.one * 1000000f;
+                    _ghost.transform.position = Vector3.one * 100000f;
                 }
             }
         }

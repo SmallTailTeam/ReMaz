@@ -16,18 +16,18 @@ MonoBehaviour:
   - _id: Box
     _prefab: {fileID: 1758194242554701827, guid: e84e4b82cfbb6cc4db42a8e6a9d7c7a9, type: 3}
     _icon: {fileID: 21300000, guid: e9cd9f627d47fb04e846e4671dc22242, type: 3}
-  - _id: Stairs_LeftBottom
-    _prefab: {fileID: 807342793495735780, guid: 96b2340bc5ccb16469201caef9e2bda2, type: 3}
-    _icon: {fileID: 21300000, guid: a09b2ddaa3d2ea84e9022ba2b60237f4, type: 3}
   - _id: Stairs_LeftTop
     _prefab: {fileID: 9074733986627757229, guid: 065a2fb4baf168849923a47a76f3d031, type: 3}
     _icon: {fileID: 21300000, guid: fa57be6097a0f8647a27367dea61c871, type: 3}
-  - _id: Stairs_RightBottom
-    _prefab: {fileID: 1797453366054416356, guid: 18eb169cf21cca74ba1f50f5b50b2739, type: 3}
-    _icon: {fileID: 21300000, guid: 36bff41abeea9af4cafd428e4e68fa26, type: 3}
   - _id: Stairs_RightTop
     _prefab: {fileID: 2508352361201382829, guid: 01f7cfee66e90d14b9315560b2d3dee6, type: 3}
     _icon: {fileID: 21300000, guid: 4b993c24bd2cb8147b17f9128527fcc6, type: 3}
+  - _id: Stairs_LeftBottom
+    _prefab: {fileID: 807342793495735780, guid: 96b2340bc5ccb16469201caef9e2bda2, type: 3}
+    _icon: {fileID: 21300000, guid: a09b2ddaa3d2ea84e9022ba2b60237f4, type: 3}
+  - _id: Stairs_RightBottom
+    _prefab: {fileID: 1797453366054416356, guid: 18eb169cf21cca74ba1f50f5b50b2739, type: 3}
+    _icon: {fileID: 21300000, guid: 36bff41abeea9af4cafd428e4e68fa26, type: 3}
   - _id: Point
     _prefab: {fileID: 5119746342981027277, guid: 9a34f4e3638d8f24e968a9a9ba330ab7, type: 3}
     _icon: {fileID: 21300000, guid: 5daf590978bdc6e4590c049a95d913a8, type: 3}

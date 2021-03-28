@@ -537,7 +537,6 @@ GameObject:
   - component: {fileID: 837363403}
   - component: {fileID: 837363404}
   - component: {fileID: 837363405}
-  - component: {fileID: 837363406}
   m_Layer: 0
   m_Name: Editor
   m_TagString: Untagged
@@ -585,6 +584,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _placeZone: {fileID: 691469644}
   _tileList: {fileID: 714281621}
+  _restColor: {r: 1, g: 1, b: 1, a: 1}
+  _overlapColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &837363405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,18 +599,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineSegmentPrefab: {fileID: 5670789125519334745, guid: a8480250f12d4e84ead4453b52cbd56f, type: 3}
---- !u!114 &837363406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837363401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04ed7513f9f244bdb2f5e2fb08a183e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1496601345
 GameObject:
   m_ObjectHideFlags: 0
