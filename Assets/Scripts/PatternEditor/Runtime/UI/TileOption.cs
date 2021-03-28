@@ -26,10 +26,15 @@ namespace ReMaz.PatternEditor.UI
         private void Start()
         {
             _button.OnClickAsObservable()
-                .Subscribe(_ => _selected?.OnNext(DisplayedTile))
+                .Subscribe(_ => Select())
                 .AddTo(this);
         }
 
+        public void Select()
+        {
+            _selected?.OnNext(DisplayedTile);
+        }
+        
         public void DisplayTile(TileDescription tileDescription)
         {
             DisplayedTile = tileDescription;
