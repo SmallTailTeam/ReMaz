@@ -2,6 +2,7 @@
 using System.Linq;
 using Remaz.Game.Grid;
 using Remaz.Game.Grid.Tiles;
+using ReMaz.PatternEditor.Inputs;
 using ReMaz.PatternEditor.Tiles;
 using ReMaz.PatternEditor.UI;
 using UniRx;
@@ -16,6 +17,8 @@ namespace ReMaz.PatternEditor
         [SerializeField] private Color _restColor;
         [SerializeField] private Color _overlapColor;
 
+        private EditorInputs _inputs;
+        
         private TileDescription _tileToPaint;
         private List<TilePlaced> _instances;
         private TilePlaced _selectedInstance;
@@ -24,6 +27,8 @@ namespace ReMaz.PatternEditor
         
         private void Start()
         {
+            _inputs = FindObjectOfType<EditorInputs>();
+            
             _instances = new List<TilePlaced>();
             
             _tileList.Selected
@@ -34,8 +39,8 @@ namespace ReMaz.PatternEditor
 
             if (cam != null)
             {
-                var mouseGridPositionStream = Observable.EveryUpdate()
-                    .Select(_ => GridPosition.FromWorld(cam.ScreenToWorldPoint(Input.mousePosition)));
+                var mouseGridPositionStream = _inputs.PointerPositionStream
+                    .Select(pos => GridPosition.FromWorld(cam.ScreenToWorldPoint(pos)));
 
                 mouseGridPositionStream
                     .Subscribe(TryDrawGhost)
@@ -53,23 +58,21 @@ namespace ReMaz.PatternEditor
                 var placeStream = mouseGridPositionStream
                     .Where(_ => _placeZone.CanPlace && _tileToPaint != null);
                 
-                placeStream
-                    .Where(_ => Input.GetMouseButton(0))
-                    .Subscribe(TryPlace)
+                placeStream.Sample(_inputs.PaintStream)
+                    .Subscribe(TryPaint)
                     .AddTo(this);
 
-                placeStream
-                    .Where(_ => Input.GetMouseButton(1))
+                placeStream.Sample(_inputs.EraseStream)
                     .Subscribe(TryRemove)
                     .AddTo(this);
 
-                Observable.EveryUpdate()
-                    .Subscribe(_ => _replace = Input.GetKey(KeyCode.LeftShift))
+                _inputs.ReplaceStream
+                    .Subscribe(replace => _replace = replace)
                     .AddTo(this);
             }
         }
 
-        private void TryPlace(GridPosition gridPosition)
+        private void TryPaint(GridPosition gridPosition)
         {
             TilePlaced existentTile = _instances.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
             
@@ -87,7 +90,7 @@ namespace ReMaz.PatternEditor
             else if(_tileToPaint.Id != existentTile.Id && _replace)
             {
                 TryRemove(gridPosition);
-                TryPlace(gridPosition);
+                TryPaint(gridPosition);
             }
         }
 

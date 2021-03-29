@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Remaz.Game.Grid.Tiles;
+using ReMaz.PatternEditor.Inputs;
 using UniRx;
 using UnityEngine;
 
@@ -13,11 +14,15 @@ namespace ReMaz.PatternEditor.UI
         [SerializeField] private TileDatabase _tileDatabase;
         [SerializeField] private TileOption _tileOption;
 
+        private EditorInputs _inputs;
+        
         private List<TileOption> _options;
         private int _selectionIndex;
 
         private void Awake()
         {
+            _inputs = FindObjectOfType<EditorInputs>();
+            
             Selected = new Subject<TileDescription>();
             _options = new List<TileOption>();
 
@@ -25,6 +30,13 @@ namespace ReMaz.PatternEditor.UI
             {
                 InstantiateOption(tileDescription);
             }
+        }
+        
+        private void Start()
+        {
+            _inputs.ScrollStream
+                .Subscribe(Scroll)
+                .AddTo(this);
         }
 
         private void InstantiateOption(TileDescription tileDescription)
@@ -40,18 +52,6 @@ namespace ReMaz.PatternEditor.UI
             Selected = instance.Selected.Merge(Selected);
 
             _options.Add(instance);
-        }
-        
-        private void Start()
-        {
-            var scrollStream = Observable.EveryUpdate()
-                .Where(_ => Input.mouseScrollDelta.y != 0f)
-                .Select(_ => Input.mouseScrollDelta.y);
-
-            scrollStream.Buffer(1)
-                .Select(s => s[0])
-                .Subscribe(Scroll)
-                .AddTo(this);
         }
 
         private void Scroll(float direction)
