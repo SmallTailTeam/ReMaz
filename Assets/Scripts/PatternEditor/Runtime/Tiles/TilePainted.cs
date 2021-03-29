@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace ReMaz.PatternEditor.Tiles
 {
-    public class TilePlaced
+    public class TilePainted
     {
         public string Id;
         public GameObject Instance;
+        public SpriteRenderer Graphics;
         public GridPosition Position;
 
-        public TilePlaced(string id, GameObject instance, GridPosition position)
+        public TilePainted(string id, GameObject instance, GridPosition position)
         {
             Id = id;
             Instance = instance;

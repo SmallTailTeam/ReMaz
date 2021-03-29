@@ -535,9 +535,13 @@ GameObject:
   m_Component:
   - component: {fileID: 837363402}
   - component: {fileID: 837363406}
+  - component: {fileID: 837363405}
   - component: {fileID: 837363403}
   - component: {fileID: 837363404}
-  - component: {fileID: 837363405}
+  - component: {fileID: 837363410}
+  - component: {fileID: 837363407}
+  - component: {fileID: 837363408}
+  - component: {fileID: 837363409}
   m_Layer: 0
   m_Name: Editor
   m_TagString: Untagged
@@ -585,8 +589,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _placeZone: {fileID: 691469644}
   _tileList: {fileID: 714281621}
-  _restColor: {r: 1, g: 1, b: 1, a: 1}
-  _overlapColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &837363405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,6 +614,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c624cd53164a368d3c138fdd12d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &837363407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837363401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9722e0192aa547d1afa7dfd6e5de8089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &837363408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837363401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d9a0f9aac947f7b089ffa010069c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &837363409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837363401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3b932c5fa094f2aa6bf793a4cb8b74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _paintTool: {fileID: 837363407}
+  _eraseTool: {fileID: 837363408}
+--- !u!114 &837363410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837363401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d81fb2bd5043a292c1a15641a99efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visibleColor: {r: 1, g: 1, b: 1, a: 0.34901962}
+  _hiddenColor: {r: 0, g: 0, b: 0, a: 0}
+  _restColor: {r: 1, g: 1, b: 1, a: 1}
+  _overlappedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1496601345
 GameObject:
   m_ObjectHideFlags: 0
