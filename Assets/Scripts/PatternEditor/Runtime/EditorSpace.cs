@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Remaz.Game.Grid;
 using Remaz.Game.Grid.Tiles;
@@ -23,7 +24,6 @@ namespace ReMaz.PatternEditor
         private List<TilePlaced> _instances;
         private TilePlaced _selectedInstance;
         private GameObject _ghost;
-        private bool _replace;
         
         private void Start()
         {
@@ -39,35 +39,27 @@ namespace ReMaz.PatternEditor
 
             if (cam != null)
             {
-                var mouseGridPositionStream = _inputs.PointerPositionStream
-                    .Select(pos => GridPosition.FromWorld(cam.ScreenToWorldPoint(pos)));
-
-                mouseGridPositionStream
+                _inputs.PointerPositionStream
                     .Subscribe(TryDrawGhost)
                     .AddTo(this);
 
-                mouseGridPositionStream
+                _inputs.PointerPositionStream
                     .Subscribe(UpdateSelectedInstance)
                     .AddTo(this);
 
-                _tileList.Selected
-                    .Where(tile => tile != null)
-                    .Subscribe(UpdateGhost)
-                    .AddTo(this);
-                
-                var placeStream = mouseGridPositionStream
-                    .Where(_ => _placeZone.CanPlace && _tileToPaint != null);
-                
-                placeStream.Sample(_inputs.PaintStream)
+                _inputs.PointerPositionStream.Sample(_inputs.PaintStream)
+                    .Where(_ => _placeZone.CanPlace && _tileToPaint != null)
                     .Subscribe(TryPaint)
                     .AddTo(this);
 
-                placeStream.Sample(_inputs.EraseStream)
+                _inputs.PointerPositionStream.Sample(_inputs.EraseStream)
+                    .Where(_ => _placeZone.CanPlace && _tileToPaint != null)
                     .Subscribe(TryRemove)
                     .AddTo(this);
-
-                _inputs.ReplaceStream
-                    .Subscribe(replace => _replace = replace)
+                
+                _tileList.Selected
+                    .Where(tile => tile != null)
+                    .Subscribe(UpdateGhost)
                     .AddTo(this);
             }
         }
@@ -87,7 +79,7 @@ namespace ReMaz.PatternEditor
                 TileSpatial tileSpatial = new TileSpatial(_tileToPaint.Id, gridPosition);
                 EditorProject.CurrentProject.Tiles.Add(tileSpatial);
             }
-            else if(_tileToPaint.Id != existentTile.Id && _replace)
+            else if(_tileToPaint.Id != existentTile.Id && _inputs.Replace.Value)
             {
                 TryRemove(gridPosition);
                 TryPaint(gridPosition);
@@ -100,7 +92,7 @@ namespace ReMaz.PatternEditor
 
             if (tilePlaced == _selectedInstance && tilePlaced != null)
             {
-                if (!_replace)
+                if (!_inputs.Replace.Value)
                 {
                     SpriteRenderer spriteRenderer = _selectedInstance.Instance.GetComponentInChildren<SpriteRenderer>();
                     spriteRenderer.color = _restColor;
@@ -159,7 +151,7 @@ namespace ReMaz.PatternEditor
             {
                 if (_placeZone.CanPlace)
                 {
-                    if (_replace)
+                    if (_inputs.Replace.Value)
                     {
                         if (_selectedInstance != null && _selectedInstance.Id != _tileToPaint.Id)
                         {

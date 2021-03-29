@@ -1,4 +1,5 @@
 ﻿using System;
+using Remaz.Game.Grid;
 using UniRx;
 using UnityEngine;
 
@@ -8,11 +9,11 @@ namespace ReMaz.PatternEditor.Inputs
     {
         public override IObservable<Unit> PaintStream { get; protected set; }
         public override IObservable<Unit> EraseStream { get; protected set; }
-        public override IObservable<bool> ReplaceStream { get; protected set; }
-        public override IObservable<Vector3> PointerPositionStream { get; protected set; }
+        public override ReadOnlyReactiveProperty<bool> Replace { get; protected set; }
+        public override IObservable<GridPosition> PointerPositionStream { get; protected set; }
         public override IObservable<float> ScrollStream { get; protected set; }
 
-        private void Start()
+        private void Awake()
         {
             var updateSteam = Observable.EveryUpdate()
                 .Select(_ => Unit.Default);
@@ -23,11 +24,12 @@ namespace ReMaz.PatternEditor.Inputs
             EraseStream = updateSteam
                 .Where(_ => Input.GetMouseButton(1));
 
-            ReplaceStream = updateSteam
-                .Select(_ => Input.GetKey(KeyCode.LeftShift));
+            Replace = updateSteam
+                .Select(_ => Input.GetKey(KeyCode.LeftShift))
+                .ToReadOnlyReactiveProperty();
 
             PointerPositionStream = updateSteam
-                .Select(_ => Input.mousePosition);
+                .Select(_ => GridPosition.FromWorld(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
             
             var scrollStream = updateSteam
                 .Where(_ => Input.mouseScrollDelta.y != 0f)
