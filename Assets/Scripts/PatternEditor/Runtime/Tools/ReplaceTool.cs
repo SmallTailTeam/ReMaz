@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Remaz.Game.Grid;
+using Remaz.Core.Grid;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
 using UnityEngine;

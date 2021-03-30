@@ -1,4 +1,4 @@
-﻿namespace Remaz.Game.Grid.Tiles
+﻿namespace Remaz.Core.Grid.Tiles
 {
     public class TileSpatial
     {

@@ -2,9 +2,9 @@
 using UniRx;
 using UnityEngine;
 
-namespace Remaz.Game.Grid
+namespace Remaz.Core.Grid
 {
-    [Preloaded("[ScreenGrid]")]
+    [Preloaded]
     public class ScreenGrid : MonoBehaviour
     {
         public static ReactiveProperty<Vector2> Size { get; private set; }

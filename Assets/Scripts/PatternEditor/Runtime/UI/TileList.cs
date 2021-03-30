@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Remaz.Game.Grid.Tiles;
+using Remaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Inputs;
 using UniRx;
 using UnityEngine;
@@ -37,6 +37,11 @@ namespace ReMaz.PatternEditor.UI
             _inputs.ScrollStream
                 .Subscribe(Scroll)
                 .AddTo(this);
+            
+            if (_options.Count > 0)
+            {
+                _options[0].Select();
+            }
         }
 
         private void InstantiateOption(TileDescription tileDescription)

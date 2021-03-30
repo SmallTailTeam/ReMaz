@@ -1,4 +1,4 @@
-﻿using Remaz.Game.Grid;
+﻿using Remaz.Core.Grid;
 using UnityEngine;
 
 namespace ReMaz.PatternEditor.Tiles

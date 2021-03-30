@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Remaz.Game.Grid;
-using Remaz.Game.Grid.Tiles;
+using Remaz.Core.Grid;
+using Remaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
 
@@ -25,8 +25,8 @@ namespace ReMaz.PatternEditor.Tools
                 Destroy(tilePainted.Instance);
                 _editorSpace.Painted.Remove(tilePainted);
 
-                TileSpatial tileSpatial = EditorProject.CurrentProject.Tiles.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
-                EditorProject.CurrentProject.Tiles.Remove(tileSpatial);
+                TileSpatial tileSpatial = EditorProject.CurrentProject.Pattern.Tiles.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
+                EditorProject.CurrentProject.Pattern.Tiles.Remove(tileSpatial);
             }
         }
     }

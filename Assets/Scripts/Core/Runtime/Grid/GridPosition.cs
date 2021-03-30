@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Remaz.Game.Grid
+namespace Remaz.Core.Grid
 {
     public struct GridPosition
     {

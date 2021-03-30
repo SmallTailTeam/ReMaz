@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Remaz.Game.Grid;
-using Remaz.Game.Grid.Tiles;
+using Remaz.Core.Grid;
+using Remaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
 using UnityEngine;
@@ -35,7 +35,7 @@ namespace ReMaz.PatternEditor.Tools
                 _editorSpace.Painted.Add(tilePainted);
 
                 TileSpatial tileSpatial = new TileSpatial(tileToPaint.Id, gridPosition);
-                EditorProject.CurrentProject.Tiles.Add(tileSpatial);
+                EditorProject.CurrentProject.Pattern.Tiles.Add(tileSpatial);
             }
         }
     }

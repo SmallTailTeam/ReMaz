@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Remaz.Game.Grid;
-using Remaz.Game.Grid.Tiles;
+using Remaz.Core.Grid;
+using Remaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Inputs;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
@@ -93,7 +93,7 @@ namespace ReMaz.PatternEditor
         {
             TilePainted tilePainted = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
 
-            if (tilePainted != null && tilePainted != _selectedTile)
+            if (tilePainted != _selectedTile)
             {
                 if (_selectedTile != null && _selectedTile.Graphics != null)
                 {

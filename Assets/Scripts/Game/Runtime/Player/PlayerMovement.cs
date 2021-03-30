@@ -1,5 +1,5 @@
 ﻿using Remaz.Game.Inputs;
-using Remaz.Game.Grid;
+using Remaz.Core.Grid;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;

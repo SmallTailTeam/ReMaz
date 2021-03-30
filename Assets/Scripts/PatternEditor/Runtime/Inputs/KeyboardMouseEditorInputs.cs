@@ -1,5 +1,5 @@
 ﻿using System;
-using Remaz.Game.Grid;
+using Remaz.Core.Grid;
 using UniRx;
 using UnityEngine;
 

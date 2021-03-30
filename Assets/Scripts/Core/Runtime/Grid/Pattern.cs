@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using Remaz.Game.Grid.Tiles;
+using Remaz.Core.Grid.Tiles;
 
-namespace Remaz.Game.Grid
+namespace Remaz.Core.Grid
 {
     public class Pattern
     {
-        public string Name;
         public List<TileSpatial> Tiles = new List<TileSpatial>();
+        public int BoundLeft;
+        public int BoundRight;
     }
 }
