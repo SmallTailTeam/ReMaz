@@ -1,4 +1,4 @@
-﻿using Remaz.Core.Grid;
+﻿using ReMaz.Core.Grid;
 
 namespace ReMaz.Core.Grid
 {

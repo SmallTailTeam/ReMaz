@@ -1,7 +1,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Remaz.Game.Inputs
+namespace ReMaz.Game.Inputs
 {
     public class PlayerInput : MonoBehaviour
     {

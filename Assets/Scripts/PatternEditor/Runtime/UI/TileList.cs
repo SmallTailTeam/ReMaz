@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Remaz.Core.Grid.Tiles;
+using ReMaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Inputs;
 using UniRx;
 using UnityEngine;

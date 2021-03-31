@@ -1,4 +1,4 @@
-﻿namespace Remaz.Core.Grid.Tiles
+﻿namespace ReMaz.Core.Grid.Tiles
 {
     public class TileSpatial
     {

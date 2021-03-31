@@ -20,27 +20,20 @@ namespace Game.Runtime
             _moved = new Subject<float>();
             _movedUnit = new Subject<Unit>();
         }
-
-        private void Start()
-        {
-            Observable.EveryUpdate()
-                .Subscribe(_ => Move())
-                .AddTo(this);
-        }
-
-        private void Move()
+        
+        private void Update()
         {
             float movement = _baseSpeed * Time.deltaTime;
             
-            _moved.OnNext(movement);
-
             _position += movement;
-
+            
             if (_position >= 1f)
             {
                 _movedUnit.OnNext(Unit.Default);
                 _position = 0f;
             }
+            
+            _moved.OnNext(movement);
         }
     }
 }

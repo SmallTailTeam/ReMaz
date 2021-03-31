@@ -5,7 +5,7 @@ using ReMaz.Core.Grid;
 using SmallTail.Preload;
 using UnityEngine;
 
-namespace Remaz.Core.Grid
+namespace ReMaz.Core.Grid
 {
     [Preloaded]
     public class ProjectManager : MonoBehaviour

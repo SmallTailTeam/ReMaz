@@ -1,10 +1,10 @@
-﻿using Remaz.Game.Inputs;
-using Remaz.Core.Grid;
+﻿using ReMaz.Core.Grid;
+using ReMaz.Game.Inputs;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
 
-namespace Remaz.Game.Player
+namespace ReMaz.Game.Player
 {
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerMovement : MonoBehaviour

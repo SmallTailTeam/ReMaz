@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Remaz.Core.Grid.Tiles
+namespace ReMaz.Core.Grid.Tiles
 {
     [CreateAssetMenu(menuName = "Grid/Tile database", fileName = "TileDatabase")]
     public class TileDatabase : ScriptableObject

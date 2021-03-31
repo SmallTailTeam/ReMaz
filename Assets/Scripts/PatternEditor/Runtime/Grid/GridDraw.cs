@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Remaz.Core.Grid;
+using ReMaz.Core.Grid;
 using UniRx;
 using UnityEngine;
 

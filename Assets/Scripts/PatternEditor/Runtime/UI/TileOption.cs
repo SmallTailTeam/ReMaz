@@ -1,5 +1,5 @@
 ﻿using System;
-using Remaz.Core.Grid.Tiles;
+using ReMaz.Core.Grid.Tiles;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;

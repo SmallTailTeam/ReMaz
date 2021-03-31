@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Remaz.Core.Grid.Tiles;
+using ReMaz.Core.Grid.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using ReMaz.PatternEditor.UI;
 using UniRx;

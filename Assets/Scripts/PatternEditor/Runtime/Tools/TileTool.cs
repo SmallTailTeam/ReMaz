@@ -1,4 +1,4 @@
-﻿using Remaz.Core.Grid;
+﻿using ReMaz.Core.Grid;
 using ReMaz.PatternEditor.Inputs;
 using UnityEngine;
 
