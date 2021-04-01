@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Runtime.LevelGeneration
+namespace ReMaz.Game.LevelGeneration
 {
     public class TilePool : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace Game.Runtime
+namespace ReMaz.Game
 {
     public class WorldMovement : MonoBehaviour
     {

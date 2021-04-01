@@ -4,7 +4,7 @@ using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
 
-namespace Game.Runtime.LevelGeneration
+namespace ReMaz.Game.LevelGeneration
 {
     public class LevelGenerator : MonoBehaviour
     {
@@ -28,7 +28,7 @@ namespace Game.Runtime.LevelGeneration
             // Reset
             if (_unitsMoved > _length)
             {
-                Project project = ProjectManager.Projects[Random.Range(0, ProjectManager.Projects.Count)];
+                Project project = ProjectList.Projects[Random.Range(0, ProjectList.Projects.Count)];
                 _pattern = project.Pattern;
                 _unitsMoved = 0;
                 _length = _pattern.BoundRight - _pattern.BoundLeft;

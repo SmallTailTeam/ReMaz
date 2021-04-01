@@ -10,7 +10,6 @@
   ],
   "dependencies": {
     "com.av.smart-hierarchy": "https://github.com/neon-age/Smart-Hierarchy.git",
-    "com.fluid.state-machine": "2.0.1",
     "com.smalltail.preload": "https://github.com/SmallTailTeam/Unity-Preload.git",
     "com.unity.2d.animation": "5.0.4",
     "com.unity.2d.pixel-perfect": "4.0.1",

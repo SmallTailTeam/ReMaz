@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: caf6bb7e0cddb014a86f25cf2357e988
+  - enabled: 1
+    path: Assets/Scenes/PatternEditor.unity
+    guid: b0231039094571d4aa7b657d256ffa4b
+  - enabled: 1
     path: Assets/Scenes/Game/RandomMode.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

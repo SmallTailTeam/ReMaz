@@ -7,19 +7,12 @@
       "dependencies": {},
       "hash": "68967680161de73b2341d5a415540709b082a24c"
     },
-    "com.fluid.state-machine": {
-      "version": "2.0.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://registry.npmjs.org"
-    },
     "com.smalltail.preload": {
       "version": "https://github.com/SmallTailTeam/Unity-Preload.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b5108697fefca63d52d55f203bfadfa51c431f82"
+      "hash": "39a588dc4554b986164cbfdda71d29cfdf323544"
     },
     "com.unity.2d.animation": {
       "version": "5.0.4",

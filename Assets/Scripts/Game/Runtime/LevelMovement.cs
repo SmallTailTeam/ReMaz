@@ -1,16 +1,18 @@
 ﻿using System;
+using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
 
-namespace Game.Runtime
+namespace ReMaz.Game
 {
     public class LevelMovement : MonoBehaviour
     {
         public IObservable<float> Moved => _moved;
         public IObservable<Unit> MovedUnit => _movedUnit;
         
+        [SerializeField, AutoHook] private AudioSpeed _audioSpeed;
         [SerializeField] private float _baseSpeed;
-
+        
         private Subject<float> _moved;
         private Subject<Unit> _movedUnit;
         private float _position;
@@ -23,7 +25,7 @@ namespace Game.Runtime
         
         private void Update()
         {
-            float movement = _baseSpeed * Time.deltaTime;
+            float movement = _baseSpeed * _audioSpeed.GetAudioMultiplier() * Time.deltaTime;
             
             _position += movement;
             

@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Game.Runtime.LevelGeneration
+namespace ReMaz.Game.LevelGeneration
 {
     public class TileCleaner : MonoBehaviour
     {
