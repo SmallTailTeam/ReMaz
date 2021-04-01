@@ -133,7 +133,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 14, y: 14}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1213431977603850654
 CanvasRenderer:
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _graphics: {fileID: 5087302600624389418}
+  _ownGraphics: {fileID: 4634478926801030033}
   _tileOption: {fileID: 4292173522402810045}
   _restColor: {r: 1, g: 1, b: 1, a: 1}
   _selectedColor: {r: 1, g: 0.5873016, b: 0.44047618, a: 1}

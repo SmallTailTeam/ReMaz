@@ -1,4 +1,5 @@
-﻿using ReMaz.Core.Grid.Tiles;
+﻿using System.Collections;
+using ReMaz.Core.Grid.Tiles;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace ReMaz.PatternEditor.UI
         [SerializeField] private Color _selectedColor;
 
         private TileList _tileList;
-
+        
         private void Awake()
         {
             _tileList = GetComponentInParent<TileList>();
@@ -25,12 +26,12 @@ namespace ReMaz.PatternEditor.UI
         private void Start()
         {
             _tileList.Selected
-                .Where(x => x == _tileOption.DisplayedTile)
+                .Where(x => x.Id == _tileOption.DisplayedTile.Id)
                 .Subscribe(Selected)
                 .AddTo(this);
             
             _tileList.Selected
-                .Where(x => x != _tileOption.DisplayedTile)
+                .Where(x => x.Id != _tileOption.DisplayedTile.Id)
                 .Subscribe(NotSelected)
                 .AddTo(this);
         }

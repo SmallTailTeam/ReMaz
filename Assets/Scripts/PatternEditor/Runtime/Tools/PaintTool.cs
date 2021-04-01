@@ -27,6 +27,7 @@ namespace ReMaz.PatternEditor.Tools
                 
                 GameObject instance = Instantiate(tileToPaint.Prefab, transform);
                 instance.transform.position = gridPosition.ToWorld();
+                instance.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, tileToPaint.Rotation));
 
                 TilePainted tilePainted = new TilePainted(tileToPaint.Id, instance, gridPosition)
                 {

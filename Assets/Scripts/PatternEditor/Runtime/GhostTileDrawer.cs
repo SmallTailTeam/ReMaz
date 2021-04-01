@@ -50,6 +50,7 @@ namespace ReMaz.PatternEditor
             }
 
             _ghost = Instantiate(tileDescription.Prefab, transform).AddComponent<TileGhost>();
+            _ghost.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, tileDescription.Rotation));
         }
 
         private void Draw(GridPosition gridPosition)

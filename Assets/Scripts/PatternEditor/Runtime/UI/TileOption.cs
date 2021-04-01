@@ -40,6 +40,7 @@ namespace ReMaz.PatternEditor.UI
             DisplayedTile = tileDescription;
             
             _image.sprite = tileDescription.Icon;
+            _image.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, tileDescription.Rotation));
         }
     }
 }

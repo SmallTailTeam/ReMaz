@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Runtime
 {
-    public class TileMoving : MonoBehaviour
+    public class WorldMovement : MonoBehaviour
     {
         private LevelMovement _levelMovement;
 

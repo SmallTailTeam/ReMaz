@@ -9,6 +9,7 @@ namespace Game.Runtime.LevelGeneration
     public class LevelGenerator : MonoBehaviour
     {
         [SerializeField, AutoHook] private LevelMovement _levelMovement;
+        [SerializeField, AutoHook] private TilePool _tilePool;
         [SerializeField] private TileDatabase _tileDatabase;
 
         private Pattern _pattern;
@@ -41,19 +42,18 @@ namespace Game.Runtime.LevelGeneration
                     continue;
                 }
 
-                GameObject prefab = _tileDatabase.FindTile(tileSpatial.Id).Prefab;
-                GameObject instance = Instantiate(prefab, transform);
+                TileDescription tileDescription = _tileDatabase.FindTile(tileSpatial.Id);
+                
+                GameObject instance = _tilePool.GetInstance(tileDescription.Prefab);
                 
                 Vector3 position = tileSpatial.Position.ToWorld();
-                position.x = ScreenGrid.Size.Value.x + 1f;
-                
+                position.x = ScreenGrid.Size.Value.x * 0.5f + 1f;
                 instance.transform.position = position;
+                instance.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, tileDescription.Rotation));
             }
             
             // Move through
             _unitsMoved++;
-            
-            Debug.Log(_unitsMoved);
         }
     }
 }

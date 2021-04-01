@@ -249,8 +249,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1146042251}
   - component: {fileID: 1146042252}
-  - component: {fileID: 1146042250}
   - component: {fileID: 1146042253}
+  - component: {fileID: 1146042250}
+  - component: {fileID: 1146042254}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelMovement: {fileID: 1146042252}
+  _tilePool: {fileID: 1146042254}
   _tileDatabase: {fileID: 11400000, guid: 00ccf953ab04b4f43819e9aa5c62b73f, type: 2}
 --- !u!4 &1146042251
 Transform:
@@ -309,6 +311,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19cd369c333d4e7ab6624a6c183cc89b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1146042254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146042249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a339e2e1c04f4a679faa06a96ddfd1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1429960588

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using ReMaz.Core.Grid;
-using SmallTail.Preload;
+using SmallTail.Preload.Attributes;
 using UnityEngine;
 
 namespace ReMaz.Core.Grid

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2901786317841941345}
+  - component: {fileID: -987337539174402553}
   m_Layer: 0
   m_Name: Game_Box
   m_TagString: Untagged
@@ -31,6 +32,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-987337539174402553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901786317841941344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6242c42f4a924eccb549cf43e71a1be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2901786319343592614
 GameObject:
   m_ObjectHideFlags: 0

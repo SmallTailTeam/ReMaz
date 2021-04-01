@@ -1,4 +1,4 @@
-﻿using SmallTail.Preload;
+﻿using SmallTail.Preload.Attributes;
 using UniRx;
 using UnityEngine;
 
