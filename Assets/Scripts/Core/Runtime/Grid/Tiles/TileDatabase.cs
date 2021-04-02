@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReMaz.Core.ContentContainers.Projects.Tiles
 {
-    [CreateAssetMenu(menuName = "Grid/Tile database", fileName = "TileDatabase")]
+    [CreateAssetMenu(menuName = "ReMaz!/Grid/Tile database", fileName = "TileDatabase")]
     public class TileDatabase : ScriptableObject
     {
         public List<TileDescription> Tiles => _tiles;

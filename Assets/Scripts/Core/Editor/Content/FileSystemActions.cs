@@ -3,7 +3,7 @@ using ReMaz.Core.ContentContainers;
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor.Content
+namespace ReMaz.Core.Editor.Content
 {
     public static class FileSystemActions
     {

@@ -1,7 +1,9 @@
-﻿using TNRD.Autohook;
+﻿using ReMaz.Core.ContentContainers;
+using ReMaz.Core.ContentContainers.Songs;
+using TNRD.Autohook;
 using UnityEngine;
 
-namespace ReMaz.Core.ContentContainers.Songs
+namespace ReMaz.Core.UI
 {
     public class SongPlayer : MonoBehaviour
     {

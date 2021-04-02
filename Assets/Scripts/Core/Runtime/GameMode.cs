@@ -1,4 +1,4 @@
-﻿namespace Core.Runtime
+﻿namespace ReMaz.Core
 {
     public enum GameMode
     {
