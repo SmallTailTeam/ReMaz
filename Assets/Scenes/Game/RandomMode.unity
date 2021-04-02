@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSpeed: {fileID: 1146042255}
-  _baseSpeed: 10
+  _baseSpeed: 6
 --- !u!114 &1146042253
 MonoBehaviour:
   m_ObjectHideFlags: 0

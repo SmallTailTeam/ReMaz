@@ -8,30 +8,32 @@ namespace ReMaz.Game
     public class LevelMovement : MonoBehaviour
     {
         public IObservable<float> Moved => _moved;
-        public IObservable<Unit> MovedUnit => _movedUnit;
+        public IObservable<float> MovedUnit => _movedUnit;
         
         [SerializeField, AutoHook] private AudioSpeed _audioSpeed;
         [SerializeField] private float _baseSpeed;
         
         private Subject<float> _moved;
-        private Subject<Unit> _movedUnit;
+        private Subject<float> _movedUnit;
         private float _position;
 
         private void Awake()
         {
             _moved = new Subject<float>();
-            _movedUnit = new Subject<Unit>();
+            _movedUnit = new Subject<float>();
         }
         
         private void Update()
         {
-            float movement = _baseSpeed * _audioSpeed.GetAudioMultiplier() * Time.deltaTime;
+            float speed = _baseSpeed * _audioSpeed.GetAudioMultiplier();
+            float movement = speed * Time.deltaTime;
             
             _position += movement;
             
             if (_position >= 1f)
             {
-                _movedUnit.OnNext(Unit.Default);
+                float compensation = (_position - 1f) * speed;
+                _movedUnit.OnNext(compensation);
                 _position = 0f;
             }
             

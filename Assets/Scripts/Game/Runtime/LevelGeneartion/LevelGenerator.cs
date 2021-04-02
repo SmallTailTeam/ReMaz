@@ -28,11 +28,11 @@ namespace ReMaz.Game.LevelGeneration
         private void Start()
         {
             _levelMovement.MovedUnit
-                .Subscribe(_ => Tick())
+                .Subscribe(Tick)
                 .AddTo(this);
         }
         
-        private void Tick()
+        private void Tick(float compensation)
         {
             // Reset
             if (_unitsMoved > _length)
@@ -56,7 +56,7 @@ namespace ReMaz.Game.LevelGeneration
                 GameObject instance = _tilePool.GetInstance(tileDescription.Prefab);
                 
                 Vector3 position = tileSpatial.Position.ToWorld();
-                position.x = ScreenGrid.Size.Value.x * 0.5f + 1f;
+                position.x = ScreenGrid.Size.Value.x * 0.5f + 1f ;
                 instance.transform.position = position;
                 instance.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, tileDescription.Rotation));
             }

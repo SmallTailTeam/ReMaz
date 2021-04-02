@@ -1,0 +1,18 @@
+{
+    "name": "ReMaz.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2d8c0c993f7ab4547a6b18f654961321"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

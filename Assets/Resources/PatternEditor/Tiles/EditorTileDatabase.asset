@@ -15,31 +15,31 @@ MonoBehaviour:
   _tiles:
   - _id: Box
     _prefab: {fileID: 1758194242554701827, guid: e84e4b82cfbb6cc4db42a8e6a9d7c7a9, type: 3}
-    _icon: {fileID: 21300000, guid: e9cd9f627d47fb04e846e4671dc22242, type: 3}
+    _icon: {fileID: 21300000, guid: dc49e1be236e4294fac7c5be2599cd9d, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 90d0379f697f8ed409c6472b59b100dd, type: 3}
     _rotation: 0
   - _id: Stairs_LeftTop
     _prefab: {fileID: 9074733986627757229, guid: 065a2fb4baf168849923a47a76f3d031, type: 3}
-    _icon: {fileID: 21300000, guid: fa57be6097a0f8647a27367dea61c871, type: 3}
+    _icon: {fileID: 21300000, guid: eaef5949d621673418b29e55122a38e2, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 50ded5a0518c5e24dba2666ff54cc3dc, type: 3}
     _rotation: 0
   - _id: Stairs_LeftBottom
     _prefab: {fileID: 9074733986627757229, guid: 065a2fb4baf168849923a47a76f3d031, type: 3}
-    _icon: {fileID: 21300000, guid: fa57be6097a0f8647a27367dea61c871, type: 3}
+    _icon: {fileID: 21300000, guid: eaef5949d621673418b29e55122a38e2, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 50ded5a0518c5e24dba2666ff54cc3dc, type: 3}
     _rotation: 90
   - _id: Stairs_RightTop
     _prefab: {fileID: 9074733986627757229, guid: 065a2fb4baf168849923a47a76f3d031, type: 3}
-    _icon: {fileID: 21300000, guid: fa57be6097a0f8647a27367dea61c871, type: 3}
+    _icon: {fileID: 21300000, guid: eaef5949d621673418b29e55122a38e2, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 50ded5a0518c5e24dba2666ff54cc3dc, type: 3}
     _rotation: 270
   - _id: Stairs_RightBottom
     _prefab: {fileID: 9074733986627757229, guid: 065a2fb4baf168849923a47a76f3d031, type: 3}
-    _icon: {fileID: 21300000, guid: fa57be6097a0f8647a27367dea61c871, type: 3}
+    _icon: {fileID: 21300000, guid: eaef5949d621673418b29e55122a38e2, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 50ded5a0518c5e24dba2666ff54cc3dc, type: 3}
     _rotation: 180
   - _id: Point
     _prefab: {fileID: 5119746342981027277, guid: 9a34f4e3638d8f24e968a9a9ba330ab7, type: 3}
-    _icon: {fileID: 21300000, guid: 5daf590978bdc6e4590c049a95d913a8, type: 3}
+    _icon: {fileID: 21300000, guid: 683f34b1111e3014093182261cb28098, type: 3}
     _iconInteracted: {fileID: 21300000, guid: 4d57bc02e0f5fd540ad5419ad00018dc, type: 3}
     _rotation: 0
