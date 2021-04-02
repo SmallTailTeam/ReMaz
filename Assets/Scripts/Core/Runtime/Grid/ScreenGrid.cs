@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace ReMaz.Core.Grid
+namespace ReMaz.Core.ContentContainers.Projects
 {
     [Preloaded]
     public class ScreenGrid : MonoBehaviour

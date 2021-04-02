@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReMaz.Core.Songs
+namespace ReMaz.Core.ContentContainers.Songs
 {
     public class CachedSong
     {

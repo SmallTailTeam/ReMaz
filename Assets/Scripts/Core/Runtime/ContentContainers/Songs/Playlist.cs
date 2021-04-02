@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using SmallTail.Preload.Attributes;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
-namespace ReMaz.Core.Songs
+namespace ReMaz.Core.ContentContainers.Songs
 {
     [Preloaded]
-    public class SongList : MonoBehaviour
+    public class Playlist : MonoBehaviour, IAsyncContentContainer<CachedSong>
     {
         private static List<CachedSong> _cachedSongs = new List<CachedSong>();
 
@@ -19,17 +21,16 @@ namespace ReMaz.Core.Songs
 
         private void IndexSongs()
         {
-            if (!Directory.Exists("Songs"))
+            if (!Directory.Exists(ContentFileSystem.SongsPath))
             {
                 return;
             }
 
-            DirectoryInfo directory = new DirectoryInfo("Songs");
+            DirectoryInfo directory = new DirectoryInfo(ContentFileSystem.SongsPath);
             
             foreach (FileInfo songFile in directory.GetFiles())
             {
                 CachedSong cachedSong = new CachedSong(songFile.FullName);
-                StartCoroutine(LoadAudioClip(cachedSong));
                 _cachedSongs.Add(cachedSong);
             }
         }
@@ -52,10 +53,16 @@ namespace ReMaz.Core.Songs
             }
         }
         
-        public static CachedSong GetRandom()
+        public IEnumerator GetRandomAsync(Action<CachedSong> got)
         {
             CachedSong cachedSong = _cachedSongs[Random.Range(0, _cachedSongs.Count)];
-            return cachedSong;
+            
+            if (cachedSong.Clip == null)
+            {
+                yield return StartCoroutine(LoadAudioClip(cachedSong));
+            }
+
+            got?.Invoke(cachedSong);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ReMaz.Core.Grid.Tiles;
+using ReMaz.Core.ContentContainers.Projects.Tiles;
 
-namespace ReMaz.Core.Grid
+namespace ReMaz.Core.ContentContainers.Projects
 {
     public class Pattern
     {

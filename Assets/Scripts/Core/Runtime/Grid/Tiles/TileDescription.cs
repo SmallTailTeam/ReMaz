@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ReMaz.Core.Grid.Tiles
+namespace ReMaz.Core.ContentContainers.Projects.Tiles
 {
     [Serializable]
     public class TileDescription

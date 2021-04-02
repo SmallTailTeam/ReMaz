@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using ReMaz.Core.Grid;
-using ReMaz.Core.Grid.Tiles;
+using ReMaz.Core.ContentContainers.Projects;
+using ReMaz.Core.ContentContainers.Projects.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
 

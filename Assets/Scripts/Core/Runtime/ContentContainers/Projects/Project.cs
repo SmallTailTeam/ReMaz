@@ -1,6 +1,4 @@
-﻿using ReMaz.Core.Grid;
-
-namespace ReMaz.Core.Grid
+﻿namespace ReMaz.Core.ContentContainers.Projects
 {
     public class Project
     {

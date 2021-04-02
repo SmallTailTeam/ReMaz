@@ -1,5 +1,7 @@
-﻿using ReMaz.Core.Grid;
-using ReMaz.Core.Grid.Tiles;
+﻿using System;
+using ReMaz.Core.ContentContainers;
+using ReMaz.Core.ContentContainers.Projects;
+using ReMaz.Core.ContentContainers.Projects.Tiles;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
@@ -12,9 +14,16 @@ namespace ReMaz.Game.LevelGeneration
         [SerializeField, AutoHook] private TilePool _tilePool;
         [SerializeField] private TileDatabase _tileDatabase;
 
+        private IContentContainer<Project> _projectList;
+        
         private Pattern _pattern;
         private int _unitsMoved = 1;
         private int _length;
+
+        private void Awake()
+        {
+            _projectList = FindObjectOfType<ProjectList>();
+        }
 
         private void Start()
         {
@@ -22,13 +31,13 @@ namespace ReMaz.Game.LevelGeneration
                 .Subscribe(_ => Tick())
                 .AddTo(this);
         }
-
+        
         private void Tick()
         {
             // Reset
             if (_unitsMoved > _length)
             {
-                Project project = ProjectList.Projects[Random.Range(0, ProjectList.Projects.Count)];
+                Project project = _projectList.GetRandom();
                 _pattern = project.Pattern;
                 _unitsMoved = 0;
                 _length = _pattern.BoundRight - _pattern.BoundLeft;

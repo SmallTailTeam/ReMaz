@@ -2,7 +2,8 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using ReMaz.Core.Grid;
+using ReMaz.Core.ContentContainers;
+using ReMaz.Core.ContentContainers.Projects;
 using UnityEngine;
 
 namespace ReMaz.PatternEditor
@@ -33,17 +34,17 @@ namespace ReMaz.PatternEditor
             
             string json = JsonConvert.SerializeObject(CurrentProject);
             
-            if (!Directory.Exists("Patterns"))
+            if (!Directory.Exists(ContentFileSystem.PatternsPath))
             {
-                Directory.CreateDirectory("Patterns");
+                Directory.CreateDirectory(ContentFileSystem.PatternsPath);
             }
 
-            if (!Directory.Exists($"Patterns/{CurrentProject.Id}"))
+            if (!Directory.Exists($"{ContentFileSystem.PatternsPath}/{CurrentProject.Id}"))
             {
-                Directory.CreateDirectory($"Patterns/{CurrentProject.Id}");
+                Directory.CreateDirectory($"{ContentFileSystem.PatternsPath}/{CurrentProject.Id}");
             }
 
-            File.AppendAllText($"Patterns/{CurrentProject.Id}/Project.pats", json);
+            File.AppendAllText($"{ContentFileSystem.PatternsPath}/{CurrentProject.Id}/Project.pats", json);
         }
 
         private void Awake()

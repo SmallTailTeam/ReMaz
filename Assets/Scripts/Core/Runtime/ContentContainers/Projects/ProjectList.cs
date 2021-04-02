@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using SmallTail.Preload.Attributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-namespace ReMaz.Core.Grid
+namespace ReMaz.Core.ContentContainers.Projects
 {
     [Preloaded]
-    public class ProjectList : MonoBehaviour
+    public class ProjectList : MonoBehaviour, IContentContainer<Project>
     {
-        public static List<Project> Projects = new List<Project>();
+        private List<Project> _projects = new List<Project>();
 
         private void Awake()
         {
@@ -18,12 +21,12 @@ namespace ReMaz.Core.Grid
 
         private void LoadProjects()
         {
-            if (!Directory.Exists("Patterns"))
+            if (!Directory.Exists(ContentFileSystem.PatternsPath))
             {
                 return;
             }
 
-            DirectoryInfo directory = new DirectoryInfo("Patterns");
+            DirectoryInfo directory = new DirectoryInfo(ContentFileSystem.PatternsPath);
             
             foreach (DirectoryInfo projectDirectory in directory.GetDirectories())
             {
@@ -33,13 +36,20 @@ namespace ReMaz.Core.Grid
                     string json = File.ReadAllText(projectFile);
 
                     Project project = JsonConvert.DeserializeObject<Project>(json);
-                    Projects.Add(project);
+                    _projects.Add(project);
                 }
-                catch
+                catch (Exception e)
                 {
+					Debug.Log(e, this);
                     // ignore
                 }
             }
+        }
+
+        public Project GetRandom()
+        {
+            Project project = _projects[Random.Range(0, _projects.Count)];
+            return project;
         }
     }
 }
