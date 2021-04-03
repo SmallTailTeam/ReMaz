@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace ReMaz.Core.UI.Selection
 {
-    public class SelectableGroup : MonoBehaviour, ISelectable
+    public class SelectableGroup : MonoBehaviour
     {
         public IObservable<ISelectable> Selected => _selected;
         public IObservable<ISelectable> Deselected => _deselected;
-        
+
         private ISubject<ISelectable> _selected;
         private ISubject<ISelectable> _deselected;
         private ISelectable _selection;
@@ -30,6 +30,15 @@ namespace ReMaz.Core.UI.Selection
 
                 _selection = selectable;
                 _selected.OnNext(_selection);
+            }
+        }
+
+        public void Deselect()
+        {
+            if (_selection != null)
+            {
+                _deselected.OnNext(_selection);
+                _selection = null;
             }
         }
     }

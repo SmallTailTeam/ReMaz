@@ -4,10 +4,11 @@ namespace ReMaz.Core.UI.Windows
 {
     public class WindowManager : MonoBehaviour
     {
-        public void Open(Window window)
+        public Window Open(Window window)
         {
             Window instance = Instantiate(window, transform);
             instance.Open();
+            return instance;
         }
 
         public void Clear()

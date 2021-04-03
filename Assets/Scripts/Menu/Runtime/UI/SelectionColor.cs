@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace ReMaz.Menu.UI
 {
-    public class ButtonsSelection : MonoBehaviour
+    public class SelectionColor : MonoBehaviour
     {
         private Image _graphics;
         private ColorScheme _colorScheme;

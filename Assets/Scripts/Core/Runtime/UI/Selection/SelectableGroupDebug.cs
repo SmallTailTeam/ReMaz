@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ReMaz.Core.UI.Selection
 {
-    public class SelectionGroupDebug : MonoBehaviour
+    public class SelectableGroupDebug : MonoBehaviour
     {
         [SerializeField, AutoHook] private SelectableGroup selectableGroup;
 

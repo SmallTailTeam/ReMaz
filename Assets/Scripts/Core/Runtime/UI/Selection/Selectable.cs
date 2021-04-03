@@ -8,6 +8,7 @@ namespace ReMaz.Core.UI.Selection
     [RequireComponent(typeof(Button))]
     public class Selectable : MonoBehaviour, ISelectable
     {
+        public SelectableGroup TargetGroup => _targetGroup;
         public IObservable<ISelectable> Selected => _selected;
         public IObservable<ISelectable> Deselected => _deselected;
 
@@ -29,7 +30,7 @@ namespace ReMaz.Core.UI.Selection
         private void Start()
         {
             _button.onClick.AsObservable()
-                .Subscribe(_ => Click())
+                .Subscribe(_ => Select())
                 .AddTo(this);
 
             _targetGroup.Selected
@@ -41,7 +42,7 @@ namespace ReMaz.Core.UI.Selection
                 .AddTo(this);
         }
 
-        private void Click()
+        public void Select()
         {
             _targetGroup.Select(this);
         }
