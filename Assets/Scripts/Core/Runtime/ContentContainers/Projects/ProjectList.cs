@@ -51,5 +51,10 @@ namespace ReMaz.Core.ContentContainers.Projects
             Project project = _projects[Random.Range(0, _projects.Count)];
             return project;
         }
+
+        public IList<Project> GetAll()
+        {
+            return _projects;
+        }
     }
 }

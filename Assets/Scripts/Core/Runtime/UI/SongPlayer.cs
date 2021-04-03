@@ -11,11 +11,11 @@ namespace ReMaz.Core.UI
         
         [SerializeField, AutoHook] private AudioSource _audioSource;
 
-        private IAsyncContentContainer<CachedSong> _playlist;
+        private IAsyncContentContainer<Song> _songContainer;
 
         private void Awake()
         {
-            _playlist = FindObjectOfType<Playlist>();
+            _songContainer = FindObjectOfType<Playlist>();
         }
 
         private void Start()
@@ -25,7 +25,7 @@ namespace ReMaz.Core.UI
 
         private void PlayRandom()
         {
-            StartCoroutine(_playlist.GetRandomAsync(cachedSong =>
+            StartCoroutine(_songContainer.GetRandomAsync(cachedSong =>
             {
                 _audioSource.clip = cachedSong.Clip;
                 _audioSource.Play();

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using SmallTail.Preload.Attributes;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,9 +11,9 @@ using Random = UnityEngine.Random;
 namespace ReMaz.Core.ContentContainers.Songs
 {
     [Preloaded]
-    public class Playlist : MonoBehaviour, IAsyncContentContainer<CachedSong>
+    public class Playlist : MonoBehaviour, IAsyncContentContainer<Song>
     {
-        private static List<CachedSong> _cachedSongs = new List<CachedSong>();
+        private static List<Song> _cachedSongs = new List<Song>();
 
         private void Awake()
         {
@@ -28,16 +29,34 @@ namespace ReMaz.Core.ContentContainers.Songs
 
             DirectoryInfo directory = new DirectoryInfo(ContentFileSystem.SongsPath);
             
-            foreach (FileInfo songFile in directory.GetFiles())
+            foreach (DirectoryInfo songDirectory in directory.GetDirectories())
             {
-                CachedSong cachedSong = new CachedSong(songFile.FullName);
-                _cachedSongs.Add(cachedSong);
+                try
+                {
+                    string songFile = songDirectory.FullName + @"\Song.mp3";
+                    string songMetaFile = songDirectory.FullName + @"\Meta.file";
+
+                    string songMetaJson = File.ReadAllText(songMetaFile);
+                    SongMeta songMeta = JsonConvert.DeserializeObject<SongMeta>(songMetaJson);
+                    
+                    Song song = new Song(songFile)
+                    {
+                        Title = songDirectory.Name,
+                        Meta = songMeta
+                    };
+
+                    _cachedSongs.Add(song);
+                }
+                catch
+                {
+                    // ignore, i guess
+                }
             }
         }
 
-        private IEnumerator LoadAudioClip(CachedSong cachedSong)
+        private IEnumerator LoadAudioClip(Song song)
         {
-            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(cachedSong.Path, AudioType.MPEG))
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(song.Path, AudioType.MPEG))
             {
                 yield return www.SendWebRequest();
 
@@ -48,21 +67,32 @@ namespace ReMaz.Core.ContentContainers.Songs
                 else
                 {
                     AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
-                    cachedSong.Clip = clip;
+                    song.Clip = clip;
                 }
             }
         }
         
-        public IEnumerator GetRandomAsync(Action<CachedSong> got)
+        public IEnumerator GetRandomAsync(Action<Song> got)
         {
-            CachedSong cachedSong = _cachedSongs[Random.Range(0, _cachedSongs.Count)];
+            Song song = GetRandom();
             
-            if (cachedSong.Clip == null)
+            if (song.Clip == null)
             {
-                yield return StartCoroutine(LoadAudioClip(cachedSong));
+                yield return StartCoroutine(LoadAudioClip(song));
             }
 
-            got?.Invoke(cachedSong);
+            got?.Invoke(song);
+        }
+
+        public Song GetRandom()
+        {
+            Song song = _cachedSongs[Random.Range(0, _cachedSongs.Count)];
+            return song;
+        }
+
+        public IList<Song> GetAll()
+        {
+            return _cachedSongs;
         }
     }
 }
