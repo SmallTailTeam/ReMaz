@@ -46,6 +46,11 @@ namespace ReMaz.Core.ContentContainers.Projects
             }
         }
 
+        public void Add(Project content)
+        {
+            _projects.Add(content);
+        }
+
         public Project GetRandom()
         {
             Project project = _projects[Random.Range(0, _projects.Count)];

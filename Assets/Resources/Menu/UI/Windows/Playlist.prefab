@@ -448,6 +448,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8712256857583688667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4542907015271750963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786c4c27366c4b23a9918b33ec32f9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6759891517529735978
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,18 +889,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 631645182300860482}
+      objectReference: {fileID: 8712256857583688667}
+    - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ReMaz.Menu.UI.Windows.PlaylistWindow.AddSongFileBrowser, ReMaz.Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204743329413256850, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8506345120880254554, guid: db722f6a223815444adf77b55fe4938c, type: 3}
       propertyPath: m_Name
       value: Add
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+--- !u!1 &4542907015271750963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8506345120880254554, guid: db722f6a223815444adf77b55fe4938c, type: 3}
+  m_PrefabInstance: {fileID: 5262242918618809193}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4807909148975888791 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 846151060427389694, guid: db722f6a223815444adf77b55fe4938c, type: 3}

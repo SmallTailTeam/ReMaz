@@ -2,6 +2,7 @@
 {
     public class SongMeta
     {
-        public int DurationSeconds;
+        public string Name;
+        public float Length;
     }
 }

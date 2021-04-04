@@ -13,8 +13,8 @@ namespace ReMaz.Menu.UI.Windows.PlaylistWindow
         
         public void Display(Song data)
         {
-            _title.text = data.Title;
-            _duration.text = TimeSpan.FromSeconds(data.Meta.DurationSeconds).ToString(@"mm\:ss");
+            _title.text = data.Meta.Name;
+            _duration.text = TimeSpan.FromSeconds(data.Meta.Length).ToString(@"mm\:ss");
         }
     }
 }
