@@ -1,5 +1,5 @@
 ﻿using System;
-using ReMaz.Core.ContentContainers.Songs;
+using ReMaz.Core.Content.Songs;
 using ReMaz.Core.UI;
 using TMPro;
 using UnityEngine;

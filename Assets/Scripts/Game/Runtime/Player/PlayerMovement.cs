@@ -1,4 +1,4 @@
-﻿using ReMaz.Core.ContentContainers.Projects;
+﻿using ReMaz.Core.Content.Projects;
 using ReMaz.Game.Inputs;
 using TNRD.Autohook;
 using UniRx;

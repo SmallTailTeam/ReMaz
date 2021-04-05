@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using ReMaz.Core.ContentContainers.Projects;
-using ReMaz.Core.ContentContainers.Projects.Tiles;
+using ReMaz.Core.Content.Projects;
+using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
 using UnityEngine;
@@ -15,6 +15,11 @@ namespace ReMaz.PatternEditor.Tools
                 .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
                 .Subscribe(Use)
                 .AddTo(this);
+            
+            foreach (TileSpatial tile in EditorProject.CurrentProject.Pattern.Tiles)
+            {
+                CreateInstance(tile.Position, _editorSpace.TileDatabase.FindTile(tile.Id));
+            }
         }
 
         public override void Use(GridPosition gridPosition)
@@ -25,19 +30,25 @@ namespace ReMaz.PatternEditor.Tools
             {
                 TileDescription tileToPaint = _editorSpace.TileToPaint.Value;
                 
-                GameObject instance = Instantiate(tileToPaint.Prefab, transform);
-                instance.transform.position = gridPosition.ToWorld();
-                instance.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, tileToPaint.Rotation));
-
-                TilePainted tilePainted = new TilePainted(tileToPaint.Id, instance, gridPosition)
-                {
-                    Graphics = instance.GetComponentInChildren<SpriteRenderer>()
-                };
-                _editorSpace.Painted.Add(tilePainted);
+                CreateInstance(gridPosition, tileToPaint);
 
                 TileSpatial tileSpatial = new TileSpatial(tileToPaint.Id, gridPosition);
                 EditorProject.CurrentProject.Pattern.Tiles.Add(tileSpatial);
             }
+        }
+
+        private void CreateInstance(GridPosition gridPosition, TileDescription tileToPaint)
+        {
+            GameObject instance = Instantiate(tileToPaint.Prefab, transform);
+            instance.transform.position = gridPosition.ToWorld();
+            instance.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, tileToPaint.Rotation));
+
+            TilePainted tilePainted = new TilePainted(tileToPaint.Id, instance, gridPosition)
+            {
+                Graphics = instance.GetComponentInChildren<SpriteRenderer>()
+            };
+            
+            _editorSpace.Painted.Add(tilePainted);
         }
     }
 }

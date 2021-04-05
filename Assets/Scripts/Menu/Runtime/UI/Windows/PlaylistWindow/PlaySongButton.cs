@@ -1,4 +1,4 @@
-﻿using ReMaz.Core.ContentContainers.Songs;
+﻿using ReMaz.Core.Content.Songs;
 using ReMaz.Core.UI;
 using UnityEngine;
 

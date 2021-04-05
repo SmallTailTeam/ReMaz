@@ -1,57 +1,30 @@
-﻿using ReMaz.Core.UI;
+﻿using ReMaz.Core.Content.Songs;
 using UnityEngine;
 
 namespace ReMaz.Game
 {
     public class AudioSpeed : MonoBehaviour
     {
-        private AudioSource _audioSource;
-        private float[] _samples = new float[512];
-        private float[] _bands = new float[8];
+        private SongPlayer _songPlayer;
 
         private void Awake()
         {
-            SongPlayer songPlayer = FindObjectOfType<SongPlayer>();
-            _audioSource = songPlayer.AudioSource;
+            _songPlayer = FindObjectOfType<SongPlayer>();
         }
 
         public float GetAudioMultiplier()
         {
-            try
-            {
-                _audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
-            }
-            catch
-            {
-                //ignore
-            }
+            int index = GetIndexFromTime(_songPlayer.AudioSource.time) / 1024 / _songPlayer.Playing.Spectrum.StoreEvery;
 
-            int count = 0;
+            float average = _songPlayer.Playing.Spectrum.Averages[index];
 
-            for (int i = 0; i < 8; i++)
-            {
-                float average = 0f;
-                int samplecount = (int) Mathf.Pow(2, i) * 2;
-
-                for (int j = 0; j < samplecount; j++)
-                {
-                    average += _samples[count] * (count + 1);
-                    count++;
-                }
-
-                average /= count;
-
-                _bands[i] = average;
-            }
-
-            float speed = 0f;
-
-            for (int i = 0; i < 8; i++)
-            {
-                speed += _bands[i];
-            }
-
-            return speed;
+            return average;
+        }
+        
+        private int GetIndexFromTime(float time = 0f)
+        {
+            float lengthPerSample = _songPlayer.Playing.Clip.length / _songPlayer.Playing.Clip.samples;
+            return Mathf.FloorToInt (time / lengthPerSample);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ReMaz.Core.ContentContainers.Songs
+﻿namespace ReMaz.Core.Content.Songs
 {
     public class SongMeta
     {

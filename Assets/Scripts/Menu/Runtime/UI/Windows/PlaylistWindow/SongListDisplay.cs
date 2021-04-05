@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using ReMaz.Core.ContentContainers;
-using ReMaz.Core.ContentContainers.Songs;
+using ReMaz.Core.Content;
+using ReMaz.Core.Content.Songs;
 using UniRx;
 using UnityEngine;
 

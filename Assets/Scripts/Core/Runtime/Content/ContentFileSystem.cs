@@ -1,4 +1,4 @@
-﻿namespace ReMaz.Core.ContentContainers
+﻿namespace ReMaz.Core.Content
 {
     public static class ContentFileSystem
     {

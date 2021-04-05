@@ -7,13 +7,14 @@ using SmallTail.Preload.Attributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ReMaz.Core.ContentContainers.Projects
+namespace ReMaz.Core.Content.Projects
 {
     [Preloaded]
     public class ProjectList : MonoBehaviour, IContentContainer<Project>
     {
         public IObservable<Project> Added { get; }
-        
+        public bool HasContent { get; }
+
         private List<Project> _projects = new List<Project>();
 
         private void Awake()

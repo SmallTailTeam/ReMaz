@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using ReMaz.Core.ContentContainers.Songs;
+using ReMaz.Core.Content.Songs;
 using SFB;
 using UnityEngine;
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ReMaz.Core.ContentContainers.Projects.Tiles;
+using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using ReMaz.PatternEditor.UI;
 using UniRx;
@@ -13,6 +13,7 @@ namespace ReMaz.PatternEditor
         public List<TilePainted> Painted { get; private set; }
         public TilePainted SelectedTile { get; private set; }
         public bool CanPlace => _placeZone.CanPlace;
+        public TileDatabase TileDatabase => _tileList.TileDatabase;
         
         [SerializeField] private PlaceZone _placeZone;
         [SerializeField] private TileList _tileList;

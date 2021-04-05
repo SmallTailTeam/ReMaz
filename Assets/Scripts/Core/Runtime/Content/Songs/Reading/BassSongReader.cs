@@ -1,21 +1,20 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
 using Un4seen.Bass;
 using UnityEngine;
 
-namespace ReMaz.Core
+namespace ReMaz.Core.Content.Songs.Reading
 {
-    public static class BassManager
+    public class BassSongReader : ISongReader
     {
-        private static object _lock = new object();
-        private static bool _initialized;
+        private object _lock = new object();
+        private bool _initialized;
 
-        private static void LogError(string name)
+        private void LogError(string name)
         {
             Debug.LogError($"[BassError] {name}: {Bass.BASS_ErrorGetCode()}");
         }
         
-        private static void Initialize()
+        private void Initialize()
         {
             _initialized = Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
 
@@ -25,12 +24,12 @@ namespace ReMaz.Core
             }
         }
 
-        public static void Free()
+        public void Free()
         {
             Bass.BASS_Free();
         }
 
-        public static AudioData Open(string path)
+        public SongPCM Open(string path)
         {
             lock (_lock)
             {
@@ -83,7 +82,7 @@ namespace ReMaz.Core
 
             Bass.BASS_StreamFree(num);
 
-            AudioData data = new AudioData
+            SongPCM pcm = new SongPCM
             {
                 Samples = samples,
                 Channels = 2,
@@ -91,22 +90,7 @@ namespace ReMaz.Core
                 Wave = floatWave
             };
             
-            return data;
+            return pcm;
         }
-
-        public static AudioClip AssembleClip(AudioData data)
-        {
-            AudioClip clip = AudioClip.Create("test", data.Samples, data.Channels, data.Frequency, false);
-            clip.SetData(data.Wave, 0);
-            return clip;
-        }
-    }
-
-    public class AudioData
-    {
-        public int Samples;
-        public int Channels;
-        public int Frequency;
-        public float[] Wave;
     }
 }

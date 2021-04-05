@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using ReMaz.Core;
-using ReMaz.Core.ContentContainers.Projects.Tiles;
+using ReMaz.Core.Content.Projects.Tiles;
 
-namespace ReMaz.Core.ContentContainers.Projects
+namespace ReMaz.Core.Content.Projects
 {
     public class Pattern
     {

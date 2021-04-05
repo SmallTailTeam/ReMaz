@@ -1,15 +1,13 @@
-﻿using Cysharp.Threading.Tasks;
-using ReMaz.Core.ContentContainers;
-using ReMaz.Core.ContentContainers.Songs;
-using TNRD.Autohook;
+﻿using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
 
-namespace ReMaz.Core.UI
+namespace ReMaz.Core.Content.Songs
 {
     public class SongPlayer : MonoBehaviour
     {
         public AudioSource AudioSource => _audioSource;
+        public Song Playing { get; private set; }
         
         [SerializeField, AutoHook] private AudioSource _audioSource;
 
@@ -33,16 +31,24 @@ namespace ReMaz.Core.UI
 
         public void Play(Song song)
         {
-            if (song != null)
+            if (song == null)
             {
-                _songContainer.GetAsync(song)
-                    .Subscribe(song =>
-                    {
-                        _audioSource.clip = song.Clip;
-                        _audioSource.Play();
-                    })
-                    .AddTo(this);
+                return;
             }
+        
+            CancelInvoke(nameof(PlayRandom));
+            
+            _songContainer.GetAsync(song)
+                .Subscribe(filledSong =>
+                {
+                    Playing = filledSong;
+                    
+                    _audioSource.clip = filledSong.Clip;
+                    _audioSource.Play();
+
+                    Invoke(nameof(PlayRandom), filledSong.Meta.Length);
+                })
+                .AddTo(this);
         }
     }
 }

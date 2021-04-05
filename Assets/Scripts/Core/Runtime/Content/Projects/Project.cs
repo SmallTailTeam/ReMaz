@@ -1,4 +1,4 @@
-﻿namespace ReMaz.Core.ContentContainers.Projects
+﻿namespace ReMaz.Core.Content.Projects
 {
     public class Project
     {

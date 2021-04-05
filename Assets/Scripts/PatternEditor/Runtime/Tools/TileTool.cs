@@ -1,4 +1,4 @@
-﻿using ReMaz.Core.ContentContainers.Projects;
+﻿using ReMaz.Core.Content.Projects;
 using ReMaz.PatternEditor.Inputs;
 using UnityEngine;
 

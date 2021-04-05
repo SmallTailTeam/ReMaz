@@ -2,24 +2,31 @@
 using System.Collections.Generic;
 using System.IO;
 using Cysharp.Threading.Tasks;
-using Newtonsoft.Json;
+using ReMaz.Core.Content.Songs.Analyzing;
+using ReMaz.Core.Content.Songs.Reading;
+using ReMaz.Core.Content;
 using SmallTail.Preload.Attributes;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ReMaz.Core.ContentContainers.Songs
+namespace ReMaz.Core.Content.Songs
 {
     [Preloaded]
     public class Playlist : MonoBehaviour, IAsyncContentContainer<Song>
     {
         public IObservable<Song> Added => _added;
-        
+        public bool HasContent { get; private set; }
+
+        private ISongReader _songReader;
+        private ISongAnalyzer _songAnalyzer;
         private List<Song> _cachedSongs = new List<Song>();
         private ISubject<Song> _added;
 
         private void Awake()
         {
+            _songReader = new BassSongReader();
+            _songAnalyzer = new FFTSongAnalyzer();
             _added = new Subject<Song>();
             
             IndexSongs();
@@ -27,7 +34,7 @@ namespace ReMaz.Core.ContentContainers.Songs
 
         private void OnApplicationQuit()
         {
-            BassManager.Free();
+            _songReader.Free();
         }
 
         private void IndexSongs()
@@ -43,16 +50,7 @@ namespace ReMaz.Core.ContentContainers.Songs
             {
                 try
                 {
-                    string songFile = songDirectory.FullName + @"\Song.file";
-                    string songMetaFile = songDirectory.FullName + @"\Meta.file";
-
-                    string songMetaJson = File.ReadAllText(songMetaFile);
-                    SongMeta songMeta = JsonConvert.DeserializeObject<SongMeta>(songMetaJson);
-                    
-                    Song song = new Song(songFile)
-                    {
-                        Meta = songMeta
-                    };
+                    Song song = Song.Deserialize(songDirectory.FullName);
 
                     _cachedSongs.Add(song);
                 }
@@ -61,9 +59,11 @@ namespace ReMaz.Core.ContentContainers.Songs
                     // ignore, i guess
                 }
             }
+
+            HasContent = _cachedSongs.Count > 0;
         }
 
-        private void AddFromData(AudioData data, string path)
+        private void AddFromData(string originalSongFile, SongPCM data, SongSpectrum spectrum)
         {
             string id = Guid.NewGuid().ToString();
             string songPath = ContentFileSystem.SongsPath + $"/{id}";
@@ -71,28 +71,28 @@ namespace ReMaz.Core.ContentContainers.Songs
 
             SongMeta songMeta = new SongMeta
             {
-                Name = Path.GetFileNameWithoutExtension(path),
+                Name = Path.GetFileNameWithoutExtension(originalSongFile),
                 Length = (float)data.Samples / data.Frequency
             };
 
             Song song = new Song(songPath + "/Song.file")
             {
+                Path = songPath,
                 Meta = songMeta,
-                Data = data
+                PCM = data,
+                Spectrum = spectrum
             };
 
-            File.Copy(path, songPath + "/Song.file");
-            
-            string songMetaJson = JsonConvert.SerializeObject(songMeta);
-            File.WriteAllText(songPath + "/Meta.file", songMetaJson);
+            song.Serialize(originalSongFile);
             
             Add(song);
         }
         
         public UniTask Process(string path)
         {
-            AudioData data = BassManager.Open(path);
-            AddFromData(data, path);
+            SongPCM pcm = _songReader.Open(path);
+            SongSpectrum spectrum = _songAnalyzer.Analyze(pcm);
+            AddFromData(path, pcm, spectrum);
             
             return UniTask.CompletedTask;
         }
@@ -114,25 +114,25 @@ namespace ReMaz.Core.ContentContainers.Songs
         {
             if (content != null && content.Clip == null)
             {
-                if (content.Data == null)
+                if (content.PCM == null)
                 {
                     return Observable.Start(() =>
                         {
-                            AudioData data = BassManager.Open(content.Path);
-                            return data;
+                            SongPCM pcm = _songReader.Open(content.Path);
+                            return pcm;
                         })
                         .ObserveOnMainThread()
                         .Select(data =>
                         {
-                            content.Data = data;
-                            content.Clip = BassManager.AssembleClip(content.Data);
-                            content.Data = null;
+                            content.PCM = data;
+                            content.Clip = SongUtils.AssembleClip(content.PCM);
+                            content.PCM = null;
                             return content;
                         });
                 }
                 
-                content.Clip = BassManager.AssembleClip(content.Data);
-                content.Data = null;
+                content.Clip = SongUtils.AssembleClip(content.PCM);
+                content.PCM = null;
             }
             
             return Observable.Start(() => content)

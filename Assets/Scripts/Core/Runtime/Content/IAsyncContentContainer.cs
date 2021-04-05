@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReMaz.Core.ContentContainers
+namespace ReMaz.Core.Content
 {
     public interface IAsyncContentContainer<T> : IContentContainer<T> where T : class
     {

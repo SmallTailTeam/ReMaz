@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReMaz.Core.ContentContainers.Projects.Tiles;
+using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Inputs;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace ReMaz.PatternEditor.UI
 {
     public class TileList : MonoBehaviour
     {
         public IObservable<TileDescription> Selected { get; private set; }
+        public TileDatabase TileDatabase => _tileDatabase;
 
         [SerializeField] private TileDatabase _tileDatabase;
         [SerializeField] private TileOption _tileOption;

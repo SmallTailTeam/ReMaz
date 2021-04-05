@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using ReMaz.Core.ContentContainers;
-using ReMaz.Core.ContentContainers.Projects;
+using ReMaz.Core.Content;
+using ReMaz.Core.Content.Projects;
 using UnityEngine;
 
 namespace ReMaz.PatternEditor

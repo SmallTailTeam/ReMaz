@@ -1,5 +1,5 @@
 ﻿using System;
-using ReMaz.Core.ContentContainers.Projects;
+using ReMaz.Core.Content.Projects;
 using UniRx;
 using UnityEngine;
 
