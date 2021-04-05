@@ -1,12 +1,20 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace ReMaz.Core.Scenes
 {
     public class SceneButtons : MonoBehaviour
     {
-        public void Change(string name)
+        private SceneChanger _sceneChanger;
+
+        private void Awake()
         {
-            SceneChanger.Change(name);
+            _sceneChanger = FindObjectOfType<SceneChanger>();
+        }
+
+        public void Change(string sceneName)
+        {
+            _sceneChanger.LoadScene(sceneName).Forget();
         }
     }
 }

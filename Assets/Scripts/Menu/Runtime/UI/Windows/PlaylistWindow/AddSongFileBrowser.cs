@@ -1,4 +1,5 @@
-﻿using ReMaz.Core.ContentContainers.Songs;
+﻿using Cysharp.Threading.Tasks;
+using ReMaz.Core.ContentContainers.Songs;
 using SFB;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace ReMaz.Menu.UI.Windows.PlaylistWindow
 
             foreach (string path in paths)
             {
-                _playlist.Process(path);
+                UniTask.RunOnThreadPool(() => _playlist.Process(path));
             }
         }
     }

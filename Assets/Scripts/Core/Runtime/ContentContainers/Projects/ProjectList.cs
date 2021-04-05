@@ -12,6 +12,8 @@ namespace ReMaz.Core.ContentContainers.Projects
     [Preloaded]
     public class ProjectList : MonoBehaviour, IContentContainer<Project>
     {
+        public IObservable<Project> Added { get; }
+        
         private List<Project> _projects = new List<Project>();
 
         private void Awake()

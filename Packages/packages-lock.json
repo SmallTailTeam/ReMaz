@@ -7,6 +7,20 @@
       "dependencies": {},
       "hash": "68967680161de73b2341d5a415540709b082a24c"
     },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "89ae106ea71896b8ed4eddd7d5176e07853d3ef5"
+    },
+    "com.neuecc.unirx": {
+      "version": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
+    },
     "com.smalltail.preload": {
       "version": "https://github.com/SmallTailTeam/Unity-Preload.git",
       "depth": 0,

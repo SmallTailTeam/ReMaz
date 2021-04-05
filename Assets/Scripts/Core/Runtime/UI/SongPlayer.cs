@@ -1,6 +1,8 @@
-﻿using ReMaz.Core.ContentContainers;
+﻿using Cysharp.Threading.Tasks;
+using ReMaz.Core.ContentContainers;
 using ReMaz.Core.ContentContainers.Songs;
 using TNRD.Autohook;
+using UniRx;
 using UnityEngine;
 
 namespace ReMaz.Core.UI
@@ -23,13 +25,24 @@ namespace ReMaz.Core.UI
             PlayRandom();
         }
 
-        private void PlayRandom()
+        public void PlayRandom()
         {
-            StartCoroutine(_songContainer.GetRandomAsync(cachedSong =>
+            Song song = _songContainer.GetRandom();
+            Play(song);
+        }
+
+        public void Play(Song song)
+        {
+            if (song != null)
             {
-                _audioSource.clip = cachedSong.Clip;
-                _audioSource.Play();
-            }));
+                _songContainer.GetAsync(song)
+                    .Subscribe(song =>
+                    {
+                        _audioSource.clip = song.Clip;
+                        _audioSource.Play();
+                    })
+                    .AddTo(this);
+            }
         }
     }
 }

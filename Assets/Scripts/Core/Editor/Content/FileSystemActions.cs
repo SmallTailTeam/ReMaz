@@ -33,7 +33,16 @@ namespace ReMaz.Core.Editor.Content
             
             foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
             {
-                Directory.Delete(directory.FullName);
+                if (Directory.GetFiles(directory.FullName).Length < 1)
+                {
+                    Directory.Delete(directory.FullName);
+                }
+                else
+                {
+                    ClearDirectory(directory.FullName);
+                    Directory.Delete(directory.FullName);
+                }
+
                 count++;
             }
             

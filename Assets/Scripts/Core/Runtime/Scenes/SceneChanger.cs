@@ -1,13 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using SmallTail.Preload.Attributes;
+using UniRx;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace ReMaz.Core.Scenes
 {
-    public class SceneChanger : MonoBehaviour
+    [Preloaded]
+    public class SceneChanger : MonoBehaviour, IProgress<float>
     {
-        public static void Change(string name)
+        public IObservable<float> SceneLoading => _sceneLoading;
+        
+        private ISubject<float> _sceneLoading;
+
+        private void Awake()
         {
-            SceneManager.LoadScene(name);
+            _sceneLoading = new Subject<float>();
+        }
+
+        public async UniTask LoadScene(string sceneName)
+        {
+            await SceneManager.LoadSceneAsync(sceneName).ToUniTask(this);
+        }
+
+        public void Report(float value)
+        {
+            _sceneLoading.OnNext(value);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace ReMaz.Core.ContentContainers.Songs
     {
         public string Path;
         public SongMeta Meta;
+        public AudioData Data;
         public AudioClip Clip;
 
         public Song(string path)

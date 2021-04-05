@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using SmallTail.Preload.Attributes;
+using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,10 +13,15 @@ namespace ReMaz.Core.ContentContainers.Songs
     [Preloaded]
     public class Playlist : MonoBehaviour, IAsyncContentContainer<Song>
     {
+        public IObservable<Song> Added => _added;
+        
         private List<Song> _cachedSongs = new List<Song>();
+        private ISubject<Song> _added;
 
         private void Awake()
         {
+            _added = new Subject<Song>();
+            
             IndexSongs();
         }
 
@@ -57,58 +63,93 @@ namespace ReMaz.Core.ContentContainers.Songs
             }
         }
 
-        public void Process(string path)
+        private void AddFromData(AudioData data, string path)
         {
-            AudioClip clip = BassManager.Open(path);
-
             string id = Guid.NewGuid().ToString();
             string songPath = ContentFileSystem.SongsPath + $"/{id}";
             Directory.CreateDirectory(songPath);
 
-            File.Copy(path, songPath + "/Song.file");
-            
             SongMeta songMeta = new SongMeta
             {
                 Name = Path.GetFileNameWithoutExtension(path),
-                Length = clip.length
+                Length = (float)data.Samples / data.Frequency
             };
-
-            string songMetaJson = JsonConvert.SerializeObject(songMeta);
-            File.WriteAllText(songPath + "/Meta.file", songMetaJson);
 
             Song song = new Song(songPath + "/Song.file")
             {
                 Meta = songMeta,
-                Clip = clip
+                Data = data
             };
+
+            File.Copy(path, songPath + "/Song.file");
             
-            _cachedSongs.Add(song);
+            string songMetaJson = JsonConvert.SerializeObject(songMeta);
+            File.WriteAllText(songPath + "/Meta.file", songMetaJson);
+            
+            Add(song);
         }
         
+        public UniTask Process(string path)
+        {
+            AudioData data = BassManager.Open(path);
+            AddFromData(data, path);
+            
+            return UniTask.CompletedTask;
+        }
+
         public void Add(Song content)
         {
             _cachedSongs.Add(content);
+            _added.OnNext(content);
         }
         
-        public IEnumerator GetRandomAsync(Action<Song> got)
+        public IObservable<Song> GetRandomAsync()
         {
             Song song = GetRandom();
-            
-            if (song.Clip == null)
-            {
-                song.Clip = BassManager.Open(song.Path);
-            }
 
-            got?.Invoke(song);
-            yield return null;
+            return GetAsync(song);
         }
 
+        public IObservable<Song> GetAsync(Song content)
+        {
+            if (content != null && content.Clip == null)
+            {
+                if (content.Data == null)
+                {
+                    return Observable.Start(() =>
+                        {
+                            AudioData data = BassManager.Open(content.Path);
+                            return data;
+                        })
+                        .ObserveOnMainThread()
+                        .Select(data =>
+                        {
+                            content.Data = data;
+                            content.Clip = BassManager.AssembleClip(content.Data);
+                            content.Data = null;
+                            return content;
+                        });
+                }
+                
+                content.Clip = BassManager.AssembleClip(content.Data);
+                content.Data = null;
+            }
+            
+            return Observable.Start(() => content)
+                .ObserveOnMainThread();
+        }
+        
         public Song GetRandom()
         {
+            if (_cachedSongs.Count < 1)
+            {
+                return null;
+            }
+
             Song song = _cachedSongs[Random.Range(0, _cachedSongs.Count)];
             return song;
         }
-
+        
         public IList<Song> GetAll()
         {
             return _cachedSongs;

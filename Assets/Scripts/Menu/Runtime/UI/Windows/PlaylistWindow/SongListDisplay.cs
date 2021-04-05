@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using ReMaz.Core.ContentContainers;
 using ReMaz.Core.ContentContainers.Songs;
+using UniRx;
 using UnityEngine;
 
 namespace ReMaz.Menu.UI.Windows.PlaylistWindow
@@ -10,8 +12,12 @@ namespace ReMaz.Menu.UI.Windows.PlaylistWindow
         
         private IAsyncContentContainer<Song> _songContainer;
 
+        private List<SongDisplay> _instances;
+
         private void Awake()
         {
+            _instances = new List<SongDisplay>();
+            
             _songContainer = FindObjectOfType<Playlist>();
         }
 
@@ -19,9 +25,20 @@ namespace ReMaz.Menu.UI.Windows.PlaylistWindow
         {
             foreach (Song song in _songContainer.GetAll())
             {
-                SongDisplay songDisplay = Instantiate(_songPrefab, transform);
-                songDisplay.Display(song);
+                Spawn(song);
             }
+
+            _songContainer.Added
+                .ObserveOnMainThread()
+                .Subscribe(Spawn)
+                .AddTo(this);
+        }
+
+        private void Spawn(Song song)
+        {
+            SongDisplay songDisplay = Instantiate(_songPrefab, transform);
+            songDisplay.Display(song);
+            _instances.Add(songDisplay);
         }
     }
 }
