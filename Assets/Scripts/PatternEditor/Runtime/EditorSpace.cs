@@ -18,7 +18,7 @@ namespace ReMaz.PatternEditor
         [SerializeField] private PlaceZone _placeZone;
         [SerializeField] private TileList _tileList;
 
-        private void Awake()
+        private void Start()
         {
             Painted = new List<TilePainted>();
 

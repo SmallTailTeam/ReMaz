@@ -4,33 +4,29 @@ using System.Linq;
 using Newtonsoft.Json;
 using ReMaz.Core.Content;
 using ReMaz.Core.Content.Projects;
+using ReMaz.Core.Content.Projects.Patterns;
 using UnityEngine;
 
 namespace ReMaz.PatternEditor
 {
     public class EditorProject : MonoBehaviour
     {
-        public static Project CurrentProject;
+        public static IProject<Pattern> CurrentProject;
 
-        public static void Open(Project pattern)
+        public static void Open(ProjectPattern pattern)
         {
             CurrentProject = pattern;
         }
 
         public static void Create()
         {
-            CurrentProject = new Project
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Unnamed",
-                Pattern = new Pattern()
-            };
+            CurrentProject = new ProjectPattern(Guid.NewGuid().ToString(), "Unnamed");
         }
 
         public static void Save()
         {
-            CurrentProject.Pattern.BoundLeft = CurrentProject.Pattern.Tiles.Min(tile => tile.Position.x);
-            CurrentProject.Pattern.BoundRight = CurrentProject.Pattern.Tiles.Max(tile => tile.Position.x);
+            CurrentProject.Content.BoundLeft = CurrentProject.Content.Tiles.Min(tile => tile.Position.x);
+            CurrentProject.Content.BoundRight = CurrentProject.Content.Tiles.Max(tile => tile.Position.x);
             
             string json = JsonConvert.SerializeObject(CurrentProject);
             

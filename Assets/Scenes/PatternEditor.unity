@@ -434,6 +434,7 @@ GameObject:
   - component: {fileID: 714281620}
   - component: {fileID: 714281619}
   - component: {fileID: 714281621}
+  - component: {fileID: 714281622}
   m_Layer: 0
   m_Name: Toolbar
   m_TagString: Untagged
@@ -550,8 +551,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762ad5b640c240f1b0bd0358973a0339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectableGroup: {fileID: 714281622}
   _tileDatabase: {fileID: 11400000, guid: 27171a925dba95444bdc632188ffaa86, type: 2}
-  _tileOption: {fileID: 4292173522402810045, guid: 4df1b29e243e24547a123ed3b9831e74, type: 3}
+  _tileDisplayPrefab: {fileID: 8746100506924203758, guid: 4df1b29e243e24547a123ed3b9831e74, type: 3}
+--- !u!114 &714281622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714281615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab557d32cda3d19408131e2f44397841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &770180826
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,7 +695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _placeZone: {fileID: 691469644}
-  _tileList: {fileID: 714281621}
+  _tileList: {fileID: 0}
 --- !u!114 &837363405
 MonoBehaviour:
   m_ObjectHideFlags: 0

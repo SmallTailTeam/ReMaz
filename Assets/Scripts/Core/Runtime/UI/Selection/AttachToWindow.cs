@@ -1,9 +1,8 @@
-﻿using ReMaz.Core.UI.Selection;
-using ReMaz.Core.UI.Windows;
+﻿using ReMaz.Core.UI.Windows;
 using UniRx;
 using UnityEngine;
 
-namespace ReMaz.Menu.UI
+namespace ReMaz.Core.UI.Selection
 {
     public class AttachToWindow : MonoBehaviour
     {

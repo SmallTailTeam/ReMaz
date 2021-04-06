@@ -16,7 +16,7 @@ namespace ReMaz.PatternEditor.Tools
                 .Subscribe(Use)
                 .AddTo(this);
             
-            foreach (TileSpatial tile in EditorProject.CurrentProject.Pattern.Tiles)
+            foreach (TileSpatial tile in EditorProject.CurrentProject.Content.Tiles)
             {
                 CreateInstance(tile.Position, _editorSpace.TileDatabase.FindTile(tile.Id));
             }
@@ -33,7 +33,7 @@ namespace ReMaz.PatternEditor.Tools
                 CreateInstance(gridPosition, tileToPaint);
 
                 TileSpatial tileSpatial = new TileSpatial(tileToPaint.Id, gridPosition);
-                EditorProject.CurrentProject.Pattern.Tiles.Add(tileSpatial);
+                EditorProject.CurrentProject.Content.Tiles.Add(tileSpatial);
             }
         }
 

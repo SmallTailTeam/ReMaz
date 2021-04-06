@@ -25,8 +25,8 @@ namespace ReMaz.PatternEditor.Tools
                 Destroy(tilePainted.Instance);
                 _editorSpace.Painted.Remove(tilePainted);
 
-                TileSpatial tileSpatial = EditorProject.CurrentProject.Pattern.Tiles.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
-                EditorProject.CurrentProject.Pattern.Tiles.Remove(tileSpatial);
+                TileSpatial tileSpatial = EditorProject.CurrentProject.Content.Tiles.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
+                EditorProject.CurrentProject.Content.Tiles.Remove(tileSpatial);
             }
         }
     }

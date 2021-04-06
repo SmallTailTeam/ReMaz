@@ -13,6 +13,7 @@ namespace ReMaz.Core.UI.Selection
         public IObservable<ISelectable> Deselected => _deselected;
 
         [SerializeField] private SelectableGroup _targetGroup;
+        [SerializeField] private bool _autoAttach;
         
         private Button _button;
         
@@ -21,6 +22,11 @@ namespace ReMaz.Core.UI.Selection
 
         private void Awake()
         {
+            if (_autoAttach)
+            {
+                _targetGroup = GetComponentInParent<SelectableGroup>();
+            }
+            
             _button = GetComponent<Button>();
             
             _selected = new Subject<ISelectable>();

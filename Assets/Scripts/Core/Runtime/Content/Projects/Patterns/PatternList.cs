@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -7,15 +6,15 @@ using SmallTail.Preload.Attributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ReMaz.Core.Content.Projects
+namespace ReMaz.Core.Content.Projects.Patterns
 {
     [Preloaded]
-    public class ProjectList : MonoBehaviour, IContentContainer<Project>
+    public class PatternList : MonoBehaviour, IContentContainer<ProjectPattern>
     {
-        public IObservable<Project> Added { get; }
+        public IObservable<ProjectPattern> Added { get; }
         public bool HasContent { get; }
 
-        private List<Project> _projects = new List<Project>();
+        private List<ProjectPattern> _projects = new List<ProjectPattern>();
 
         private void Awake()
         {
@@ -38,8 +37,8 @@ namespace ReMaz.Core.Content.Projects
                     string projectFile = projectDirectory.FullName + @"\Project.pats";
                     string json = File.ReadAllText(projectFile);
 
-                    Project project = JsonConvert.DeserializeObject<Project>(json);
-                    _projects.Add(project);
+                    ProjectPattern projectPattern = JsonConvert.DeserializeObject<ProjectPattern>(json);
+                    _projects.Add(projectPattern);
                 }
                 catch (Exception e)
                 {
@@ -49,18 +48,18 @@ namespace ReMaz.Core.Content.Projects
             }
         }
 
-        public void Add(Project content)
+        public void Add(ProjectPattern content)
         {
             _projects.Add(content);
         }
 
-        public Project GetRandom()
+        public ProjectPattern GetRandom()
         {
-            Project project = _projects[Random.Range(0, _projects.Count)];
-            return project;
+            ProjectPattern projectPattern = _projects[Random.Range(0, _projects.Count)];
+            return projectPattern;
         }
 
-        public IList<Project> GetAll()
+        public IList<ProjectPattern> GetAll()
         {
             return _projects;
         }

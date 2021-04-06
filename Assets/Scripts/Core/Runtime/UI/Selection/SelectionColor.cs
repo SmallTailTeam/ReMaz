@@ -1,10 +1,8 @@
-﻿using ReMaz.Core.UI;
-using ReMaz.Core.UI.Selection;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReMaz.Menu.UI
+namespace ReMaz.Core.UI.Selection
 {
     public class SelectionColor : MonoBehaviour
     {
@@ -15,7 +13,17 @@ namespace ReMaz.Menu.UI
 
         private void Awake()
         {
-            _graphics = GetComponentsInChildren<Image>()[1];
+            TryGetComponent(out Image selfImage);
+            
+            foreach (Image image in GetComponentsInChildren<Image>())
+            {
+                if (image != selfImage)
+                {
+                    _graphics = image;
+                    break;
+                }
+            }
+            
             _colorScheme = ColorScheme.Get();
             
             _selectable = GetComponent<ISelectable>();

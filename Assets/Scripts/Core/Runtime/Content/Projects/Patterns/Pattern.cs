@@ -2,7 +2,7 @@
 using ReMaz.Core;
 using ReMaz.Core.Content.Projects.Tiles;
 
-namespace ReMaz.Core.Content.Projects
+namespace ReMaz.Core.Content.Projects.Patterns
 {
     public class Pattern
     {
