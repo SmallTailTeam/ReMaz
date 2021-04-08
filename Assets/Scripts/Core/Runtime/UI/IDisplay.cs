@@ -1,9 +1,9 @@
 ﻿namespace ReMaz.Core.UI
 {
-    public interface IDisplay<T> where T : class
+    public interface IDisplay<T>
     {
-        T Data { get; }
+        T Content { get; }
         
-        void Display(T data);
+        void Display(T content);
     }
 }

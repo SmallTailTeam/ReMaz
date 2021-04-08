@@ -21,24 +21,17 @@ namespace ReMaz.PatternEditor.UI
         private void Awake()
         {
             _selected = new Subject<TileDescription>();
-
-            foreach (TileDescription tileDescription in _tileDatabase.Tiles)
-            {
-                InstantiateOption(tileDescription);
-            }
         }
 
         private void Start()
         {
+            foreach (TileDescription tileDescription in _tileDatabase.Tiles)
+            {
+                InstantiateOption(tileDescription);
+            }
+            
             _selectableGroup.Selected
-                .Subscribe(selectable =>
-                {
-                    if (selectable is MonoBehaviour monoBehaviour)
-                    {
-                        TileDisplay tileDisplay = monoBehaviour.GetComponent<TileDisplay>();
-                        _selected.OnNext(tileDisplay.Data);
-                    }
-                })
+                .Subscribe(TileSelected)
                 .AddTo(this);
         }
 
@@ -47,6 +40,14 @@ namespace ReMaz.PatternEditor.UI
             TileDisplay instance = Instantiate(_tileDisplayPrefab, transform);
             
             instance.Display(tileDescription);
+        }
+
+        private void TileSelected(ISelectable selectable)
+        {
+            if (selectable is ISelectableDisplay<TileDescription> tileDisplay)
+            {
+                _selected.OnNext(tileDisplay.Content);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using ReMaz.Core.Content.Projects.Tiles;
-using ReMaz.Core.UI;
+using ReMaz.Core.UI.Selection;
 using TNRD.Autohook;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +7,15 @@ using UnityEngine.UI;
 namespace ReMaz.PatternEditor.UI
 {
     [RequireComponent(typeof(Button))]
-    public class TileDisplay : MonoBehaviour, IDisplay<TileDescription>
+    public class TileDisplay : SelectableDisplay<TileDescription>
     {
-        public TileDescription Data { get; private set; }
-
         [SerializeField, AutoHook(AutoHookSearchArea.Children)] private Image _image;
 
-        public void Display(TileDescription data)
+        public override void Display(TileDescription content)
         {
-            Data = data;
-            _image.sprite = data.Icon;
-            _image.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, data.Rotation));
+            Content = content;
+            _image.sprite = content.Icon;
+            _image.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, content.Rotation));
         }
     }
 }

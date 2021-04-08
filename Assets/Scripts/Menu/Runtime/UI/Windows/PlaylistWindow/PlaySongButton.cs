@@ -17,7 +17,7 @@ namespace ReMaz.Menu.UI.Windows.PlaylistWindow
 
         public void Play()
         {
-            _songPlayer.Play(_songDisplay.Data);
+            _songPlayer.Play(_songDisplay.Content);
         }
     }
 }
