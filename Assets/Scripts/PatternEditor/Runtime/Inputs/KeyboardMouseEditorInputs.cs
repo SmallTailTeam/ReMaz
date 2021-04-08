@@ -56,7 +56,7 @@ namespace ReMaz.PatternEditor.Inputs
 #else
                 var controlStream = updateSteam
                 .Where(_ => Input.GetKeyDown(KeyCode.LeftControl))
-                .Select(_ => KeyCode.LeftAlt);
+                .Select(_ => KeyCode.LeftControl);
 #endif
 
             var shiftStream = updateSteam

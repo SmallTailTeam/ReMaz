@@ -1,5 +1,7 @@
-﻿using ReMaz.Core.Content.Projects;
+﻿using System.Linq;
+using ReMaz.Core.Content.Projects;
 using ReMaz.PatternEditor.Commands;
+using ReMaz.PatternEditor.Tiles;
 using UniRx;
 
 namespace ReMaz.PatternEditor.Tools
@@ -26,6 +28,8 @@ namespace ReMaz.PatternEditor.Tools
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
 
+        private string _erasedTileId;
+
         public EraseCommand(EditorSpace editorSpace, GridPosition gridPosition)
         {
             _editorSpace = editorSpace;
@@ -34,12 +38,15 @@ namespace ReMaz.PatternEditor.Tools
         
         public bool Execute()
         {
+            TilePainted tilePainted = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(_gridPosition));
+            _erasedTileId = tilePainted?.Id;
+            
             return EditorUtils.Erase(_gridPosition, _editorSpace);
         }
 
         public void Undo()
         {
-            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
+            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_erasedTileId));
         }
     }
 }

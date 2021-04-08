@@ -31,7 +31,7 @@ namespace ReMaz.PatternEditor.Tools
     {
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
-
+        
         public PaintCommand(EditorSpace editorSpace, GridPosition gridPosition)
         {
             _editorSpace = editorSpace;
