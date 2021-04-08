@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using ReMaz.Core.Content.Projects;
-using ReMaz.Core.Content.Projects.Tiles;
-using ReMaz.PatternEditor.Tiles;
+﻿using ReMaz.Core.Content.Projects;
+using ReMaz.PatternEditor.Commands;
 using UniRx;
 
 namespace ReMaz.PatternEditor.Tools
@@ -18,16 +16,30 @@ namespace ReMaz.PatternEditor.Tools
 
         public override void Use(GridPosition gridPosition)
         {
-            TilePainted tilePainted = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
-            
-            if (tilePainted != null)
-            {
-                Destroy(tilePainted.Instance);
-                _editorSpace.Painted.Remove(tilePainted);
+            EraseCommand command = new EraseCommand(_editorSpace, gridPosition);
+            _commandBuffer.Push(command);
+        }
+    }
 
-                TileSpatial tileSpatial = EditorProject.CurrentProject.Content.Tiles.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
-                EditorProject.CurrentProject.Content.Tiles.Remove(tileSpatial);
-            }
+    public class EraseCommand : ICommand
+    {
+        private EditorSpace _editorSpace;
+        private GridPosition _gridPosition;
+
+        public EraseCommand(EditorSpace editorSpace, GridPosition gridPosition)
+        {
+            _editorSpace = editorSpace;
+            _gridPosition = gridPosition;
+        }
+        
+        public bool Execute()
+        {
+            return EditorUtils.Erase(_gridPosition, _editorSpace);
+        }
+
+        public void Undo()
+        {
+            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
         }
     }
 }

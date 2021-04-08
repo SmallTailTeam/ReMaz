@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using ReMaz.Core.Content.Projects;
+﻿using ReMaz.Core.Content.Projects;
 using ReMaz.Core.Content.Projects.Tiles;
-using ReMaz.PatternEditor.Tiles;
+using ReMaz.PatternEditor.Commands;
 using UniRx;
-using UnityEngine;
 
 namespace ReMaz.PatternEditor.Tools
 {
@@ -18,37 +16,36 @@ namespace ReMaz.PatternEditor.Tools
             
             foreach (TileSpatial tile in EditorProject.CurrentProject.Content.Tiles)
             {
-                CreateInstance(tile.Position, _editorSpace.TileDatabase.FindTile(tile.Id));
+                EditorUtils.CreateInstance(tile.Position, _editorSpace.TileDatabase.FindTile(tile.Id), _editorSpace);
             }
         }
 
         public override void Use(GridPosition gridPosition)
         {
-            TilePainted existentTile = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
+            PaintCommand command = new PaintCommand(_editorSpace, gridPosition);
+            _commandBuffer.Push(command);
+        }
+    }
+    
+    public class PaintCommand : ICommand
+    {
+        private EditorSpace _editorSpace;
+        private GridPosition _gridPosition;
 
-            if (existentTile == null)
-            {
-                TileDescription tileToPaint = _editorSpace.TileToPaint.Value;
-                
-                CreateInstance(gridPosition, tileToPaint);
-
-                TileSpatial tileSpatial = new TileSpatial(tileToPaint.Id, gridPosition);
-                EditorProject.CurrentProject.Content.Tiles.Add(tileSpatial);
-            }
+        public PaintCommand(EditorSpace editorSpace, GridPosition gridPosition)
+        {
+            _editorSpace = editorSpace;
+            _gridPosition = gridPosition;
+        }
+        
+        public bool Execute()
+        {
+            return EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
         }
 
-        private void CreateInstance(GridPosition gridPosition, TileDescription tileToPaint)
+        public void Undo()
         {
-            GameObject instance = Instantiate(tileToPaint.Prefab, transform);
-            instance.transform.position = gridPosition.ToWorld();
-            instance.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, tileToPaint.Rotation));
-
-            TilePainted tilePainted = new TilePainted(tileToPaint.Id, instance, gridPosition)
-            {
-                Graphics = instance.GetComponentInChildren<SpriteRenderer>()
-            };
-            
-            _editorSpace.Painted.Add(tilePainted);
+            EditorUtils.Erase(_gridPosition, _editorSpace);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ReMaz.Core.Content.Projects;
 using UniRx;
 using UnityEngine;
@@ -12,6 +13,16 @@ namespace ReMaz.PatternEditor.Inputs
         public override ReadOnlyReactiveProperty<bool> Replace { get; protected set; }
         public override IObservable<GridPosition> PointerPositionStream { get; protected set; }
         public override IObservable<float> ScrollStream { get; protected set; }
+        public override IObservable<Unit> UndoStream { get; protected set; }
+        public override IObservable<Unit> RedoStream { get; protected set; }
+
+#if UNITY_EDITOR
+        private KeyCode[] _undoCombination = { KeyCode.LeftAlt, KeyCode.Z };
+        private KeyCode[] _redoCombination = { KeyCode.LeftAlt, KeyCode.LeftShift, KeyCode.Z };
+#else
+        private KeyCode[] _undoCombination = { KeyCode.LeftControl, KeyCode.Z };
+        private KeyCode[] _redoCombination = { KeyCode.LeftControl, KeyCode.LeftShift, KeyCode.Z };
+#endif
 
         private void Awake()
         {
@@ -37,6 +48,36 @@ namespace ReMaz.PatternEditor.Inputs
 
             ScrollStream = scrollStream.Buffer(1)
                 .Select(s => s[0]);
+
+#if UNITY_EDITOR
+                var controlStream = updateSteam
+                .Where(_ => Input.GetKeyDown(KeyCode.LeftAlt))
+                .Select(_ => KeyCode.LeftAlt);
+#else
+                var controlStream = updateSteam
+                .Where(_ => Input.GetKeyDown(KeyCode.LeftControl))
+                .Select(_ => KeyCode.LeftAlt);
+#endif
+
+            var shiftStream = updateSteam
+                .Where(_ => Input.GetKeyDown(KeyCode.LeftShift))
+                .Select(_ => KeyCode.LeftShift);
+            
+            var zStream = updateSteam
+                .Where(_ => Input.GetKeyDown(KeyCode.Z))
+                .Select(_ => KeyCode.Z);
+
+            var undoRedoInputStream = Observable.Merge(controlStream, shiftStream, zStream);
+
+            UndoStream = undoRedoInputStream
+                .Buffer(undoRedoInputStream.Throttle(TimeSpan.FromMilliseconds(250)))
+                .Where(keys => keys.SequenceEqual(_undoCombination) && !keys.Contains(KeyCode.LeftShift))
+                .Select(_ => Unit.Default);
+
+            RedoStream = undoRedoInputStream
+                .Buffer(undoRedoInputStream.Throttle(TimeSpan.FromMilliseconds(250)))
+                .Where(keys => keys.SequenceEqual(_redoCombination))
+                .Select(_ => Unit.Default);
         }
     }
 }

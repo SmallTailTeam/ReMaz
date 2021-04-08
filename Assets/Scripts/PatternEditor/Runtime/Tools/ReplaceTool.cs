@@ -1,16 +1,13 @@
 ﻿using System.Linq;
 using ReMaz.Core.Content.Projects;
+using ReMaz.PatternEditor.Commands;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
-using UnityEngine;
 
 namespace ReMaz.PatternEditor.Tools
 {
     public class ReplaceTool : TileTool
     {
-        [SerializeField] private TileTool _paintTool;
-        [SerializeField] private TileTool _eraseTool;
-        
         private void Start()
         {
             _inputs.PointerPositionStream.Sample(_inputs.PaintStream)
@@ -23,13 +20,45 @@ namespace ReMaz.PatternEditor.Tools
 
         public override void Use(GridPosition gridPosition)
         {
-            TilePainted existentTile = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(gridPosition));
+            ReplaceCommand command = new ReplaceCommand(_editorSpace, gridPosition);
+            _commandBuffer.Push(command);
+        }
+    }
 
-            if ((existentTile?.Id ?? _editorSpace.TileToPaint.Value.Id) != _editorSpace.TileToPaint.Value.Id)
+    public class ReplaceCommand : ICommand
+    {
+        private EditorSpace _editorSpace;
+        private GridPosition _gridPosition;
+        
+        private string _existentTileId;
+
+        public ReplaceCommand(EditorSpace editorSpace, GridPosition gridPosition)
+        {
+            _editorSpace = editorSpace;
+            _gridPosition = gridPosition;
+        }
+        
+        public bool Execute()
+        {
+            TilePainted existentTile = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(_gridPosition));
+
+            _existentTileId = existentTile?.Id ?? _editorSpace.TileToPaint.Value.Id;
+            
+            if (_existentTileId != _editorSpace.TileToPaint.Value.Id)
             {
-                _eraseTool.Use(gridPosition);
-                _paintTool.Use(gridPosition);
+                EditorUtils.Erase(_gridPosition, _editorSpace);
+                EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
+
+                return true;
             }
+
+            return false;
+        }
+
+        public void Undo()
+        {
+            EditorUtils.Erase(_gridPosition, _editorSpace);
+            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_existentTileId));
         }
     }
 }

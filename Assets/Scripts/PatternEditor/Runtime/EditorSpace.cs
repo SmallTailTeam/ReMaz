@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ReMaz.Core.Content.Projects.Patterns;
 using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Tiles;
 using ReMaz.PatternEditor.UI;
@@ -11,7 +12,6 @@ namespace ReMaz.PatternEditor
     {
         public ReadOnlyReactiveProperty<TileDescription> TileToPaint {get; private set; }
         public List<TilePainted> Painted { get; private set; }
-        public TilePainted SelectedTile { get; private set; }
         public bool CanPlace => _placeZone.CanPlace;
         public TileDatabase TileDatabase => _tileList.TileDatabase;
         

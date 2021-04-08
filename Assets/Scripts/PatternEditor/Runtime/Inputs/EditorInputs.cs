@@ -12,5 +12,7 @@ namespace ReMaz.PatternEditor.Inputs
         public abstract ReadOnlyReactiveProperty<bool> Replace { get; protected set; }
         public abstract IObservable<GridPosition> PointerPositionStream { get; protected set; }
         public abstract IObservable<float> ScrollStream { get; protected set;  }
+        public abstract IObservable<Unit> UndoStream { get; protected set;  }
+        public abstract IObservable<Unit> RedoStream { get; protected set;  }
     }
 }
