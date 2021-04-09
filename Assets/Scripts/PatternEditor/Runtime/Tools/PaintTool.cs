@@ -9,7 +9,8 @@ namespace ReMaz.PatternEditor.Tools
     {
         private void Start()
         {
-            _inputs.PointerPositionStream.Sample(_inputs.PaintStream)
+            _inputs.PointerPositionStream.ToReadOnlyReactiveProperty()
+                .Sample(_inputs.PaintStream)
                 .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
                 .Subscribe(Use)
                 .AddTo(this);
@@ -27,7 +28,7 @@ namespace ReMaz.PatternEditor.Tools
         }
     }
     
-    public class PaintCommand : ICommand
+    public struct PaintCommand : ICommand
     {
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;

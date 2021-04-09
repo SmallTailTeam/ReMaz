@@ -9,8 +9,9 @@ namespace ReMaz.PatternEditor.Commands
     {
         private EditorInputs _inputs;
         
-        private readonly Stack<ICommand> _undoStack = new Stack<ICommand>();
-        private readonly Stack<ICommand> _redoStack = new Stack<ICommand>();
+        private readonly Stack<CommandChain> _undoStack = new Stack<CommandChain>();
+        private readonly Stack<CommandChain> _redoStack = new Stack<CommandChain>();
+        private CommandChain _chain;
 
         private void Awake()
         {
@@ -26,6 +27,10 @@ namespace ReMaz.PatternEditor.Commands
             _inputs.RedoStream
                 .Subscribe(_ => Redo())
                 .AddTo(this);
+
+            _inputs.ChainStream
+                .Subscribe(_ => Chain())
+                .AddTo(this);
         }
 
         public void Push(ICommand command)
@@ -34,8 +39,19 @@ namespace ReMaz.PatternEditor.Commands
 
             if (success)
             {
+                _chain ??= new CommandChain();
+
+                _chain.Chain(command);
+            }
+        }
+
+        private void Chain()
+        {
+            if (_chain != null)
+            {
                 _redoStack.Clear();
-                _undoStack.Push(command);
+                _undoStack.Push(_chain);
+                _chain = null;
             }
         }
 
@@ -46,9 +62,9 @@ namespace ReMaz.PatternEditor.Commands
                 return;
             }
 
-            ICommand command = _undoStack.Pop();
-            command.Undo();
-            _redoStack.Push(command);
+            CommandChain chain = _undoStack.Pop();
+            chain.UndoAll();
+            _redoStack.Push(chain);
         }
 
         private void Redo()
@@ -58,9 +74,9 @@ namespace ReMaz.PatternEditor.Commands
                 return;
             }
 
-            ICommand command = _redoStack.Pop();
-            command.Execute();
-            _undoStack.Push(command);
+            CommandChain chain = _redoStack.Pop();
+            chain.ExecuteAll();
+            _undoStack.Push(chain);
         }
     }
 }

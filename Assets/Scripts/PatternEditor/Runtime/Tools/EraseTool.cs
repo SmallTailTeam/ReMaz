@@ -10,7 +10,8 @@ namespace ReMaz.PatternEditor.Tools
     {
         private void Start()
         {
-            _inputs.PointerPositionStream.Sample(_inputs.EraseStream)
+            _inputs.PointerPositionStream.ToReadOnlyReactiveProperty()
+                .Sample(_inputs.EraseStream)
                 .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
                 .Subscribe(Use)
                 .AddTo(this);
