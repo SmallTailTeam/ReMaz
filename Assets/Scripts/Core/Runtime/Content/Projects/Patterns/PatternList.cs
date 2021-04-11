@@ -38,6 +38,7 @@ namespace ReMaz.Core.Content.Projects.Patterns
                     string json = File.ReadAllText(projectFile);
 
                     ProjectPattern projectPattern = JsonConvert.DeserializeObject<ProjectPattern>(json);
+
                     _projects.Add(projectPattern);
                 }
                 catch (Exception e)

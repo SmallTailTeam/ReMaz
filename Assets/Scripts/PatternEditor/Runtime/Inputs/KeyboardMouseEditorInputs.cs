@@ -12,7 +12,9 @@ namespace ReMaz.PatternEditor.Inputs
         public override IObservable<Unit> EraseStream { get; protected set; }
         public override ReadOnlyReactiveProperty<bool> Replace { get; protected set; }
         public override IObservable<Unit> ChainStream { get; protected set; }
-        public override IObservable<GridPosition> PointerPositionStream { get; protected set; }
+        public override IObservable<GridPosition> PointerGridPositionStream { get; protected set; }
+        public override IObservable<float> CameraMovementStream { get; protected set; }
+        public override ReadOnlyReactiveProperty<bool> MoveFaster { get; protected set; }
         public override IObservable<float> ScrollStream { get; protected set; }
         public override IObservable<Unit> UndoStream { get; protected set; }
         public override IObservable<Unit> RedoStream { get; protected set; }
@@ -43,9 +45,19 @@ namespace ReMaz.PatternEditor.Inputs
             ChainStream = updateSteam
                 .Where(_ => Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.LeftShift));
             
-            PointerPositionStream = updateSteam
-                .Select(_ => GridPosition.FromWorld(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            var mouseWorldPositionStream = updateSteam
+                .Select(_ => Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            
+            PointerGridPositionStream = mouseWorldPositionStream
+                .Select(GridPosition.FromWorld);
 
+            CameraMovementStream = updateSteam
+                .Select(_ => Input.GetAxisRaw("Horizontal"));
+            
+            MoveFaster = updateSteam
+                .Select(_ => Input.GetKey(KeyCode.LeftShift))
+                .ToReadOnlyReactiveProperty();
+            
             var scrollStream = updateSteam
                 .Where(_ => Input.mouseScrollDelta.y != 0f)
                 .Select(_ => Input.mouseScrollDelta.y);

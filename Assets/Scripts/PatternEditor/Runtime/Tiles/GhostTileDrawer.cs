@@ -31,12 +31,12 @@ namespace ReMaz.PatternEditor.Tiles
                 .Subscribe(UpdateInstance)
                 .AddTo(this);
 
-            _inputs.PointerPositionStream
+            _inputs.PointerGridPositionStream
                 .Where(_ => _ghost != null)
                 .Subscribe(Draw)
                 .AddTo(this);
             
-            _inputs.PointerPositionStream
+            _inputs.PointerGridPositionStream
                 .Subscribe(UpdateSelectedTile)
                 .AddTo(this);
         }

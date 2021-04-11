@@ -7,47 +7,66 @@ namespace ReMaz.PatternEditor.Grid
 {
     public class GridDraw : MonoBehaviour
     {
-        [SerializeField] private GameObject _lineSegmentPrefab;
+        [SerializeField] private GridLine _lineSegmentPrefab;
 
-        private List<GameObject> _lineInstances;
+        private List<GridLine> _lineSegments;
         
         private void Start()
         {
-            _lineInstances = new List<GameObject>();
+            _lineSegments = new List<GridLine>();
             
             GenerateGrid(ScreenGrid.Size.Value);
 
             ScreenGrid.Size
                 .Subscribe(GenerateGrid)
                 .AddTo(this);
+
+            Observable.EveryUpdate()
+                .Subscribe(_ => PositionGrid())
+                .AddTo(this);
         }
 
+        private void PositionGrid()
+        {
+            foreach (GridLine lineSegment in _lineSegments)
+            {
+                Vector3 cameraPosition = Camera.main.transform.position;
+                cameraPosition.x = Mathf.Ceil(cameraPosition.x);
+                cameraPosition.z = 0;
+                
+                lineSegment.transform.position = cameraPosition + lineSegment.Position;
+            }
+        }
+        
         private void GenerateGrid(Vector2 size)
         {
-            _lineInstances.ForEach(Destroy);
+            _lineSegments.ForEach(line => Destroy(line.gameObject));
+            _lineSegments.Clear();
             
             Vector2 halfSize = size * 0.5f;
             
             for (int y = 0; y < Mathf.FloorToInt(size.y) + 1; y++)
             {
-                CreateLine(-halfSize.x - 0.5f, y - halfSize.y + 0.5f, 0f, size.x + 1f);
+                CreateLine(-halfSize.x - 0.5f - 1f, y - halfSize.y + 0.5f, 0f, Mathf.Ceil(size.x + 3f));
             }
             
-            for (int x = 0; x < Mathf.FloorToInt(size.x) + 1; x++)
+            for (int x = 0; x < Mathf.FloorToInt(size.x) + 5; x++)
             {
-                CreateLine(x - halfSize.x + 0.5f, -halfSize.y - 0.5f, 90f, size.y + 1f);
+                CreateLine(x - halfSize.x + 0.5f - 2f, -halfSize.y - 0.5f, 90f, Mathf.Ceil(size.y + 1f));
             }
         }
         
         private void CreateLine(float x, float y, float rotation, float scale)
         {
-            Transform lineSegment = Instantiate(_lineSegmentPrefab, transform).transform;
+            GridLine lineSegment = Instantiate(_lineSegmentPrefab, transform);
             
-            lineSegment.position = new Vector3(x, y, 1f);
-            lineSegment.rotation = Quaternion.Euler(new Vector3(0f, 0f, rotation));
-            lineSegment.localScale = new Vector3(scale, 1f, 1f);
+            lineSegment.transform.position = new Vector3(x, y, 1f);
+            lineSegment.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, rotation));
+            lineSegment.transform.localScale = new Vector3(scale, 1f, 1f);
+
+            lineSegment.Position = lineSegment.transform.position;
             
-            _lineInstances.Add(lineSegment.gameObject);
+            _lineSegments.Add(lineSegment);
         }
     }
 }

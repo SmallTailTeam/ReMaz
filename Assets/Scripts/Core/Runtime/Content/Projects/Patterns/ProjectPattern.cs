@@ -1,4 +1,6 @@
-﻿namespace ReMaz.Core.Content.Projects.Patterns
+﻿using Newtonsoft.Json;
+
+namespace ReMaz.Core.Content.Projects.Patterns
 {
     public class ProjectPattern : IProject<Pattern>, IPublishTo<WorkshopData>
     {
@@ -12,6 +14,15 @@
             Id = id;
             Name = name;
             Content = new Pattern();
+        }
+
+        [JsonConstructor]
+        public ProjectPattern(string id, string name, Pattern content, WorkshopData publishData)
+        {
+            Id = id;
+            Name = name;
+            Content = content;
+            PublishData = publishData;
         }
 
         public void Rename(string name)

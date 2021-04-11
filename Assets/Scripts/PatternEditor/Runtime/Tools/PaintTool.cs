@@ -9,7 +9,7 @@ namespace ReMaz.PatternEditor.Tools
     {
         private void Start()
         {
-            _inputs.PointerPositionStream.ToReadOnlyReactiveProperty()
+            _inputs.PointerGridPositionStream.ToReadOnlyReactiveProperty()
                 .Sample(_inputs.PaintStream)
                 .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
                 .Subscribe(Use)
@@ -28,10 +28,12 @@ namespace ReMaz.PatternEditor.Tools
         }
     }
     
-    public struct PaintCommand : ICommand
+    public class PaintCommand : ICommand
     {
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
+
+        private string _paintedTileId;
         
         public PaintCommand(EditorSpace editorSpace, GridPosition gridPosition)
         {
@@ -41,7 +43,12 @@ namespace ReMaz.PatternEditor.Tools
         
         public bool Execute()
         {
-            return EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
+            if (string.IsNullOrWhiteSpace(_paintedTileId))
+            {
+                _paintedTileId = _editorSpace.TileToPaint.Value.Id;
+            }
+
+            return EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_paintedTileId));
         }
 
         public void Undo()

@@ -42,7 +42,7 @@ namespace ReMaz.Game.LevelGeneration
                 _unitsMoved = 0;
                 _length = _pattern.BoundRight - _pattern.BoundLeft;
             }
-
+            
             // Instantiate
             foreach (TileSpatial tileSpatial in _pattern.Tiles)
             {

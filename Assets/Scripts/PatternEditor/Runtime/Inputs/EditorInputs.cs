@@ -11,7 +11,9 @@ namespace ReMaz.PatternEditor.Inputs
         public abstract IObservable<Unit> EraseStream { get; protected set; }
         public abstract ReadOnlyReactiveProperty<bool> Replace { get; protected set; }
         public abstract IObservable<Unit> ChainStream { get; protected set; }
-        public abstract IObservable<GridPosition> PointerPositionStream { get; protected set; }
+        public abstract IObservable<GridPosition> PointerGridPositionStream { get; protected set; }
+        public abstract IObservable<float> CameraMovementStream { get; protected set; }
+        public abstract ReadOnlyReactiveProperty<bool> MoveFaster { get; protected set; }
         public abstract IObservable<float> ScrollStream { get; protected set;  }
         public abstract IObservable<Unit> UndoStream { get; protected set;  }
         public abstract IObservable<Unit> RedoStream { get; protected set;  }
