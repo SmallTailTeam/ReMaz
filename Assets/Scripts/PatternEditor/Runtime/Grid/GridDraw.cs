@@ -47,10 +47,10 @@ namespace ReMaz.PatternEditor.Grid
             
             for (int y = 0; y < Mathf.FloorToInt(size.y) + 1; y++)
             {
-                CreateLine(-halfSize.x - 0.5f - 1f, y - halfSize.y + 0.5f, 0f, Mathf.Ceil(size.x + 3f));
+                CreateLine(-halfSize.x - 0.5f - 1f, y - halfSize.y + 0.5f, 0f, Mathf.Ceil(size.x + 2f));
             }
             
-            for (int x = 0; x < Mathf.FloorToInt(size.x) + 5; x++)
+            for (int x = 0; x < Mathf.FloorToInt(size.x) + 4; x++)
             {
                 CreateLine(x - halfSize.x + 0.5f - 2f, -halfSize.y - 0.5f, 90f, Mathf.Ceil(size.y + 1f));
             }

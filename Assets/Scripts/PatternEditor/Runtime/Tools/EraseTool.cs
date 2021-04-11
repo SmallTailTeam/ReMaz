@@ -42,12 +42,12 @@ namespace ReMaz.PatternEditor.Tools
             TilePainted tilePainted = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(_gridPosition));
             _erasedTileId = tilePainted?.Id;
             
-            return EditorUtils.Erase(_gridPosition, _editorSpace);
+            return _editorSpace.Erase(_gridPosition);
         }
 
         public void Undo()
         {
-            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_erasedTileId));
+            _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_erasedTileId));
         }
     }
 }

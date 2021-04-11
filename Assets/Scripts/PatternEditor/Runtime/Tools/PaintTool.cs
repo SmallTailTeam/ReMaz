@@ -14,11 +14,6 @@ namespace ReMaz.PatternEditor.Tools
                 .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
                 .Subscribe(Use)
                 .AddTo(this);
-            
-            foreach (TileSpatial tile in EditorProject.CurrentProject.Content.Tiles)
-            {
-                EditorUtils.CreateInstance(tile.Position, _editorSpace.TileDatabase.FindTile(tile.Id), _editorSpace);
-            }
         }
 
         public override void Use(GridPosition gridPosition)
@@ -48,12 +43,12 @@ namespace ReMaz.PatternEditor.Tools
                 _paintedTileId = _editorSpace.TileToPaint.Value.Id;
             }
 
-            return EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_paintedTileId));
+            return _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_paintedTileId));
         }
 
         public void Undo()
         {
-            EditorUtils.Erase(_gridPosition, _editorSpace);
+            _editorSpace.Erase(_gridPosition);
         }
     }
 }

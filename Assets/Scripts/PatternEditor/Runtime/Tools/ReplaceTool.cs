@@ -47,8 +47,8 @@ namespace ReMaz.PatternEditor.Tools
             
             if (_existentTileId != _editorSpace.TileToPaint.Value.Id)
             {
-                EditorUtils.Erase(_gridPosition, _editorSpace);
-                EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileToPaint.Value);
+                _editorSpace.Erase(_gridPosition);
+                _editorSpace.Paint(_gridPosition, _editorSpace.TileToPaint.Value);
 
                 return true;
             }
@@ -58,8 +58,8 @@ namespace ReMaz.PatternEditor.Tools
 
         public void Undo()
         {
-            EditorUtils.Erase(_gridPosition, _editorSpace);
-            EditorUtils.Paint(_gridPosition, _editorSpace, _editorSpace.TileDatabase.FindTile(_existentTileId));
+            _editorSpace.Erase(_gridPosition);
+            _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_existentTileId));
         }
     }
 }
