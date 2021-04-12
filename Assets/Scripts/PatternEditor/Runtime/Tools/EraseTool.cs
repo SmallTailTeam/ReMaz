@@ -12,7 +12,7 @@ namespace ReMaz.PatternEditor.Tools
         {
             _inputs.PointerGridPositionStream.ToReadOnlyReactiveProperty()
                 .Sample(_inputs.EraseStream)
-                .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint != null)
+                .Where(_ => _editorSpace.CanPlace && _editorSpace.TileToPaint.Value != null)
                 .Subscribe(Use)
                 .AddTo(this);
         }

@@ -90,10 +90,17 @@ namespace ReMaz.Core.Content.Songs
         
         public UniTask Process(string path)
         {
-            SongPCM pcm = _songReader.Open(path);
-            SongSpectrum spectrum = _songAnalyzer.Analyze(pcm);
-            AddFromData(path, pcm, spectrum);
-            
+            try
+            {
+                SongPCM pcm = _songReader.Open(path);
+                SongSpectrum spectrum = _songAnalyzer.Analyze(pcm);
+                AddFromData(path, pcm, spectrum);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+
             return UniTask.CompletedTask;
         }
 

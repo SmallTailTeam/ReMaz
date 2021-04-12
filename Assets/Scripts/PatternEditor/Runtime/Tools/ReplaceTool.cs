@@ -14,7 +14,7 @@ namespace ReMaz.PatternEditor.Tools
                 .Sample(_inputs.PaintStream)
                 .Where(_ => _inputs.Replace.Value
                             && _editorSpace.CanPlace
-                            && _editorSpace.TileToPaint != null)
+                            && _editorSpace.TileToPaint.Value != null)
                 .Subscribe(Use)
                 .AddTo(this);
         }

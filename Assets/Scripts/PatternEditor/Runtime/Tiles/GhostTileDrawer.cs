@@ -28,6 +28,7 @@ namespace ReMaz.PatternEditor.Tiles
         private void Start()
         {
             _editorSpace.TileToPaint
+                .Where(tile => tile != null)
                 .Subscribe(UpdateInstance)
                 .AddTo(this);
 
@@ -58,7 +59,7 @@ namespace ReMaz.PatternEditor.Tiles
 
             bool visible = false;
 
-            if (_editorSpace.CanPlace)
+            if (_editorSpace.CanPlace && _editorSpace.TileToPaint.Value != null)
             {
                 if (existentTile == null)
                 {

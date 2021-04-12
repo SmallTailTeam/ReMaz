@@ -25,11 +25,11 @@ namespace ReMaz.PatternEditor.UI
 
         private void Start()
         {
-            foreach (TileDescription tileDescription in _tileDatabase.Tiles)
+            for (int i = _tileDatabase.Tiles.Count - 1; i >= 0; i--)
             {
-                InstantiateOption(tileDescription);
+                InstantiateOption(_tileDatabase.Tiles[i]);
             }
-            
+
             _selectableGroup.Selected
                 .Subscribe(TileSelected)
                 .AddTo(this);
@@ -47,6 +47,10 @@ namespace ReMaz.PatternEditor.UI
             if (selectable is ISelectableDisplay<TileDescription> tileDisplay)
             {
                 _selected.OnNext(tileDisplay.Content);
+            }
+            else
+            {
+                _selected.OnNext(null);
             }
         }
     }
