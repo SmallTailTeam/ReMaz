@@ -37,13 +37,23 @@ Shader "ReMaz!/Colors/Hue"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 return o;
             }
             
             float4 frag (v2f i) : SV_Target
             {
-                return hueToRGB(i.uv.x * 359);
+                float dst = distance(i.uv, float2(0.5, 0.5));
+                
+                if (dst < 0.4 || dst > 0.5)
+                {
+                    discard;
+                }
+                
+                float2 uvc = -1 * (2 * i.uv - 1);
+                float angle = (atan2(uvc.y, uvc.x) + UNITY_PI) / UNITY_TWO_PI * 360;
+                
+                return hueToRGB(angle);
             }
             ENDCG
         }
