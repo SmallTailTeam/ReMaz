@@ -6,7 +6,7 @@ namespace ReMaz.Core.UI.Selection
 {
     public class SelectionColor : MonoBehaviour
     {
-        private Image _graphics;
+        private Graphic _graphic;
         private ColorScheme _colorScheme;
         
         private ISelectable _selectable;
@@ -15,11 +15,11 @@ namespace ReMaz.Core.UI.Selection
         {
             TryGetComponent(out Image selfImage);
             
-            foreach (Image image in GetComponentsInChildren<Image>())
+            foreach (Graphic graphic in GetComponentsInChildren<Graphic>())
             {
-                if (image != selfImage)
+                if (graphic != selfImage)
                 {
-                    _graphics = image;
+                    _graphic = graphic;
                     break;
                 }
             }
@@ -27,10 +27,7 @@ namespace ReMaz.Core.UI.Selection
             _colorScheme = ColorScheme.Get();
             
             _selectable = GetComponent<ISelectable>();
-        }
-
-        private void Start()
-        {
+            
             _selectable.Selected
                 .Subscribe(_ => Selected())
                 .AddTo(this);
@@ -40,15 +37,14 @@ namespace ReMaz.Core.UI.Selection
                 .AddTo(this);
         }
 
-
         private void Selected()
         {
-            _graphics.color = _colorScheme.ActiveColor;
+            _graphic.color = _colorScheme.ActiveColor;
         }
 
         private void Deselected()
         {
-            _graphics.color = _colorScheme.RestColor;
+            _graphic.color = _colorScheme.RestColor;
         }
     }
 }

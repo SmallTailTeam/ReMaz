@@ -9,15 +9,9 @@ namespace ReMaz.Core.UI.Selection
         public IObservable<ISelectable> Selected => _selected;
         public IObservable<ISelectable> Deselected => _deselected;
 
-        private ISubject<ISelectable> _selected;
-        private ISubject<ISelectable> _deselected;
+        private ISubject<ISelectable> _selected = new Subject<ISelectable>();
+        private ISubject<ISelectable> _deselected = new Subject<ISelectable>();
         private ISelectable _selection;
-        
-        private void Awake()
-        {
-            _selected = new Subject<ISelectable>();
-            _deselected = new Subject<ISelectable>();
-        }
 
         public void Select(ISelectable selectable)
         {

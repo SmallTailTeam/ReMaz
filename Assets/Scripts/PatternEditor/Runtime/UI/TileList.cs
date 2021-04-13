@@ -27,7 +27,12 @@ namespace ReMaz.PatternEditor.UI
         {
             for (int i = _tileDatabase.Tiles.Count - 1; i >= 0; i--)
             {
-                InstantiateOption(_tileDatabase.Tiles[i]);
+                TileDisplay tileDisplay = InstantiateOption(_tileDatabase.Tiles[i]);
+
+                if (i == 0)
+                {
+                    tileDisplay.gameObject.AddComponent<DefaultSelection>();
+                }
             }
 
             _selectableGroup.Selected
@@ -35,11 +40,13 @@ namespace ReMaz.PatternEditor.UI
                 .AddTo(this);
         }
 
-        private void InstantiateOption(TileDescription tileDescription)
+        private TileDisplay InstantiateOption(TileDescription tileDescription)
         {
             TileDisplay instance = Instantiate(_tileDisplayPrefab, transform);
             
             instance.Display(tileDescription);
+
+            return instance;
         }
 
         private void TileSelected(ISelectable selectable)

@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 namespace ReMaz.Core.UI.Colors
 {
-    public class FinalColorDisplay : MonoBehaviour
+    public class PickedColorDisplay : MonoBehaviour
     {
         [SerializeField] private ColorPicker _colorPicker;
-        [SerializeField, AutoHook]private Image _image;
+        [SerializeField, AutoHook] private Image _image;
         
         private void Start()
         {
-            _colorPicker.FinalColor
+            _colorPicker.PickedColor
                 .Subscribe(ColorChanged)
                 .AddTo(this);
         }

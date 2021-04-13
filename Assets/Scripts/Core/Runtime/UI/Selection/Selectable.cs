@@ -17,8 +17,8 @@ namespace ReMaz.Core.UI.Selection
         
         private Button _button;
         
-        private ISubject<ISelectable> _selected;
-        private ISubject<ISelectable> _deselected;
+        private ISubject<ISelectable> _selected = new Subject<ISelectable>();
+        private ISubject<ISelectable> _deselected = new Subject<ISelectable>();
 
         private void Awake()
         {
@@ -29,12 +29,6 @@ namespace ReMaz.Core.UI.Selection
             
             _button = GetComponent<Button>();
             
-            _selected = new Subject<ISelectable>();
-            _deselected = new Subject<ISelectable>();
-        }
-
-        private void Start()
-        {
             _button.onClick.AsObservable()
                 .Subscribe(_ => Select())
                 .AddTo(this);

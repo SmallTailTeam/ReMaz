@@ -1,8 +1,8 @@
-Shader "ReMaz!/Colors/Hue"
+﻿Shader "ReMaz!/Colors/SaturationValue"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        
     }
     SubShader
     {
@@ -14,9 +14,9 @@ Shader "ReMaz!/Colors/Hue"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
+            
             #include "UnityCG.cginc"
-            #include "Colors.cginc"
+            #include "HSV.cginc"
 
             struct appdata
             {
@@ -30,9 +30,8 @@ Shader "ReMaz!/Colors/Hue"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
+            int _Hue;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -43,18 +42,14 @@ Shader "ReMaz!/Colors/Hue"
             
             float4 frag (v2f i) : SV_Target
             {
-                float dst = distance(i.uv, float2(0.5, 0.5));
+                float sat = i.uv.x;
+                float val = i.uv.y;
+
+                float4 col = hueToRGB(_Hue);
                 
-                if (dst < 0.4 || dst > 0.5)
-                {
-                    discard;
-                }
-                
-                float2 uvc = -1 * (2 * i.uv - 1);
-                float angle = (atan2(uvc.y, uvc.x) + UNITY_PI) / UNITY_TWO_PI * 360;
-                
-                return hueToRGB(angle);
+                return float4(val * lerp(1, col.r, sat), val * lerp(1, col.g, sat), val * lerp(1, col.b, sat), 1);
             }
+            
             ENDCG
         }
     }
