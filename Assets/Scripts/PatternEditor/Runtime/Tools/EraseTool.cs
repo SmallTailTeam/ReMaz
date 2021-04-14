@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ReMaz.Core.Content.Projects;
+using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Commands;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
@@ -19,24 +20,26 @@ namespace ReMaz.PatternEditor.Tools
 
         public override void Use(GridPosition gridPosition)
         {
-            EraseCommand command = new EraseCommand(_editorSpace, gridPosition);
+            EraseCommand command = new EraseCommand(_tileList.TileDatabase, _editorSpace, gridPosition);
             _commandBuffer.Push(command);
         }
     }
 
     public class EraseCommand : ICommand
     {
+        private TileDatabase _tileDatabase;
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
 
         private string _erasedTileId;
 
-        public EraseCommand(EditorSpace editorSpace, GridPosition gridPosition)
+        public EraseCommand(TileDatabase tileDatabase, EditorSpace editorSpace, GridPosition gridPosition)
         {
+            _tileDatabase = tileDatabase;
             _editorSpace = editorSpace;
             _gridPosition = gridPosition;
         }
-        
+
         public bool Execute()
         {
             TilePainted tilePainted = _editorSpace.Painted.FirstOrDefault(tile => tile.Position.Overlap(_gridPosition));
@@ -47,7 +50,7 @@ namespace ReMaz.PatternEditor.Tools
 
         public void Undo()
         {
-            _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_erasedTileId));
+            _editorSpace.Paint(_gridPosition, _tileDatabase.FindTile(_erasedTileId));
         }
     }
 }

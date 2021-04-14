@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace ReMaz.Core.UI.Colors
+namespace ReMaz.Core.UI.ColorPicking
 {
     public abstract class ColorPicker : MonoBehaviour
     {

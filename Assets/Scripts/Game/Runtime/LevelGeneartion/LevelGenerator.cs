@@ -54,6 +54,8 @@ namespace ReMaz.Game.LevelGeneration
                 TileDescription tileDescription = _tileDatabase.FindTile(tileSpatial.Id);
                 
                 GameObject instance = _tilePool.GetInstance(tileDescription.Prefab);
+
+                instance.GetComponentInChildren<SpriteRenderer>().color = tileSpatial.Color.ToColor();
                 
                 Vector3 position = tileSpatial.Position.ToWorld();
                 position.x = ScreenGrid.Size.Value.x * 0.5f + 1f ;

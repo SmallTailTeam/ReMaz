@@ -4,14 +4,15 @@ using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Inputs;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ReMaz.PatternEditor.Tiles
 {
     public class GhostTileDrawer : MonoBehaviour
     {
+        [SerializeField] private Image _colorSource;
         [SerializeField] private Color _visibleColor;
         [SerializeField] private Color _hiddenColor;
-        [SerializeField] private Color _restColor;
         [SerializeField] private Color _overlappedColor;
         
         private EditorInputs _inputs;
@@ -74,7 +75,7 @@ namespace ReMaz.PatternEditor.Tiles
                     }
                     else
                     {
-                        existentTile.Graphics.color = _restColor;
+                        existentTile.Graphics.color = existentTile.Color;
                     }
                 }
             }
@@ -82,7 +83,9 @@ namespace ReMaz.PatternEditor.Tiles
             if (visible)
             {
                 _ghost.transform.position = gridPosition.ToWorld();
-                _ghost.Graphics.color = _visibleColor;
+                Color color = _colorSource.color;
+                color.a = 0.5f;
+                _ghost.Graphics.color = color;
             }
             else
             {
@@ -98,7 +101,7 @@ namespace ReMaz.PatternEditor.Tiles
             {
                 if (_selectedTile != null && _selectedTile.Graphics != null)
                 {
-                    _selectedTile.Graphics.color = _restColor;
+                    _selectedTile.Graphics.color = _selectedTile.Color;
                 }
 
                 _selectedTile = tilePainted;

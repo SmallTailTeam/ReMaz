@@ -18,20 +18,22 @@ namespace ReMaz.PatternEditor.Tools
 
         public override void Use(GridPosition gridPosition)
         {
-            PaintCommand command = new PaintCommand(_editorSpace, gridPosition);
+            PaintCommand command = new PaintCommand(_tileList.TileDatabase, _editorSpace, gridPosition);
             _commandBuffer.Push(command);
         }
     }
     
     public class PaintCommand : ICommand
     {
+        private TileDatabase _tileDatabase;
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
 
         private string _paintedTileId;
-        
-        public PaintCommand(EditorSpace editorSpace, GridPosition gridPosition)
+
+        public PaintCommand(TileDatabase tileDatabase, EditorSpace editorSpace, GridPosition gridPosition)
         {
+            _tileDatabase = tileDatabase;
             _editorSpace = editorSpace;
             _gridPosition = gridPosition;
         }
@@ -43,7 +45,7 @@ namespace ReMaz.PatternEditor.Tools
                 _paintedTileId = _editorSpace.TileToPaint.Value.Id;
             }
 
-            return _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_paintedTileId));
+            return _editorSpace.Paint(_gridPosition, _tileDatabase.FindTile(_paintedTileId));
         }
 
         public void Undo()

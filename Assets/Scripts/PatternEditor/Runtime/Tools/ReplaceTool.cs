@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ReMaz.Core.Content.Projects;
+using ReMaz.Core.Content.Projects.Tiles;
 using ReMaz.PatternEditor.Commands;
 using ReMaz.PatternEditor.Tiles;
 using UniRx;
@@ -21,20 +22,22 @@ namespace ReMaz.PatternEditor.Tools
 
         public override void Use(GridPosition gridPosition)
         {
-            ReplaceCommand command = new ReplaceCommand(_editorSpace, gridPosition);
+            ReplaceCommand command = new ReplaceCommand(_tileList.TileDatabase, _editorSpace, gridPosition);
             _commandBuffer.Push(command);
         }
     }
 
     public class ReplaceCommand : ICommand
     {
+        private TileDatabase _tileDatabase;
         private EditorSpace _editorSpace;
         private GridPosition _gridPosition;
         
         private string _existentTileId;
 
-        public ReplaceCommand(EditorSpace editorSpace, GridPosition gridPosition)
+        public ReplaceCommand(TileDatabase tileDatabase, EditorSpace editorSpace, GridPosition gridPosition)
         {
+            _tileDatabase = tileDatabase;
             _editorSpace = editorSpace;
             _gridPosition = gridPosition;
         }
@@ -59,7 +62,7 @@ namespace ReMaz.PatternEditor.Tools
         public void Undo()
         {
             _editorSpace.Erase(_gridPosition);
-            _editorSpace.Paint(_gridPosition, _editorSpace.TileDatabase.FindTile(_existentTileId));
+            _editorSpace.Paint(_gridPosition, _tileDatabase.FindTile(_existentTileId));
         }
     }
 }

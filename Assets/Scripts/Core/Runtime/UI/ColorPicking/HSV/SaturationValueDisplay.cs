@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReMaz.Core.UI.Colors.HSV
+namespace ReMaz.Core.UI.ColorPicking.HSV
 {
     public class SaturationValueDisplay : MonoBehaviour
     {

@@ -40,7 +40,20 @@ namespace Uween
 
         protected override float Value
         {
-            get => GetGraphic()?.color.a ?? GetGroup().alpha;
+            get
+            {
+                if (G != null)
+                {
+                    return G.color.a;
+                }
+
+                if (GR != null)
+                {
+                    return GR.alpha;
+                }
+
+                return 0f;
+            }
             set
             {
                 var g = GetGraphic();

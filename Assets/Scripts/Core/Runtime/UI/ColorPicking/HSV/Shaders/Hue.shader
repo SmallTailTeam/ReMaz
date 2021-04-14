@@ -1,20 +1,21 @@
-﻿Shader "ReMaz!/Colors/SaturationValue"
+Shader "ReMaz!/Colors/Hue"
 {
     Properties
     {
-        
+        _Mask ("Mask", 2D) = "white" {}
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            
+
             #include "UnityCG.cginc"
             #include "HSV.cginc"
 
@@ -22,34 +23,34 @@
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float4 color : COLOR;
             };
 
-            int _Hue;
-            
+            sampler2D _Mask;
+
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.color = v.color;
                 return o;
             }
             
             float4 frag (v2f i) : SV_Target
             {
-                float sat = i.uv.x;
-                float val = i.uv.y;
-
-                float4 col = hueToRGB(_Hue);
+                float2 uvc = -1 * (2 * i.uv - 1);
+                float angle = (atan2(uvc.y, uvc.x) + UNITY_PI) / UNITY_TWO_PI * 360;
                 
-                return float4(val * lerp(1, col.r, sat), val * lerp(1, col.g, sat), val * lerp(1, col.b, sat), 1);
+                return hueToRGB(angle) * tex2D(_Mask, i.uv).a * i.color.a;
             }
-            
             ENDCG
         }
     }

@@ -1,7 +1,7 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace ReMaz.Core.UI.Colors.HSV
+namespace ReMaz.Core.UI.ColorPicking.HSV
 {
     public class HSVColorPicker : ColorPicker
     {

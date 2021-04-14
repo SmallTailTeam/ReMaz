@@ -9,6 +9,7 @@ namespace ReMaz.PatternEditor.Tiles
         public GameObject Instance;
         public SpriteRenderer Graphics;
         public GridPosition Position;
+        public Color Color;
 
         public TilePainted(string id, GameObject instance, GridPosition position)
         {

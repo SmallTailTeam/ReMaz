@@ -1,8 +1,8 @@
-Shader "ReMaz!/Colors/Hue"
+﻿Shader "ReMaz!/Colors/SaturationValue"
 {
     Properties
     {
-        _Mask ("Mask", 2D) = "white" {}
+        
     }
     SubShader
     {
@@ -15,7 +15,7 @@ Shader "ReMaz!/Colors/Hue"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
+            
             #include "UnityCG.cginc"
             #include "HSV.cginc"
 
@@ -23,31 +23,37 @@ Shader "ReMaz!/Colors/Hue"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float4 color : COLOR;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float4 color : COLOR;
             };
 
-            sampler2D _Mask;
-
+            int _Hue;
+            
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.color = v.color;
                 return o;
             }
             
             float4 frag (v2f i) : SV_Target
             {
-                float2 uvc = -1 * (2 * i.uv - 1);
-                float angle = (atan2(uvc.y, uvc.x) + UNITY_PI) / UNITY_TWO_PI * 360;
+                float sat = i.uv.x;
+                float val = i.uv.y;
+
+                float4 col = hueToRGB(_Hue);
                 
-                return hueToRGB(angle) * tex2D(_Mask, i.uv).a;
+                return float4(val * lerp(1, col.r, sat), val * lerp(1, col.g, sat), val * lerp(1, col.b, sat), i.color.a);
             }
+            
             ENDCG
         }
     }

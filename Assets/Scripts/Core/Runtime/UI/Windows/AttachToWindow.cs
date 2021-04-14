@@ -1,4 +1,5 @@
-﻿using ReMaz.Core.UI.Selection;
+﻿using System;
+using ReMaz.Core.UI.Selection;
 using ReMaz.Core.UI.Windows;
 using UniRx;
 using UnityEngine;
@@ -7,11 +8,14 @@ namespace ReMaz.Core.UI.Windows
 {
     public class AttachToWindow : MonoBehaviour
     {
+        public IObservable<Window> Attached => _attached;
+        
         [SerializeField] private Window _window;
 
         private WindowManager _windowManager;
         private ISelectable _selectable;
 
+        private ISubject<Window> _attached = new Subject<Window>();
         private Window _windowInstance;
         
         private void Awake()
@@ -38,6 +42,8 @@ namespace ReMaz.Core.UI.Windows
             {
                 _windowInstance = _windowManager.Open(_window);
 
+                _attached.OnNext(_windowInstance);
+                
                 _windowInstance.Closed
                     .Subscribe(_ =>
                     {
