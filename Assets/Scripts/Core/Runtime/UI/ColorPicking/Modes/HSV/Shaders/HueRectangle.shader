@@ -1,8 +1,8 @@
-﻿Shader "SmallTail/ColorPicker/SaturationValue"
+﻿Shader "SmallTail/ColorPicker/HueRectangle"
 {
     Properties
     {
-        
+        _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -15,9 +15,9 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            
+
             #include "UnityCG.cginc"
-            #include "../../Shaders/ColorLib.cginc"
+            #include "../../../Shaders/ColorLib.cginc"
 
             struct appdata
             {
@@ -33,8 +33,6 @@
                 float4 color : COLOR;
             };
 
-            int _Hue;
-            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -46,14 +44,8 @@
             
             float4 frag (v2f i) : SV_Target
             {
-                float sat = i.uv.x;
-                float val = i.uv.y;
-
-                float4 hueCol = hueToRGB(_Hue);
-                
-                return float4(val * lerp(1, hueCol.r, sat), val * lerp(1, hueCol.g, sat), val * lerp(1, hueCol.b, sat), i.color.a);
+                return hueToRGB(i.uv.x * 360) * i.color.a;
             }
-            
             ENDCG
         }
     }

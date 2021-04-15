@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "com.av.smart-hierarchy": {
-      "version": "https://github.com/neon-age/Smart-Hierarchy.git",
+      "version": "0.3.1",
       "depth": 0,
-      "source": "git",
+      "source": "registry",
       "dependencies": {},
-      "hash": "68967680161de73b2341d5a415540709b082a24c"
+      "url": "https://package.openupm.com"
     },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",

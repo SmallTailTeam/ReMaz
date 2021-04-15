@@ -1,4 +1,4 @@
-﻿Shader "SmallTail/ColorPicker/SaturationValue"
+﻿Shader "SmallTail/ColorPicker/Saturation"
 {
     Properties
     {
@@ -17,7 +17,7 @@
             #pragma fragment frag
             
             #include "UnityCG.cginc"
-            #include "../../Shaders/ColorLib.cginc"
+            #include "../../../Shaders/ColorLib.cginc"
 
             struct appdata
             {
@@ -47,11 +47,10 @@
             float4 frag (v2f i) : SV_Target
             {
                 float sat = i.uv.x;
-                float val = i.uv.y;
 
                 float4 hueCol = hueToRGB(_Hue);
                 
-                return float4(val * lerp(1, hueCol.r, sat), val * lerp(1, hueCol.g, sat), val * lerp(1, hueCol.b, sat), i.color.a);
+                return float4(lerp(1, hueCol.r, sat), lerp(1, hueCol.g, sat), lerp(1, hueCol.b, sat), i.color.a);
             }
             
             ENDCG

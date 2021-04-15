@@ -1,8 +1,8 @@
-Shader "ReMaz!/Colors/Hue"
+﻿Shader "SmallTail/ColorPicker/Value"
 {
     Properties
     {
-        _Mask ("Mask", 2D) = "white" {}
+        
     }
     SubShader
     {
@@ -15,9 +15,9 @@ Shader "ReMaz!/Colors/Hue"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
+            
             #include "UnityCG.cginc"
-            #include "HSV.cginc"
+            #include "../../../Shaders/ColorLib.cginc"
 
             struct appdata
             {
@@ -32,9 +32,7 @@ Shader "ReMaz!/Colors/Hue"
                 float4 vertex : SV_POSITION;
                 float4 color : COLOR;
             };
-
-            sampler2D _Mask;
-
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -43,14 +41,18 @@ Shader "ReMaz!/Colors/Hue"
                 o.color = v.color;
                 return o;
             }
+
+            int _Hue;
             
             float4 frag (v2f i) : SV_Target
             {
-                float2 uvc = -1 * (2 * i.uv - 1);
-                float angle = (atan2(uvc.y, uvc.x) + UNITY_PI) / UNITY_TWO_PI * 360;
+                float val = i.uv.x;
+
+                float4 hueCol = hueToRGB(_Hue);
                 
-                return hueToRGB(angle) * tex2D(_Mask, i.uv).a * i.color.a;
+                return float4(val * hueCol.r, val * hueCol.g, val * hueCol.b, i.color.a);
             }
+            
             ENDCG
         }
     }
