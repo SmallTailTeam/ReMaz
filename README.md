@@ -1,4 +1,4 @@
-<a href="https://www.youtube.com/watch?v=4LTr5EC6CqQ">Last gameplay video</a>
+<a href="https://www.youtube.com/watch?v=4LTr5EC6CqQ">Latest game state video</a>
 <br><br>
 Hello, random person who somehow managed to get into this repository, I'm willing to answer some questions you might have, but likely not, anyways.
 
