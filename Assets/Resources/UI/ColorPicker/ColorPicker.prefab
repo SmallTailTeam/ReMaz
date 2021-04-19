@@ -7719,15 +7719,15 @@ PrefabInstance:
       objectReference: {fileID: 7240272080254845657}
     - target: {fileID: 6348891407479824425, guid: 5ee5f6b963de9094b846f9c1d4998fe5, type: 3}
       propertyPath: m_Color.b
-      value: 0.7830189
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6348891407479824425, guid: 5ee5f6b963de9094b846f9c1d4998fe5, type: 3}
       propertyPath: m_Color.g
-      value: 0.7830189
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6348891407479824425, guid: 5ee5f6b963de9094b846f9c1d4998fe5, type: 3}
       propertyPath: m_Color.r
-      value: 0.7830189
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6348891407479824431, guid: 5ee5f6b963de9094b846f9c1d4998fe5, type: 3}
       propertyPath: _colorPicker

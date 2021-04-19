@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc34b6ea59d14912a5de25b1fffbbccf, type: 3}
   m_Name: PreloaderSettings
   m_EditorClassIdentifier: 
-  _preloaded:
-  - {fileID: 5939726879943919376, guid: ffa2f51486edb984c8c916e3000aff75, type: 3}
-  - {fileID: 4401592956753745180, guid: ccf9988a015c5484cae821c9e014f1c6, type: 3}
+  _preloaded: []
