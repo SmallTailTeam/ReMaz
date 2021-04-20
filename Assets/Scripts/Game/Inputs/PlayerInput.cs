@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 using UnityEngine;
 
@@ -6,64 +5,36 @@ namespace ReMaz.Game.Inputs
 {
     public class PlayerInput : MonoBehaviour
     {
-        public IObservable<float> Moved => _moved;
-
-        [SerializeField] private float _sliceSize = 0.12f;
-
-        private ISubject<float> _moved = new Subject<float>();
-        private float _slice;
-        private float _startX;
-        private int _lastSlice;
+        public ReadOnlyReactiveProperty<int> TrackChange { get; private set; }
 
         private void Awake()
         {
-            _slice = Screen.width * _sliceSize;
+            TrackChange = Observable.EveryUpdate()
+                .Where(_ => Input.GetMouseButton(0))
+                .Select(_ => GetTrack())
+                .ToReadOnlyReactiveProperty();
         }
 
-        private void Update()
+        private int GetTrack()
         {
-            DoDesktop();
-            DoMobile();
-        }
+            float x = Input.mousePosition.x / Screen.width;
 
-        private void DoDesktop()
-        {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                _moved.OnNext(-1f);
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                _moved.OnNext(1f);
-            }
-        }
+            int track;
 
-        private void DoMobile()
-        {
-            if (Input.touchCount < 1)
+            if (x < 0.4f)
             {
-                return;
+                track = -1;
+            }
+            else if (x > 0.6f)
+            {
+                track = 1;
+            }
+            else
+            {
+                track = 0;
             }
 
-            Touch touch = Input.touches[0];
-
-            if (touch.phase == TouchPhase.Began)
-            {
-                _startX = touch.position.x;
-                _lastSlice = 0;
-                return;
-            }
-
-            float deltaX = touch.position.x - _startX;
-
-            int currentSlice = Mathf.RoundToInt(deltaX / _slice);
-
-            if (currentSlice != _lastSlice)
-            {
-                _moved.OnNext(Mathf.Sign(currentSlice - _lastSlice));
-            }
-
-            _lastSlice = currentSlice;
+            return track;
         }
     }
 }
