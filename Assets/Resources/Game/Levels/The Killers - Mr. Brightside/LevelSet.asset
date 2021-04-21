@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae81d8ff1c14a77a52b0e1ce2895cbd, type: 3}
+  m_Name: LevelSet
+  m_EditorClassIdentifier: 
+  Name: The Killers - Mr. Brightside
+  Bpm: 148
+  Clip: {fileID: 8300000, guid: 3dc9d20f1e3e5f444b45e2bd295dc6b2, type: 3}
+  Levels:
+  - {fileID: 11400000, guid: 42c33acfe39822c49a88a9443ffe3c6e, type: 2}
+  - {fileID: 11400000, guid: 163146fd03cecc041a12d9d86d21bb43, type: 2}
