@@ -5,7 +5,7 @@ namespace ReMaz.LevelEditing.UI
 {
     public class Pointer : MonoBehaviour
     {
-        [SerializeField] private LevelScroll _levelScroll;
+        [SerializeField] private LevelScale levelScale;
         [SerializeField] private RectTransform _container;
         [SerializeField, AutoHook] private RectTransform _self;
         [SerializeField] private AudioSource _audioSource;
@@ -19,9 +19,9 @@ namespace ReMaz.LevelEditing.UI
 
         private void Update()
         {
-            int resolution = _audioSource.clip.frequency / LevelEditorSettings.ResolutionX2;
+            int resolution = _audioSource.clip.frequency / LevelEditorUtils.Resolution;
             
-            float y = (float) _audioSource.timeSamples/resolution / _levelScroll.Scale.Value * _containerSize.y;
+            float y = (float) _audioSource.timeSamples/resolution / LevelEditorUtils.Scale * _containerSize.y;
             _self.anchoredPosition = new Vector2(0f, y);
         }
         

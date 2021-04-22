@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,18 +8,42 @@ namespace ReMaz.LevelEditing.UI
     {
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private LevelEditor _levelEditor;
-        [SerializeField] private LevelScroll _levelScroll;
+        [SerializeField] private LevelScale levelScale;
         [SerializeField] private Image _image;
 
         private AudioClip _clip;
         private float[] _waveForm;
         private float[] _samples;
- 
-        private void Start()
+
+        private void Awake()
         {
             _clip = _levelEditor.Levelset.Clip;
             
-            int resolution = _clip.frequency / LevelEditorSettings.Resolution;
+            float minutes = _clip.samples / _clip.frequency / 60f;
+            int beats = Mathf.CeilToInt(minutes * _levelEditor.Levelset.Bpm);
+            
+            float beatLength = _levelEditor.Levelset.Bpm / 60f * LevelEditorUtils.Scale;
+            float height = beats * beatLength;
+            
+            int resolution = _clip.frequency / LevelEditorUtils.Resolution;
+            int wtf = _clip.samples * _clip.channels;
+            LevelEditorUtils.MaxScale = wtf/resolution;
+            
+            LevelEditorUtils.Minutes = minutes;
+            LevelEditorUtils.Beats = beats;
+            LevelEditorUtils.BeatLength = beatLength;
+            LevelEditorUtils.Height = height;
+        }
+
+        private void Start()
+        {
+            Compute();
+            Render(0, _waveForm.Length);
+        }
+
+        private void Compute()
+        {
+            int resolution = _clip.frequency / LevelEditorUtils.Resolution;
  
             _samples = new float[_clip.samples*_clip.channels];
             _clip.GetData(_samples,0);
@@ -45,7 +68,7 @@ namespace ReMaz.LevelEditing.UI
             {
                 float wave = _waveForm[i];
 
-                if (wave < 0.01f)
+                if (wave < 0.001f)
                 {
                     count++;
                 }
@@ -55,7 +78,7 @@ namespace ReMaz.LevelEditing.UI
                 }
             }
 
-            LevelEditorSettings.Empty = count;
+            LevelEditorUtils.Empty = count;
 
             float max = _waveForm.Max();
             float min = _waveForm.Min();
@@ -64,28 +87,8 @@ namespace ReMaz.LevelEditing.UI
             {
                 _waveForm[i] = Mathf.InverseLerp(min, max, _waveForm[i]);
             }
-
-            float minutes = _clip.samples / _clip.frequency / 60f;
-            int beats = Mathf.RoundToInt(minutes * _levelEditor.Levelset.Bpm);
-            
-            float beatLength = _levelEditor.Levelset.Bpm / 60f * _levelScroll.MaxScale / Screen.height;
-            float height = beats * beatLength;
-
-            RectTransform rt = _image.GetComponent<RectTransform>();
-            
-            rt.sizeDelta = new Vector2(rt.sizeDelta.x, height);
-            Render(0, _waveForm.Length);
-            
-            Observable.EveryUpdate()
-                .Subscribe(_ =>
-                {
-                    float y = (float) _audioSource.timeSamples/resolution / _levelScroll.Scale.Value * height / 5f;
-
-                    rt.anchoredPosition = new Vector2(0f, -y);
-                })
-                .AddTo(this);
         }
-
+        
         private void Render(int skip, int take)
         {
             float[] waveForm = _waveForm.Skip(skip).Take(take).ToArray();

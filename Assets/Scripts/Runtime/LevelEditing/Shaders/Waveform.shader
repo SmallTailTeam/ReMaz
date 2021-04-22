@@ -48,6 +48,7 @@
             {
                 int index = floor(i.uv.y * _Length);
                 float wave = _Waveform[index];
+                
                 float p = i.uv.x *2-1;
 
                 if(p > wave || -p > wave)

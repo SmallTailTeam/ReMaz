@@ -5,7 +5,7 @@ namespace ReMaz.LevelEditing.UI
     public class Playback : MonoBehaviour
     {
         [SerializeField] private AudioSource _audioSource;
-        [SerializeField] private LevelScroll _levelScroll;
+        [SerializeField] private LevelScale levelScale;
         [SerializeField] private int _scrollSpeed;
 
         private void Update()
@@ -22,7 +22,7 @@ namespace ReMaz.LevelEditing.UI
                 return;
             }
             
-            y *= Mathf.RoundToInt(((float)_levelScroll.Scale.Value / _levelScroll.MaxScale * 0.8f + 0.2f) * _scrollSpeed);
+            y *= Mathf.RoundToInt(((float)LevelEditorUtils.Scale / LevelEditorUtils.MaxScale * 0.8f + 0.2f) * _scrollSpeed);
 
             int newTime = _audioSource.timeSamples - y;
 
