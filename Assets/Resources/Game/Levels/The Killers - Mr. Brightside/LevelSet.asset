@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LevelSet
   m_EditorClassIdentifier: 
   Name: The Killers - Mr. Brightside
-  Bpm: 148
-  Clip: {fileID: 8300000, guid: 3dc9d20f1e3e5f444b45e2bd295dc6b2, type: 3}
+  Bpm: 116
+  Clip: {fileID: 8300000, guid: b96ed6d3271f96f4f8e5602822f82ec3, type: 3}
   Levels:
   - {fileID: 11400000, guid: 42c33acfe39822c49a88a9443ffe3c6e, type: 2}
   - {fileID: 11400000, guid: 163146fd03cecc041a12d9d86d21bb43, type: 2}

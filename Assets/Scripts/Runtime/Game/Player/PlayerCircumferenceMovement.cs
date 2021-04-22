@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using ReMaz.Game.Inputs;
+﻿using ReMaz.Game.Inputs;
+using ReMaz.Game.LevelPlaying;
 using TNRD.Autohook;
 using UniRx;
 using UnityEngine;
+using Uween;
 
 namespace ReMaz.Game.Player
 {
-    public class PlayerCircumferenceMovement : MonoBehaviour
+    public class PlayerCircumferenceMovement : LevelPlayer
     {
         [SerializeField, AutoHook] private PlayerInput _input;
         [SerializeField] private float _interpolationSpeed;
 
-        private Coroutine _interpolation;
-        
         private void Start()
         {
             _input.TrackChange
@@ -22,24 +21,16 @@ namespace ReMaz.Game.Player
 
         private void OnMoved(int track)
         {
-            if (_interpolation != null)
-            {
-                StopCoroutine(_interpolation);
-            }
-            
-            Quaternion to = Quaternion.Euler(0f, 0f, track * 60f);
-            _interpolation = StartCoroutine(QuaternionInterpolate(transform, to, _interpolationSpeed));
+            float x = Remap(track, 1f, _levelDriver.Level.TrackCount, -1f, 1f);
+           
+            float duration = 1f / _interpolationSpeed;
+
+            TweenX.Add(gameObject, duration, x);
         }
 
-        private static IEnumerator QuaternionInterpolate(Transform target, Quaternion to, float speed)
+        private float Remap(float s, float a1, float a2, float b1, float b2)
         {
-            Quaternion from = target.rotation;
-
-            for (float t = 0; t < 1f; t += Time.deltaTime * speed)
-            {
-                target.rotation = Quaternion.Slerp(from, to, t);
-                yield return new WaitForEndOfFrame();
-            }
+            return b1 + (s-a1)*(b2-b1)/(a2-a1);
         }
     }
 }

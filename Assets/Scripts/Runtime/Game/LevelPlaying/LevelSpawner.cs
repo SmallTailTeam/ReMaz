@@ -9,8 +9,8 @@ namespace ReMaz.Game.LevelPlaying
     public class LevelSpawner : LevelPlayer
     {
         [SerializeField, AutoHook] private LevelMovement _levelMovement;
-        [SerializeField] private Transform[] _tracks;
         [SerializeField] private float _timeBeforehand;
+        [SerializeField] private Transform[] _tracks;
 
         private DynamicPool _pool = new DynamicPool();
         private HashSet<SpawnEvent> _pastEvents = new HashSet<SpawnEvent>();

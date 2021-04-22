@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   Name: Normal
+  TrackCount: 3
   DistanePerBeat: 20
   Events:
   - Time: 1

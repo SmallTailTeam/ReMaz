@@ -1,9 +1,10 @@
+using ReMaz.Game.LevelPlaying;
 using UniRx;
 using UnityEngine;
 
 namespace ReMaz.Game.Inputs
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : LevelPlayer
     {
         public ReadOnlyReactiveProperty<int> TrackChange { get; private set; }
 
@@ -19,22 +20,7 @@ namespace ReMaz.Game.Inputs
         {
             float x = Input.mousePosition.x / Screen.width;
 
-            int track;
-
-            if (x < 0.4f)
-            {
-                track = -1;
-            }
-            else if (x > 0.6f)
-            {
-                track = 1;
-            }
-            else
-            {
-                track = 0;
-            }
-
-            return track;
+            return Mathf.Clamp(Mathf.CeilToInt(_levelDriver.Level.TrackCount * x), 1, _levelDriver.Level.TrackCount);
         }
     }
 }

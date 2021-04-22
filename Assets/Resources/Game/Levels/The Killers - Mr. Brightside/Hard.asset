@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Hard
   m_EditorClassIdentifier: 
   Name: Hard
+  TrackCount: 4
   DistanePerBeat: 30
   Events: []

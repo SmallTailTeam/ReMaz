@@ -7,6 +7,7 @@ namespace ReMaz.Levels
     public class Level : ScriptableObject
     {
         public string Name;
+        public int TrackCount;
         public float DistanePerBeat;
         public List<LevelEvent> Events;
     }
