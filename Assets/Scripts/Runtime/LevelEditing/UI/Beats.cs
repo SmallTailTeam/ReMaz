@@ -16,8 +16,6 @@ namespace ReMaz.LevelEditing.UI
                 // Text
                 Text text = beatInstance.GetComponentInChildren<Text>();
                 text.text = $"{i + 1}";
-                RectTransform textRT = text.GetComponent<RectTransform>();
-                textRT.sizeDelta = new Vector2(textRT.sizeDelta.x, LevelEditorUtils.BeatLength * 0.45f);
 
                 // Size
                 beatInstance.sizeDelta = new Vector2(beatInstance.sizeDelta.x, LevelEditorUtils.BeatLength);

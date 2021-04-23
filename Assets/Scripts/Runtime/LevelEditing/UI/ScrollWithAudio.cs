@@ -29,10 +29,10 @@ namespace ReMaz.LevelEditing.UI
 
             if (_offsetEmpty)
             {
-                float offset = (float) LevelEditorUtils.Empty / LevelEditorUtils.MaxScale * LevelEditorUtils.Height;
+                float offset = (float) LevelEditorUtils.EmptyStart / LevelEditorUtils.MaxScale * LevelEditorUtils.Height;
                 y += offset;
             }
-            
+
             _rt.anchoredPosition = new Vector2(_rt.anchoredPosition.x, y + _constantOffset);
         }
     }

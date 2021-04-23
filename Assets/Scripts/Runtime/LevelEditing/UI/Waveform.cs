@@ -78,7 +78,25 @@ namespace ReMaz.LevelEditing.UI
                 }
             }
 
-            LevelEditorUtils.Empty = count;
+            LevelEditorUtils.EmptyStart = count;
+
+            count = 0;
+            
+            for (int i = _waveForm.Length-1; i >= 0; i--)
+            {
+                float wave = _waveForm[i];
+
+                if (wave < 0.001f)
+                {
+                    count++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            LevelEditorUtils.EmptyEnd = count;
 
             float max = _waveForm.Max();
             float min = _waveForm.Min();

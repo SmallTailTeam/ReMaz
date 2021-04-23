@@ -13,6 +13,8 @@ namespace ReMaz.LevelEditing.UI
             {
                 RectTransform rt = Instantiate(_trackPrefab, transform);
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, LevelEditorUtils.Height);
+
+                rt.GetComponent<Track>().TrackIndex = i;
             }
         }
     }

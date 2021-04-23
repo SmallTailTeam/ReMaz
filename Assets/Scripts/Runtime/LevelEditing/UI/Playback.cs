@@ -22,7 +22,7 @@ namespace ReMaz.LevelEditing.UI
                 return;
             }
             
-            y *= Mathf.RoundToInt(((float)LevelEditorUtils.Scale / LevelEditorUtils.MaxScale * 0.8f + 0.2f) * _scrollSpeed);
+            y *= Mathf.FloorToInt(_audioSource.clip.frequency / LevelEditorUtils.SubBeats);
 
             int newTime = _audioSource.timeSamples - y;
 

@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReMaz.Levels
 {
     [CreateAssetMenu(menuName = "ReMaz!/Levels/Level", fileName = "Level")]
     public class Level : ScriptableObject
     {
-        public string Name;
-        public int TrackCount;
-        public float DistanePerBeat;
-        public List<LevelEvent> Events;
+        [SerializeField] public string Name;
+        [SerializeField] public int TrackCount;
+        [SerializeField] public float DistanePerBeat;
+        [SerializeReference]
+        [SerializeField] public LevelEvent[] Events;
     }
 }

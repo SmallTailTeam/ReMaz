@@ -40,7 +40,7 @@ namespace ReMaz.Game.LevelPlaying
 
         private void Spawn(SpawnEvent e)
         {
-            GameObject instance = _pool.Request(e.Prefab, _tracks[e.Track+1]);
+            GameObject instance = _pool.Request(e.Prefab, _tracks[e.Track]);
             Transform itransform = instance.transform;
 
             Vector3 worldMovement = new Vector3(0f, 0f, (e.Time - _levelDriver.LevelTime) * _levelMovement.Speed);
