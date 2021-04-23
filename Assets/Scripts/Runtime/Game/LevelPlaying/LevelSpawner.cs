@@ -10,7 +10,6 @@ namespace ReMaz.Game.LevelPlaying
     {
         [SerializeField, AutoHook] private LevelMovement _levelMovement;
         [SerializeField] private float _timeBeforehand;
-        [SerializeField] private Transform[] _tracks;
 
         private DynamicPool _pool = new DynamicPool();
         private HashSet<SpawnEvent> _pastEvents = new HashSet<SpawnEvent>();
@@ -40,10 +39,10 @@ namespace ReMaz.Game.LevelPlaying
 
         private void Spawn(SpawnEvent e)
         {
-            GameObject instance = _pool.Request(e.Prefab, _tracks[e.Track]);
+            GameObject instance = _pool.Request(e.Prefab, transform);
             Transform itransform = instance.transform;
 
-            Vector3 worldMovement = new Vector3(0f, 0f, (e.Time - _levelDriver.LevelTime) * _levelMovement.Speed);
+            Vector3 worldMovement = new Vector3(e.Track-1, 0f, (e.Time - _levelDriver.LevelTime) * _levelMovement.Speed);
             itransform.position = worldMovement;
             Vector3 parentMovement = new Vector3(0f, -1.2f, 0f);
             itransform.localPosition += parentMovement;

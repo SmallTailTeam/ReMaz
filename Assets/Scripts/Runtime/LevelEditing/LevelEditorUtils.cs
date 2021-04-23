@@ -9,7 +9,7 @@
         public static int EmptyStart;
         public static int EmptyEnd;
         public static float Minutes;
-        public static int Beats;
+        public static float Beats;
         public static float BeatLength;
         public static float Height;
     }

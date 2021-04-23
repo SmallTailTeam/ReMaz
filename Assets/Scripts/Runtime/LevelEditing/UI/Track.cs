@@ -57,6 +57,7 @@ namespace ReMaz.LevelEditing.UI
                 i.sizeDelta = new Vector2(i.sizeDelta.x, LevelEditorUtils.BeatLength / LevelEditorUtils.SubBeats);
                 i.anchoredPosition = new Vector2(0f, pos);
 
+                pos += (float) LevelEditorUtils.EmptyStart / LevelEditorUtils.MaxScale * LevelEditorUtils.Height;
                 float t = pos / sizeY * LevelEditorUtils.Minutes * 60f;
                 _levelEditor.Paint(TrackIndex, t);
             }

@@ -9,7 +9,7 @@ namespace ReMaz.Game.LevelPlaying
     {
         public Level Level => _levelSet.Levels[_levelIndex];
         public LevelSet LevelSet => _levelSet;
-        public float LevelTime { get; private set; }
+        public float LevelTime { get; private set; } = -5f;
 
         [SerializeField] private LevelSet _levelSet;
         [SerializeField] private int _levelIndex;

@@ -19,8 +19,8 @@ namespace ReMaz.LevelEditing.UI
         {
             _clip = _levelEditor.Levelset.Clip;
             
-            float minutes = _clip.samples / _clip.frequency / 60f;
-            int beats = Mathf.CeilToInt(minutes * _levelEditor.Levelset.Bpm);
+            float minutes = (float)_clip.samples / _clip.frequency / 60f;
+            float beats = minutes * _levelEditor.Levelset.Bpm;
             
             float beatLength = _levelEditor.Levelset.Bpm / 60f * LevelEditorUtils.Scale;
             float height = beats * beatLength;
@@ -68,7 +68,7 @@ namespace ReMaz.LevelEditing.UI
             {
                 float wave = _waveForm[i];
 
-                if (wave < 0.001f)
+                if (wave < 0.01f)
                 {
                     count++;
                 }

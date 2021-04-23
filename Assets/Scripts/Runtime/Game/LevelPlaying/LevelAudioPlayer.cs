@@ -9,7 +9,7 @@ namespace ReMaz.Game.LevelPlaying
 
         private void Start()
         {
-            Replay();
+            Invoke(nameof(Replay), 5);
         }
 
         private void Replay()
