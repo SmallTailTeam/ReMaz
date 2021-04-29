@@ -5,6 +5,6 @@ namespace ReMaz.Levels
     [Serializable]
     public class LevelEvent
     {
-        public float Time;
+        public float Position;
     }
 }

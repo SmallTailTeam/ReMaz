@@ -1,4 +1,5 @@
 ﻿using System;
+using ReMaz.LevelEditingOld;
 using ReMaz.Levels;
 using UniRx;
 using UnityEngine;
@@ -9,37 +10,26 @@ namespace ReMaz.Game.LevelPlaying
     {
         public Level Level => _levelSet.Levels[_levelIndex];
         public LevelSet LevelSet => _levelSet;
-        public float LevelTime { get; private set; } = -5f;
+        public float LevelPosition { get; private set; }
 
         [SerializeField] private LevelSet _levelSet;
         [SerializeField] private int _levelIndex;
 
         private ISubject<LevelEvent> _levelEvents = new Subject<LevelEvent>();
+        private float _beatLength;
+
+        private void Start()
+        {
+            _beatLength = _levelSet.Bpm / 60f;
+            
+            LevelPosition = _beatLength * -5f;
+        }
 
         private void Update()
         {
-            float nextTime = LevelTime + Time.deltaTime;
-            //Drive(LevelTime, nextTime);
-            LevelTime = nextTime;
+            LevelPosition += _beatLength * Time.deltaTime;
         }
         
-        private void Drive(float t1, float t2)
-        {
-            foreach (LevelEvent levelEvent in Level.Events)
-            {
-                if (levelEvent.Time == 0f && t1 == 0f)
-                {
-                    _levelEvents.OnNext(levelEvent);
-                    continue;
-                }
-                
-                if (levelEvent.Time > t1 && levelEvent.Time < t2)
-                {
-                    _levelEvents.OnNext(levelEvent);
-                }
-            }
-        }
-
         public IObservable<T> Event<T>() where T : LevelEvent
         {
             return _levelEvents
