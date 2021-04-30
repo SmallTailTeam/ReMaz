@@ -16,6 +16,7 @@ namespace ReMaz.EditorBehaviours.LevelEditing
         public int EmptyStart;
         public int EmptyEnd;
         public float Height;
+        public int SamplesTotal;
         public float[] Waveform;
 
         public void Compute(LevelSet levelSet, int resolution, int subBeatCount, int scale)
@@ -28,8 +29,8 @@ namespace ReMaz.EditorBehaviours.LevelEditing
             SubBeatCount = subBeatCount;
             Scale = scale;
             
-            int samplesTotal = clip.samples * clip.channels;
-            MaxScale = samplesTotal / Resolution;
+            SamplesTotal = clip.samples * clip.channels;
+            MaxScale = SamplesTotal / Resolution;
 
             Minutes = (float)clip.samples / clip.frequency / 60f;
             BeatCount = Minutes * levelSet.Bpm;
@@ -42,23 +43,21 @@ namespace ReMaz.EditorBehaviours.LevelEditing
 
         private void ComputeWaveform(AudioClip clip)
         {
-            int resolution = clip.frequency / Resolution;
- 
-            float[] samples = new float[clip.samples * clip.channels];
+            float[] samples = new float[SamplesTotal];
             clip.GetData(samples,0);
  
-            Waveform = new float[(samples.Length/resolution)];
+            Waveform = new float[MaxScale];
  
             for (int i = 0; i < Waveform.Length; i++)
             {
                 Waveform[i] = 0;
  
-                for(int ii = 0; ii<resolution; ii++)
+                for(int ii = 0; ii<Resolution; ii++)
                 {
-                    Waveform[i] += Mathf.Abs(samples[(i * resolution) + ii]);
+                    Waveform[i] += Mathf.Abs(samples[(i * Resolution) + ii]);
                 }          
  
-                Waveform[i] /= resolution;
+                Waveform[i] /= Resolution;
             }
 
             int count = 0;

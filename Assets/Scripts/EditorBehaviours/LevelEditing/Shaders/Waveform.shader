@@ -32,7 +32,7 @@
                 float4 color : COLOR;
             };
             
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -42,16 +42,23 @@
             }
 
             StructuredBuffer<float> _Waveform;
-            int _Length;
+            int _Scale;
+            int _Scroll;
             
-            float4 frag (v2f i) : SV_Target
+            float4 frag(v2f i) : SV_Target
             {
-                int index = floor(i.uv.y * _Length);
+                int index = _Scroll + floor(i.uv.y * _Scale);
+
+                if (index < 0)
+                {
+                    discard;
+                }
+                
                 float wave = _Waveform[index];
                 
                 float p = i.uv.x *2-1;
 
-                if(p > wave || -p > wave)
+                if (p > wave || -p > wave)
                 {
                     discard;
                 }
