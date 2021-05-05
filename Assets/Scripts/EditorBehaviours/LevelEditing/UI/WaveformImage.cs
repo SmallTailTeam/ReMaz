@@ -1,43 +1,47 @@
-﻿using UniRx;
+﻿using EditorBehaviours.LevelEditing.Controls;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReMaz.EditorBehaviours.LevelEditing.UI
+namespace EditorBehaviours.LevelEditing.UI
 {
     [RequireComponent(typeof(Image))]
     public class WaveformImage : LevelEditorBehaviour
     {
-        private LevelScroll _levelScroll;
+        private ControllableLevelScroll _scroll;
         
         private Image _image;
         private Material _material;
         private ComputeBuffer _waveBuffer;
+        private int _offset;
         
-        private static readonly int Scale = Shader.PropertyToID("_Scale");
+        private static readonly int ViewSize = Shader.PropertyToID("_ViewSize");
         private static readonly int Scroll = Shader.PropertyToID("_Scroll");
         private static readonly int Waveform = Shader.PropertyToID("_Waveform");
         
         private void Awake()
         {
-            _levelScroll = FindObjectOfType<LevelScroll>();
+            _scroll = FindObjectOfType<ControllableLevelScroll>();
             
             _image = GetComponent<Image>();
         }
 
         private void Start()
         {
+            _offset = _levelEditor.Meta.ViewSize / 2;
+            
             _material = _image.material;
 
             FeedMaterial();
 
-            _levelScroll.Scroll
+            _scroll.Scroll
                 .Subscribe(OnScroll)
                 .AddTo(this);
         }
 
         private void FeedMaterial()
         {
-            _material.SetInt(Scale, _levelEditor.Meta.Scale);
+            _material.SetInt(ViewSize, _levelEditor.Meta.ViewSize);
             
             _waveBuffer = new ComputeBuffer(_levelEditor.Meta.Waveform.Length, sizeof(float));
             _waveBuffer.SetData(_levelEditor.Meta.Waveform);
@@ -47,7 +51,7 @@ namespace ReMaz.EditorBehaviours.LevelEditing.UI
 
         private void OnScroll(int scroll)
         {
-            _material.SetInt(Scroll, scroll);
+            _material.SetInt(Scroll, scroll - _offset);
         }
     }
 }

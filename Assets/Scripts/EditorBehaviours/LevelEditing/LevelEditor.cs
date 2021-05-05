@@ -1,7 +1,7 @@
 ﻿using ReMaz.Levels;
 using UnityEngine;
 
-namespace ReMaz.EditorBehaviours.LevelEditing
+namespace EditorBehaviours.LevelEditing
 {
     public class LevelEditor : MonoBehaviour
     {
@@ -12,13 +12,12 @@ namespace ReMaz.EditorBehaviours.LevelEditing
         [SerializeField] private LevelSelection _levelSelection;
         [Header("Settings")]
         [SerializeField] private int _resolution;
-        [SerializeField] private int _subBeatCount;
         [SerializeField] private int _scale;
 
         private void Awake()
         {
             Meta = new LevelEditorMeta();
-            Meta.Compute(_levelSelection.LevelSet, _resolution, _subBeatCount, _scale);
+            Meta.Compute(_levelSelection.LevelSet, _resolution, _scale);
         }
     }
 }

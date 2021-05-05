@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReMaz.Game.Pooling
+namespace Game.Pooling
 {
     public class ClearAtPoint : MonoBehaviour
     {

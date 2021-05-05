@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReMaz.EditorBehaviours.LevelEditing
+namespace EditorBehaviours.LevelEditing
 {
     public class LevelEditorBehaviour : MonoBehaviour
     {

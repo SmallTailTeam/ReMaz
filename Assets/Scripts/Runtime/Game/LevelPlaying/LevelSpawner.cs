@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ReMaz.Game.Pooling;
+using Game.Pooling;
 using ReMaz.Levels;
 using TNRD.Autohook;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace ReMaz.Game.LevelPlaying
         [SerializeField, AutoHook] private LevelMovement _levelMovement;
         [SerializeField] private float _timeBeforehand;
 
-        private DynamicPool _pool = new DynamicPool();
+        private DynamicObjectPool _objectPool = new DynamicObjectPool();
         private HashSet<SpawnEvent> _pastEvents = new HashSet<SpawnEvent>();
         private float _spawnDistance;
 
@@ -39,7 +39,7 @@ namespace ReMaz.Game.LevelPlaying
 
         private void Spawn(SpawnEvent e)
         {
-            GameObject instance = _pool.Request(e.Prefab, transform);
+            GameObject instance = _objectPool.Request(e.Prefab, transform);
             Transform itransform = instance.transform;
 
             Vector3 worldMovement = new Vector3(e.Track-1, 0f, (e.Position - _levelDriver.LevelPosition) * _levelDriver.Level.DistanePerBeat);

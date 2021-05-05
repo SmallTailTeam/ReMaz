@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReMaz.EditorBehaviours.LevelEditing
+namespace EditorBehaviours.LevelEditing.Controls
 {
     [RequireComponent(typeof(AudioSource))]
     public class ControllableAudioPlayer : LevelEditorBehaviour

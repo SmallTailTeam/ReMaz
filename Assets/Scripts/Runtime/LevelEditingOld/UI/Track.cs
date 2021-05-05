@@ -4,7 +4,7 @@ using ReMaz.Levels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace ReMaz.LevelEditingOld.UI
+namespace LevelEditingOld.UI
 {
     public class Track : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

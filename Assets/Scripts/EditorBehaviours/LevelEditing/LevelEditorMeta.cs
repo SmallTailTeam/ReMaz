@@ -2,40 +2,38 @@
 using ReMaz.Levels;
 using UnityEngine;
 
-namespace ReMaz.EditorBehaviours.LevelEditing
+namespace EditorBehaviours.LevelEditing
 {
     public class LevelEditorMeta
     {
-        public int Resolution;
-        public int Scale;
-        public int SubBeatCount;
+        public int WaveformResolution;
+        public int ViewSize;
+        public int Size;
         public float BeatCount;
         public float BeatLength;
         public float Minutes;
-        public int MaxScale;
         public int EmptyStart;
         public int EmptyEnd;
         public float Height;
         public int SamplesTotal;
         public float[] Waveform;
 
-        public void Compute(LevelSet levelSet, int resolution, int subBeatCount, int scale)
+        public void Compute(LevelSet levelSet, int waveformResolution, int viewSize)
         {
             AudioClip clip = levelSet.Clip;
 
-            Resolution = clip.frequency / resolution;
+            WaveformResolution = clip.frequency / waveformResolution;
             
-            Resolution = resolution;
-            SubBeatCount = subBeatCount;
-            Scale = scale;
+            WaveformResolution = waveformResolution;
+            ViewSize = viewSize;
             
             SamplesTotal = clip.samples * clip.channels;
-            MaxScale = SamplesTotal / Resolution;
+            Size = SamplesTotal / WaveformResolution;
 
             Minutes = (float)clip.samples / clip.frequency / 60f;
             BeatCount = Minutes * levelSet.Bpm;
             
-            BeatLength = levelSet.Bpm / 60f * Scale;
+            BeatLength = levelSet.Bpm / 60f * ViewSize;
             Height = BeatCount * BeatLength;
             
             ComputeWaveform(clip);
@@ -46,18 +44,18 @@ namespace ReMaz.EditorBehaviours.LevelEditing
             float[] samples = new float[SamplesTotal];
             clip.GetData(samples,0);
  
-            Waveform = new float[MaxScale];
+            Waveform = new float[Size];
  
             for (int i = 0; i < Waveform.Length; i++)
             {
                 Waveform[i] = 0;
  
-                for(int ii = 0; ii<Resolution; ii++)
+                for(int ii = 0; ii<WaveformResolution; ii++)
                 {
-                    Waveform[i] += Mathf.Abs(samples[(i * Resolution) + ii]);
+                    Waveform[i] += Mathf.Abs(samples[(i * WaveformResolution) + ii]);
                 }          
  
-                Waveform[i] /= Resolution;
+                Waveform[i] /= WaveformResolution;
             }
 
             int count = 0;
@@ -67,7 +65,7 @@ namespace ReMaz.EditorBehaviours.LevelEditing
                 float wave1 = Waveform[i];
                 float wave2 = Waveform[i + 1];
 
-                if (wave2 - wave1 > 0.002f)
+                if (wave2 - wave1 > 0.005f)
                 {
                     count = i;
                     break;

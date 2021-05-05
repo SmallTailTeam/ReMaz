@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace ReMaz.LevelEditingOld.UI
+namespace LevelEditingOld.UI
 {
     public class Beats : MonoBehaviour
     {

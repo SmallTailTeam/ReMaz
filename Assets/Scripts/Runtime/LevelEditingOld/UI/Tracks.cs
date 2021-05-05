@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ReMaz.LevelEditingOld.UI
+namespace LevelEditingOld.UI
 {
     public class Tracks : MonoBehaviour
     {

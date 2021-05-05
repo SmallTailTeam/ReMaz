@@ -42,12 +42,12 @@
             }
 
             StructuredBuffer<float> _Waveform;
-            int _Scale;
+            int _ViewSize;
             int _Scroll;
             
             float4 frag(v2f i) : SV_Target
             {
-                int index = _Scroll + floor(i.uv.y * _Scale);
+                int index = _Scroll + floor(i.uv.y * _ViewSize);
 
                 if (index < 0)
                 {
@@ -56,7 +56,7 @@
                 
                 float wave = _Waveform[index];
                 
-                float p = i.uv.x *2-1;
+                float p = i.uv.x*2-1;
 
                 if (p > wave || -p > wave)
                 {

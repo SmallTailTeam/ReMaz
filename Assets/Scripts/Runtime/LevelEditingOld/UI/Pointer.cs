@@ -1,7 +1,7 @@
 ﻿using TNRD.Autohook;
 using UnityEngine;
 
-namespace ReMaz.LevelEditingOld.UI
+namespace LevelEditingOld.UI
 {
     public class Pointer : MonoBehaviour
     {

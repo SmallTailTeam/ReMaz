@@ -1,4 +1,4 @@
-﻿namespace ReMaz.LevelEditingOld
+﻿namespace LevelEditingOld
 {
     public static class LevelEditorUtils
     {

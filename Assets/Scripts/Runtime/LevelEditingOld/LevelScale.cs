@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace ReMaz.LevelEditingOld
+namespace LevelEditingOld
 {
     public class LevelScale : MonoBehaviour
     {

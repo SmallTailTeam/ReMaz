@@ -1,9 +1,9 @@
 ﻿using UniRx;
 using UnityEngine;
 
-namespace ReMaz.EditorBehaviours.LevelEditing
+namespace EditorBehaviours.LevelEditing.Controls
 {
-    public class LevelScroll : LevelEditorBehaviour
+    public class ControllableLevelScroll : LevelEditorBehaviour
     {
         public ReactiveProperty<int> Scroll { get; private set; }
         
@@ -23,7 +23,7 @@ namespace ReMaz.EditorBehaviours.LevelEditing
 
         private void Start()
         {
-            _scrollCap = _audioPlayer.Source.clip.samples;
+            _scrollCap = _audioPlayer.Source.clip.samples-1;
             _scrollSpeed = Mathf.RoundToInt(_scrollCap * _scrollPercent);
         }
 
@@ -36,7 +36,7 @@ namespace ReMaz.EditorBehaviours.LevelEditing
         private void FollowAudio()
         {
             int timeSamplesTotal = _audioPlayer.Source.timeSamples * _audioPlayer.Source.clip.channels;
-            timeSamplesTotal /= _levelEditor.Meta.Resolution;
+            timeSamplesTotal /= _levelEditor.Meta.WaveformResolution;
             
             Scroll.Value = timeSamplesTotal;
         }
@@ -50,7 +50,9 @@ namespace ReMaz.EditorBehaviours.LevelEditing
                 return;
             }
 
-            int timeSamplesNew = _audioPlayer.Source.timeSamples + Mathf.RoundToInt(scrollDelta * _scrollSpeed);
+            float speed = Input.GetKey(KeyCode.LeftShift) ? _scrollSpeed * 10 : _scrollSpeed;
+            
+            int timeSamplesNew = _audioPlayer.Source.timeSamples + Mathf.RoundToInt(scrollDelta * speed);
             timeSamplesNew = Mathf.Clamp(timeSamplesNew, 0, _scrollCap);
 
             _audioPlayer.Source.timeSamples = timeSamplesNew;

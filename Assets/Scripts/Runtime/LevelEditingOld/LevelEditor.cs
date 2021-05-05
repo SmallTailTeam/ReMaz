@@ -4,7 +4,7 @@ using ReMaz.Levels;
 using UnityEditor;
 using UnityEngine;
 
-namespace ReMaz.LevelEditingOld
+namespace LevelEditingOld
 {
     public class LevelEditor : MonoBehaviour
     {
