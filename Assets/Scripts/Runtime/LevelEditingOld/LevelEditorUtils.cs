@@ -2,9 +2,9 @@
 {
     public static class LevelEditorUtils
     {
-        public const int Resolution = 1000;
+        public const int Resolution = 500;
         public const float SubBeats = 16;
-        public static int Scale = 400;
+        public static int Scale = 800;
         public static int MaxScale;
         public static int EmptyStart;
         public static int EmptyEnd;

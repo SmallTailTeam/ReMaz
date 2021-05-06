@@ -13,6 +13,7 @@ namespace EditorBehaviours.LevelEditing.UI.Beats
         private RectTransform _rt;
         private BeatDisplay[] _displays;
         private float _pixelsPerUnit;
+        private float _height;
 
         private void Awake()
         {
@@ -33,14 +34,16 @@ namespace EditorBehaviours.LevelEditing.UI.Beats
         
         private void InstantiateDisplays()
         {
-            int count = Mathf.CeilToInt(Screen.height / _levelEditor.Meta.BeatLength) + 1;
+            _height = _levelEditor.Meta.Size / _levelEditor.Meta.BeatCount * _pixelsPerUnit;
+            
+            int count = Mathf.CeilToInt(Screen.height / _height) + 1;
             
             _displays = new BeatDisplay[count];
 
             for (int i = 0; i < count; i++)
             {
                 BeatDisplay display = Instantiate(_displayPrefab, transform);
-                display.Size(_levelEditor.Meta.BeatLength);
+                display.Size(_height);
 
                 _displays[i] = display;
             }
@@ -60,13 +63,12 @@ namespace EditorBehaviours.LevelEditing.UI.Beats
             float scrollPosition = unit * _pixelsPerUnit;
             scrollPosition = -scrollPosition;
 
-            int beat = Mathf.RoundToInt((float) _scroll.Scroll.Value / _levelEditor.Meta.Size * _levelEditor.Meta.BeatCount);
-            Debug.Log(_levelEditor.Meta.BeatCount);
-            
+            int beat = Mathf.RoundToInt((float) unit / _levelEditor.Meta.Size * _levelEditor.Meta.BeatCount);
+
             for (int i = 0; i < _displays.Length; i++)
             {
-                float displayPosition = scrollPosition + i * _levelEditor.Meta.BeatLength;
-                displayPosition = Mathf.Repeat(displayPosition + _levelEditor.Meta.BeatLength, Screen.height) - _levelEditor.Meta.BeatLength;
+                float displayPosition = scrollPosition + i * _height;
+                displayPosition = Mathf.Repeat(displayPosition + _height, Screen.height + _height) - _height;
                 
                 BeatDisplay display = _displays[i];
                 display.Position(displayPosition);
